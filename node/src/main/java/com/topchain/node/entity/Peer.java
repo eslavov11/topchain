@@ -5,7 +5,8 @@ import java.net.URL;
 public class Peer {
     private URL address;
 
-    public Peer() {}
+    public Peer() {
+    }
 
     public URL getAddress() {
         return address;
