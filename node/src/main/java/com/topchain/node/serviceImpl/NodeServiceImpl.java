@@ -1,6 +1,7 @@
-package com.topchain.node.service;
+package com.topchain.node.serviceImpl;
 
 import com.topchain.node.entity.NodeInfo;
+import com.topchain.node.service.NodeService;
 import org.springframework.stereotype.Service;
 
 @Service
