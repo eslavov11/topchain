@@ -1,7 +1,7 @@
 package com.topchain.node.service;
 
-import com.topchain.node.entity.NodeInfo;
+import com.topchain.node.model.viewModel.NodeInfoViewModel;
 
 public interface NodeService {
-    NodeInfo getNodeInfo();
+    NodeInfoViewModel getNodeInfo();
 }

@@ -1,6 +1,6 @@
 package com.topchain.node.controller;
 
-import com.topchain.node.entity.NodeInfo;
+import com.topchain.node.model.viewModel.NodeInfoViewModel;
 import com.topchain.node.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class NodeController {
     }
 
     @GetMapping("/info")
-    public NodeInfo getNodeInfo() {
-        return nodeService.getNodeInfo();
+    public NodeInfoViewModel getNodeInfo() {
+        return this.nodeService.getNodeInfo();
     }
 }

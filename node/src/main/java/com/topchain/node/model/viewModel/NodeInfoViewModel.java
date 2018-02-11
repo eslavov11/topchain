@@ -1,6 +1,6 @@
-package com.topchain.node.entity;
+package com.topchain.node.model.viewModel;
 
-public class NodeInfo {
+public class NodeInfoViewModel {
     private String about;
     private String nodeName;
     private Integer peers;
@@ -10,13 +10,13 @@ public class NodeInfo {
     private Long addresses;
     private Long coins;
 
-    public NodeInfo() {
+    public NodeInfoViewModel() {
     }
 
-    public NodeInfo(String about, String nodeName, Integer peers,
-                    Integer blocks, Long confirmedTransactions,
-                    Integer pendingTransactions, Long addresses,
-                    Long coins) {
+    public NodeInfoViewModel(String about, String nodeName, Integer peers,
+                             Integer blocks, Long confirmedTransactions,
+                             Integer pendingTransactions, Long addresses,
+                             Long coins) {
         this.setAbout(about);
         this.setNodeName(nodeName);
         this.setPeers(peers);
