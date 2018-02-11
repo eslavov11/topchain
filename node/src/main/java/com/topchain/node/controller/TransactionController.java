@@ -1,30 +1,23 @@
 package com.topchain.node.controller;
 
-import com.topchain.node.model.viewModel.BlockViewModel;
-import com.topchain.node.service.BlockService;
+import com.topchain.node.model.viewModel.TransactionViewModel;
+import com.topchain.node.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
-
 @RestController
 public class TransactionController {
-    private BlockService blockService;
+    private TransactionService transactionService;
 
     @Autowired
-    public TransactionController(BlockService blockService) {
-        this.blockService = blockService;
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
     }
 
-    @GetMapping("/blocks")
-    public Set<BlockViewModel> getBlocks() {
-        return this.blockService.getBlocks();
-    }
-
-    @GetMapping("/blocks/{index}")
-    public BlockViewModel getBlockByIndex(@PathVariable long index) {
-        return this.blockService.getBlockByIndex(index);
+    @GetMapping("/transactions/{fromAddress}/info")
+    public TransactionViewModel getBlockByIndex(@PathVariable String fromAddress) {
+        return this.transactionService.getTransactionByFromAddress(fromAddress);
     }
 }
