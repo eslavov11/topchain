@@ -1,7 +1,7 @@
 package com.topchain.node.controller;
 
 import com.topchain.node.model.bindingModel.TransactionModel;
-import com.topchain.node.model.viewModel.BalanceViewModel;
+import com.topchain.node.model.viewModel.FullBalanceViewModel;
 import com.topchain.node.model.viewModel.NewTransactionViewModel;
 import com.topchain.node.model.viewModel.TransactionViewModel;
 import com.topchain.node.service.TransactionService;
@@ -17,7 +17,7 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping("/transactions/new")
+    @PostMapping("/transactions/send")
     public NewTransactionViewModel crateTransaction(
             @RequestBody TransactionModel transactionModel) {
         return this.transactionService.createTransaction(transactionModel);
@@ -30,8 +30,8 @@ public class TransactionController {
     }
 
     @GetMapping("/balance/{address}/confirmations/{confirmations}")
-    public BalanceViewModel getBalanceByAddressForConfirmations(@PathVariable String address,
-                                            @PathVariable int confirmations) {
+    public FullBalanceViewModel getBalanceByAddressForConfirmations(@PathVariable String address,
+                                                                    @PathVariable int confirmations) {
         return this.transactionService
                 .getBalanceByAddressForConfirmations(address, confirmations);
     }

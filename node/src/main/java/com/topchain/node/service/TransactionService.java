@@ -1,7 +1,7 @@
 package com.topchain.node.service;
 
 import com.topchain.node.model.bindingModel.TransactionModel;
-import com.topchain.node.model.viewModel.BalanceViewModel;
+import com.topchain.node.model.viewModel.FullBalanceViewModel;
 import com.topchain.node.model.viewModel.NewTransactionViewModel;
 import com.topchain.node.model.viewModel.TransactionViewModel;
 
@@ -10,5 +10,5 @@ public interface TransactionService {
 
     TransactionViewModel getTransactionByFromAddress(String fromAddress);
 
-    BalanceViewModel getBalanceByAddressForConfirmations(String address, int confirmations);
+    FullBalanceViewModel getBalanceByAddressForConfirmations(String address, int confirmations);
 }

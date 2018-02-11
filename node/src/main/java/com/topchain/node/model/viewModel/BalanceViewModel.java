@@ -1,91 +1,27 @@
 package com.topchain.node.model.viewModel;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class BalanceViewModel {
-    private String fromAddress;
-    private String toAddress;
-    private BigDecimal value;
-    private Date dateCreated;
-    private String senderPublicKey;
-    private String[] senderSignature;
-    private String transactionHash;
-    private Long minedInBlockIndex;
-    private Boolean transferSuccessful;
+    private Integer confirmations;
+    private BigDecimal balance;
 
     public BalanceViewModel() {
     }
 
-    public String getFromAddress() {
-        return fromAddress;
+    public Integer getConfirmations() {
+        return confirmations;
     }
 
-    public void setFromAddress(String fromAddress) {
-        this.fromAddress = fromAddress;
+    public void setConfirmations(Integer confirmations) {
+        this.confirmations = confirmations;
     }
 
-    public String getToAddress() {
-        return toAddress;
+    public BigDecimal getBalance() {
+        return balance;
     }
 
-    public void setToAddress(String toAddress) {
-        this.toAddress = toAddress;
-    }
-
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public void setValue(BigDecimal value) {
-        this.value = value;
-    }
-
-    public String getSenderPublicKey() {
-        return senderPublicKey;
-    }
-
-    public void setSenderPublicKey(String senderPublicKey) {
-        this.senderPublicKey = senderPublicKey;
-    }
-
-    public String[] getSenderSignature() {
-        return senderSignature;
-    }
-
-    public void setSenderSignature(String[] senderSignature) {
-        this.senderSignature = senderSignature;
-    }
-
-    public String getTransactionHash() {
-        return transactionHash;
-    }
-
-    public void setTransactionHash(String transactionHash) {
-        this.transactionHash = transactionHash;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public Long getMinedInBlockIndex() {
-        return minedInBlockIndex;
-    }
-
-    public void setMinedInBlockIndex(Long minedInBlockIndex) {
-        this.minedInBlockIndex = minedInBlockIndex;
-    }
-
-    public Boolean getTransferSuccessful() {
-        return transferSuccessful;
-    }
-
-    public void setTransferSuccessful(Boolean transferSuccessful) {
-        this.transferSuccessful = transferSuccessful;
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 }
