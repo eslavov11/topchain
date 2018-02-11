@@ -14,11 +14,11 @@ public class Node {
     private Map<String, Long> balances;
 
     public Node() {
-        this.peers = new HashSet<>();
-        this.blocks = new HashSet<>();
-        this.pendingTransactions = new HashSet<>();
-        this.balances = new HashMap<>();
-        this.miningJobs = new HashMap<>();
+        this.setPeers(new HashSet<>());
+        this.setBlocks(new HashSet<>());
+        this.setPendingTransactions(new HashSet<>());
+        this.setBalances(new HashMap<>());
+        this.setMiningJobs(new HashMap<>());
     }
 
     public Set<Peer> getPeers() {
@@ -47,6 +47,10 @@ public class Node {
 
     public void setPendingTransactions(Set<Transaction> pendingTransactions) {
         this.pendingTransactions = pendingTransactions;
+    }
+
+    public void addPendingTransaction(Transaction transaction) {
+        this.pendingTransactions.add(transaction);
     }
 
     public Long getDifficulty() {

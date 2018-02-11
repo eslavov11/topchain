@@ -7,6 +7,7 @@ public class Transaction {
     private String fromAddress;
     private String toAddress;
     private BigDecimal value;
+    private BigDecimal fee;
     private Date dateCreated;
     private String senderPublicKey;
     private String[] senderSignature;
@@ -37,6 +38,14 @@ public class Transaction {
 
     public BigDecimal getValue() {
         return value;
+    }
+
+    public BigDecimal getFee() {
+        return fee;
+    }
+
+    public void setFee(BigDecimal fee) {
+        this.fee = fee;
     }
 
     public void setValue(BigDecimal value) {

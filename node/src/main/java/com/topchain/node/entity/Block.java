@@ -16,7 +16,7 @@ public class Block {
     private String blockHash;
 
     public Block() {
-        this.transactions = new HashSet<>();
+        this.setTransactions(new HashSet<>());
     }
 
     public Long getIndex() {

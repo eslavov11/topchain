@@ -47,6 +47,8 @@ public class BlockServiceImpl implements BlockService {
 
     @Override
     public ResponseMessageViewModel notifyBlock(NotifyBlockModel notifyBlockModel) {
+        //TODO:
+
         return new ResponseMessageViewModel("Thank you");
     }
 }
