@@ -8,15 +8,15 @@ import java.util.Set;
 public class Node {
     private Set<Peer> peers;
     private Set<Block> blocks;
-    private Set<Transaction> transactions;
-    private Map<String, Long> balances;
+    private Set<Transaction> pendingTransactions;
     private Long difficulty;
     private Map<String, Block> miningJobs;
+    private Map<String, Long> balances;
 
     public Node() {
         this.peers = new HashSet<>();
         this.blocks = new HashSet<>();
-        this.transactions = new HashSet<>();
+        this.pendingTransactions = new HashSet<>();
         this.balances = new HashMap<>();
         this.miningJobs = new HashMap<>();
     }
@@ -41,20 +41,12 @@ public class Node {
         this.blocks = blocks;
     }
 
-    public Set<Transaction> getTransactions() {
-        return transactions;
+    public Set<Transaction> getPendingTransactions() {
+        return pendingTransactions;
     }
 
-    public void setTransactions(Set<Transaction> transactions) {
-        this.transactions = transactions;
-    }
-
-    public Map<String, Long> getBalances() {
-        return balances;
-    }
-
-    public void setBalances(Map<String, Long> balances) {
-        this.balances = balances;
+    public void setPendingTransactions(Set<Transaction> pendingTransactions) {
+        this.pendingTransactions = pendingTransactions;
     }
 
     public Long getDifficulty() {
@@ -71,5 +63,13 @@ public class Node {
 
     public void setMiningJobs(Map<String, Block> miningJobs) {
         this.miningJobs = miningJobs;
+    }
+
+    public Map<String, Long> getBalances() {
+        return balances;
+    }
+
+    public void setBalances(Map<String, Long> balances) {
+        this.balances = balances;
     }
 }

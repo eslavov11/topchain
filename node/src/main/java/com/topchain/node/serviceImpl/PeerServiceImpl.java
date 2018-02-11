@@ -15,8 +15,8 @@ import java.util.Set;
 
 @Service
 public class PeerServiceImpl implements PeerService {
-    ModelMapper modelMapper;
-    Node node;
+    private ModelMapper modelMapper;
+    private Node node;
 
     @Autowired
     public PeerServiceImpl(ModelMapper modelMapper, Node node) {

@@ -16,8 +16,8 @@ import java.util.Set;
 
 @Service
 public class BlockServiceImpl implements BlockService {
-    ModelMapper modelMapper;
-    Node node;
+    private ModelMapper modelMapper;
+    private Node node;
 
     @Autowired
     public BlockServiceImpl(ModelMapper modelMapper, Node node) {
