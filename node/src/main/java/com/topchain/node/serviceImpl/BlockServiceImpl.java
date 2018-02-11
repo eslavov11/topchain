@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -37,7 +38,10 @@ public class BlockServiceImpl implements BlockService {
 
     @Override
     public BlockViewModel getBlockByIndex(long index) {
-        return null;
+        Block block = this.node.getBlocks().stream().filter(b -> b.getIndex() == index).findFirst().get();
+        BlockViewModel blockViewModel = this.modelMapper.map(block, BlockViewModel.class);
+
+        return blockViewModel;
     }
 
     @Override
