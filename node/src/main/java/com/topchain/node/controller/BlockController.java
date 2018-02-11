@@ -1,11 +1,11 @@
 package com.topchain.node.controller;
 
+import com.topchain.node.model.bindingModel.NotifyBlockModel;
 import com.topchain.node.model.viewModel.BlockViewModel;
+import com.topchain.node.model.viewModel.NotifyBlockViewModel;
 import com.topchain.node.service.BlockService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -26,5 +26,10 @@ public class BlockController {
     @GetMapping("/blocks/{index}")
     public BlockViewModel getBlockByIndex(@PathVariable long index) {
         return this.blockService.getBlockByIndex(index);
+    }
+
+    @PostMapping("/blocks/notify")
+    public NotifyBlockViewModel notify(@RequestBody NotifyBlockModel notifyBlockModel) {
+        return this.blockService.notifyBlock(notifyBlockModel);
     }
 }

@@ -18,13 +18,14 @@ public class TransactionController {
     }
 
     @GetMapping("/transactions/{fromAddress}/info")
-    public TransactionViewModel getBlockByIndex(@PathVariable String fromAddress) {
+    public TransactionViewModel getTransactionByFromAddress(@PathVariable String fromAddress) {
         return this.transactionService.getTransactionByFromAddress(fromAddress);
     }
 
     @GetMapping("/balance/{address}/confirmations/{confirmations}")
-    public BalanceViewModel getBlockByIndex(@PathVariable String address,
+    public BalanceViewModel getBalanceByAddressForConfirmations(@PathVariable String address,
                                             @PathVariable int confirmations) {
-        return this.transactionService.getBalanceByAddressForConfirmations(address, confirmations);
+        return this.transactionService
+                .getBalanceByAddressForConfirmations(address, confirmations);
     }
 }
