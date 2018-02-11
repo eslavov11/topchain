@@ -19,8 +19,8 @@ public class AppConfig {
     @Value("${node.name}")
     private String nodeName;
 
-    @Value("${node.coins}")
-    private Long nodeCoins;
+//    @Value("${node.coins}")
+//    private Long nodeCoins;
 
     @Value("${node.difficulty}")
     private Long nodeDifficulty;
@@ -52,7 +52,6 @@ public class AppConfig {
         NodeInfoViewModel nodeInfoViewModel =  new NodeInfoViewModel();
         nodeInfoViewModel.setAbout(nodeAbout);
         nodeInfoViewModel.setNodeName(nodeName);
-        nodeInfoViewModel.setCoins(nodeCoins);
 
         return nodeInfoViewModel;
     }

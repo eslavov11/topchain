@@ -5,26 +5,26 @@ public class NodeInfoViewModel {
     private String nodeName;
     private Integer peers;
     private Integer blocks;
-    private Long confirmedTransactions;
+    private Integer confirmedTransactions;
     private Integer pendingTransactions;
-    private Long addresses;
-    private Long coins;
+//    private Long addresses;
+//    private Long coins;
 
     public NodeInfoViewModel() {
     }
 
     public NodeInfoViewModel(String about, String nodeName, Integer peers,
-                             Integer blocks, Long confirmedTransactions,
-                             Integer pendingTransactions, Long addresses,
-                             Long coins) {
+                             Integer blocks, Integer confirmedTransactions,
+                             Integer pendingTransactions/*, Long addresses,
+                             Long coins*/) {
         this.setAbout(about);
         this.setNodeName(nodeName);
         this.setPeers(peers);
         this.setBlocks(blocks);
         this.setConfirmedTransactions(confirmedTransactions);
         this.setPendingTransactions(pendingTransactions);
-        this.setAddresses(addresses);
-        this.setCoins(coins);
+//        this.setAddresses(addresses);
+//        this.setCoins(coins);
     }
 
     public String getAbout() {
@@ -59,11 +59,11 @@ public class NodeInfoViewModel {
         this.blocks = blocks;
     }
 
-    public Long getConfirmedTransactions() {
+    public Integer getConfirmedTransactions() {
         return confirmedTransactions;
     }
 
-    public void setConfirmedTransactions(Long confirmedTransactions) {
+    public void setConfirmedTransactions(Integer confirmedTransactions) {
         this.confirmedTransactions = confirmedTransactions;
     }
 
@@ -75,19 +75,19 @@ public class NodeInfoViewModel {
         this.pendingTransactions = pendingTransactions;
     }
 
-    public Long getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(Long addresses) {
-        this.addresses = addresses;
-    }
-
-    public Long getCoins() {
-        return coins;
-    }
-
-    public void setCoins(Long coins) {
-        this.coins = coins;
-    }
+//    public Long getAddresses() {
+//        return addresses;
+//    }
+//
+//    public void setAddresses(Long addresses) {
+//        this.addresses = addresses;
+//    }
+//
+//    public Long getCoins() {
+//        return coins;
+//    }
+//
+//    public void setCoins(Long coins) {
+//        this.coins = coins;
+//    }
 }
