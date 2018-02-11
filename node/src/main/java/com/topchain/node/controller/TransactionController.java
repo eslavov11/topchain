@@ -1,12 +1,12 @@
 package com.topchain.node.controller;
 
+import com.topchain.node.model.bindingModel.TransactionModel;
 import com.topchain.node.model.viewModel.BalanceViewModel;
+import com.topchain.node.model.viewModel.NewTransactionViewModel;
 import com.topchain.node.model.viewModel.TransactionViewModel;
 import com.topchain.node.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TransactionController {
@@ -15,6 +15,12 @@ public class TransactionController {
     @Autowired
     public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
+    }
+
+    @PostMapping("/transactions/new")
+    public NewTransactionViewModel crateTransaction(
+            @RequestBody TransactionModel transactionModel) {
+        return this.transactionService.createTransaction(transactionModel);
     }
 
     @GetMapping("/transactions/{fromAddress}/info")

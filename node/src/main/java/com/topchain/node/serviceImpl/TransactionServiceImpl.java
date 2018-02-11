@@ -3,7 +3,9 @@ package com.topchain.node.serviceImpl;
 import com.topchain.node.entity.Block;
 import com.topchain.node.entity.Node;
 import com.topchain.node.entity.Transaction;
+import com.topchain.node.model.bindingModel.TransactionModel;
 import com.topchain.node.model.viewModel.BalanceViewModel;
+import com.topchain.node.model.viewModel.NewTransactionViewModel;
 import com.topchain.node.model.viewModel.TransactionViewModel;
 import com.topchain.node.service.TransactionService;
 import org.modelmapper.ModelMapper;
@@ -21,6 +23,20 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionServiceImpl(ModelMapper modelMapper, Node node) {
         this.modelMapper = modelMapper;
         this.node = node;
+    }
+
+    @Override
+    public NewTransactionViewModel createTransaction(TransactionModel transactionModel) {
+
+        //TODO: validate pubK -> address == pAddress?
+
+        Transaction transaction = this.modelMapper.map(transactionModel, Transaction.class);
+        this.node.addPendingTransaction(transaction);
+
+        NewTransactionViewModel newTransactionViewModel = new NewTransactionViewModel();
+        newTransactionViewModel.setTransactionHash("");
+
+        return newTransactionViewModel;
     }
 
     @Override

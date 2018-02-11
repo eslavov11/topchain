@@ -24,6 +24,9 @@ public class NodeServiceImpl implements NodeService {
     public NodeInfoViewModel getNodeInfo() {
         this.nodeInfoViewModel.setBlocks(this.node.getBlocks().size());
         this.nodeInfoViewModel.setPeers(this.node.getPeers().size());
+        this.nodeInfoViewModel.setDifficulty(this.node.getDifficulty());
+        //TODO: sum all difficulties from all blocks?
+        // this.nodeInfoViewModel.setCumulativeDifficulty();
         this.nodeInfoViewModel.setPendingTransactions(this.node
                 .getPendingTransactions().stream().filter(pt -> !pt.getTransferSuccessful())
                 .collect(Collectors.toSet()).size());
