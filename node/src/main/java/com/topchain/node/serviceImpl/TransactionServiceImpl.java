@@ -1,5 +1,6 @@
 package com.topchain.node.serviceImpl;
 
+import com.topchain.node.entity.Block;
 import com.topchain.node.entity.Node;
 import com.topchain.node.entity.Transaction;
 import com.topchain.node.model.viewModel.BalanceViewModel;
@@ -8,6 +9,8 @@ import com.topchain.node.service.TransactionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -22,13 +25,29 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionViewModel getTransactionByFromAddress(String fromAddress) {
-//        Transaction transaction = this.node.
+        Optional<Transaction> transaction = Optional.empty();
+        for (Block block : this.node.getBlocks()) {
+            if (transaction.isPresent()) {
+                break;
+            }
 
-        return null;
+            transaction = block.getTransactions().stream()
+                    .filter(t -> t.getFromAddress().equals(fromAddress)).findAny();
+        }
+
+        if (!transaction.isPresent()) {
+            transaction = this.node.getPendingTransactions().stream()
+                    .filter(t -> t.getFromAddress().equals(fromAddress)).findAny();
+        }
+
+        TransactionViewModel transactionViewModel = this.modelMapper.map(transaction, TransactionViewModel.class);
+
+        return transactionViewModel;
     }
 
     @Override
-    public BalanceViewModel getBalanceByAddressForConfirmations(String address, int confirmations) {
+    public BalanceViewModel getBalanceByAddressForConfirmations(String address,
+                                                                int confirmations) {
         return null;
     }
 }

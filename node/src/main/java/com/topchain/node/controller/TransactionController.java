@@ -18,7 +18,8 @@ public class TransactionController {
     }
 
     @GetMapping("/transactions/{fromAddress}/info")
-    public TransactionViewModel getTransactionByFromAddress(@PathVariable String fromAddress) {
+    public TransactionViewModel getTransactionByFromAddress(
+            @PathVariable String fromAddress) {
         return this.transactionService.getTransactionByFromAddress(fromAddress);
     }
 

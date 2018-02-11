@@ -6,17 +6,17 @@ import java.util.Date;
 public class Transaction {
     private String fromAddress;
     private String toAddress;
-    private BigDecimal amount;
+    private BigDecimal value;
+    private Date dateCreated;
     private String senderPublicKey;
-    //TODO: [] ?
     private String[] senderSignature;
     private String transactionHash;
-    private Date dateReceived;
     private Long minedInBlockIndex;
-    private Boolean paid;
+    private Boolean transferSuccessful;
 
     public Transaction() {
-        this.senderSignature = new String[2];
+        this.setSenderSignature(new String[2]);
+        this.setTransferSuccessful(false);
     }
 
     public String getFromAddress() {
@@ -35,12 +35,12 @@ public class Transaction {
         this.toAddress = toAddress;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
+    public BigDecimal getValue() {
+        return value;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    public void setValue(BigDecimal value) {
+        this.value = value;
     }
 
     public String getSenderPublicKey() {
@@ -67,12 +67,12 @@ public class Transaction {
         this.transactionHash = transactionHash;
     }
 
-    public Date getDateReceived() {
-        return dateReceived;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDateReceived(Date dateReceived) {
-        this.dateReceived = dateReceived;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Long getMinedInBlockIndex() {
@@ -83,11 +83,11 @@ public class Transaction {
         this.minedInBlockIndex = minedInBlockIndex;
     }
 
-    public Boolean getPaid() {
-        return paid;
+    public Boolean getTransferSuccessful() {
+        return transferSuccessful;
     }
 
-    public void setPaid(Boolean paid) {
-        this.paid = paid;
+    public void setTransferSuccessful(Boolean transferSuccessful) {
+        this.transferSuccessful = transferSuccessful;
     }
 }

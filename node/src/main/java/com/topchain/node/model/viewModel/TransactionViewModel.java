@@ -6,17 +6,15 @@ import java.util.Date;
 public class TransactionViewModel {
     private String fromAddress;
     private String toAddress;
-    private BigDecimal amount;
+    private BigDecimal value;
+    private Date dateCreated;
     private String senderPublicKey;
-    //TODO: [] ?
     private String[] senderSignature;
     private String transactionHash;
-    private Date dateReceived;
     private Long minedInBlockIndex;
-    private Boolean paid;
+    private Boolean transferSuccessful;
 
     public TransactionViewModel() {
-        this.senderSignature = new String[2];
     }
 
     public String getFromAddress() {
@@ -35,12 +33,12 @@ public class TransactionViewModel {
         this.toAddress = toAddress;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
+    public BigDecimal getValue() {
+        return value;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    public void setValue(BigDecimal value) {
+        this.value = value;
     }
 
     public String getSenderPublicKey() {
@@ -67,12 +65,12 @@ public class TransactionViewModel {
         this.transactionHash = transactionHash;
     }
 
-    public Date getDateReceived() {
-        return dateReceived;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDateReceived(Date dateReceived) {
-        this.dateReceived = dateReceived;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Long getMinedInBlockIndex() {
@@ -83,11 +81,11 @@ public class TransactionViewModel {
         this.minedInBlockIndex = minedInBlockIndex;
     }
 
-    public Boolean getPaid() {
-        return paid;
+    public Boolean getTransferSuccessful() {
+        return transferSuccessful;
     }
 
-    public void setPaid(Boolean paid) {
-        this.paid = paid;
+    public void setTransferSuccessful(Boolean transferSuccessful) {
+        this.transferSuccessful = transferSuccessful;
     }
 }

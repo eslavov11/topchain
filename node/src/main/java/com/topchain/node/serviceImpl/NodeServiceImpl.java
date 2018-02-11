@@ -25,10 +25,10 @@ public class NodeServiceImpl implements NodeService {
         this.nodeInfoViewModel.setBlocks(this.node.getBlocks().size());
         this.nodeInfoViewModel.setPeers(this.node.getPeers().size());
         this.nodeInfoViewModel.setPendingTransactions(this.node
-                .getPendingTransactions().stream().filter(pt -> !pt.getPaid())
+                .getPendingTransactions().stream().filter(pt -> !pt.getTransferSuccessful())
                 .collect(Collectors.toSet()).size());
         this.nodeInfoViewModel.setConfirmedTransactions(this.node
-                .getPendingTransactions().stream().filter(Transaction::getPaid)
+                .getPendingTransactions().stream().filter(Transaction::getTransferSuccessful)
                 .collect(Collectors.toSet()).size());
 
         return this.nodeInfoViewModel;

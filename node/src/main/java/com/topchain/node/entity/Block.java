@@ -35,6 +35,10 @@ public class Block {
         this.transactions = transactions;
     }
 
+    public void addTransaction(Transaction transaction) {
+        this.transactions.add(transaction);
+    }
+
     public Long getDifficulty() {
         return difficulty;
     }

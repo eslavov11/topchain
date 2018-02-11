@@ -17,14 +17,6 @@ public class NodeInfoViewModel {
                              Integer blocks, Integer confirmedTransactions,
                              Integer pendingTransactions/*, Long addresses,
                              Long coins*/) {
-        this.setAbout(about);
-        this.setNodeName(nodeName);
-        this.setPeers(peers);
-        this.setBlocks(blocks);
-        this.setConfirmedTransactions(confirmedTransactions);
-        this.setPendingTransactions(pendingTransactions);
-//        this.setAddresses(addresses);
-//        this.setCoins(coins);
     }
 
     public String getAbout() {
