@@ -1,5 +1,6 @@
 package com.topchain.node.serviceImpl;
 
+import com.topchain.node.model.viewModel.BalanceViewModel;
 import com.topchain.node.model.viewModel.TransactionViewModel;
 import com.topchain.node.service.TransactionService;
 import org.modelmapper.ModelMapper;
@@ -17,6 +18,11 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionViewModel getTransactionByFromAddress(String fromAddress) {
+        return null;
+    }
+
+    @Override
+    public BalanceViewModel getBalanceByAddressForConfirmations(String address, int confirmations) {
         return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.topchain.node.controller;
 
+import com.topchain.node.model.viewModel.BalanceViewModel;
 import com.topchain.node.model.viewModel.TransactionViewModel;
 import com.topchain.node.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,11 @@ public class TransactionController {
     @GetMapping("/transactions/{fromAddress}/info")
     public TransactionViewModel getBlockByIndex(@PathVariable String fromAddress) {
         return this.transactionService.getTransactionByFromAddress(fromAddress);
+    }
+
+    @GetMapping("/balance/{address}/confirmations/{confirmations}")
+    public BalanceViewModel getBlockByIndex(@PathVariable String address,
+                                            @PathVariable int confirmations) {
+        return this.transactionService.getBalanceByAddressForConfirmations(address, confirmations);
     }
 }
