@@ -2,7 +2,7 @@ package com.topchain.node.controller;
 
 import com.topchain.node.model.bindingModel.NotifyBlockModel;
 import com.topchain.node.model.viewModel.BlockViewModel;
-import com.topchain.node.model.viewModel.NotifyBlockViewModel;
+import com.topchain.node.model.viewModel.ResponseMessageViewModel;
 import com.topchain.node.service.BlockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class BlockController {
     }
 
     @PostMapping("/blocks/notify")
-    public NotifyBlockViewModel notify(@RequestBody NotifyBlockModel notifyBlockModel) {
+    public ResponseMessageViewModel notify(@RequestBody NotifyBlockModel notifyBlockModel) {
         return this.blockService.notifyBlock(notifyBlockModel);
     }
 }

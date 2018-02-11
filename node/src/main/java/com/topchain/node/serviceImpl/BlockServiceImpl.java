@@ -2,7 +2,7 @@ package com.topchain.node.serviceImpl;
 
 import com.topchain.node.model.bindingModel.NotifyBlockModel;
 import com.topchain.node.model.viewModel.BlockViewModel;
-import com.topchain.node.model.viewModel.NotifyBlockViewModel;
+import com.topchain.node.model.viewModel.ResponseMessageViewModel;
 import com.topchain.node.service.BlockService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class BlockServiceImpl implements BlockService {
     }
 
     @Override
-    public NotifyBlockViewModel notifyBlock(NotifyBlockModel notifyBlockModel) {
-        return new NotifyBlockViewModel("Thank you");
+    public ResponseMessageViewModel notifyBlock(NotifyBlockModel notifyBlockModel) {
+        return new ResponseMessageViewModel("Thank you");
     }
 }

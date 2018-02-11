@@ -1,12 +1,12 @@
 package com.topchain.node.model.viewModel;
 
-public class NotifyBlockViewModel {
+public class ResponseMessageViewModel {
     private String message;
 
-    public NotifyBlockViewModel() {
+    public ResponseMessageViewModel() {
     }
 
-    public NotifyBlockViewModel(String message) {
+    public ResponseMessageViewModel(String message) {
         this.message = message;
     }
 
