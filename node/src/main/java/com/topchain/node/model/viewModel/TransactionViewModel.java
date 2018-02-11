@@ -16,6 +16,7 @@ public class TransactionViewModel {
     private Boolean paid;
 
     public TransactionViewModel() {
+        this.senderSignature = new String[2];
     }
 
     public String getFromAddress() {

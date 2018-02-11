@@ -1,11 +1,15 @@
 package com.topchain.node.config;
 
+import com.topchain.node.entity.Block;
 import com.topchain.node.entity.Node;
 import com.topchain.node.model.viewModel.NodeInfoViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Configuration
 public class AppConfig {
@@ -30,6 +34,15 @@ public class AppConfig {
     public Node getNode() {
         Node node = new Node();
         node.setDifficulty(nodeDifficulty);
+        Set<Block> blocks = new HashSet<>();
+        Block block1 = new Block();
+        block1.setIndex(1L);
+        Block block2 = new Block();
+        block2.setIndex(2L);
+        blocks.add(block1);
+        blocks.add(block2);
+
+        node.setBlocks(blocks);
 
         return node;
     }

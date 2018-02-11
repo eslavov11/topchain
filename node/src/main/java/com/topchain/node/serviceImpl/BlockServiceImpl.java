@@ -1,5 +1,7 @@
 package com.topchain.node.serviceImpl;
 
+import com.topchain.node.entity.Block;
+import com.topchain.node.entity.Node;
 import com.topchain.node.model.bindingModel.NotifyBlockModel;
 import com.topchain.node.model.viewModel.BlockViewModel;
 import com.topchain.node.model.viewModel.ResponseMessageViewModel;
@@ -8,20 +10,29 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
 public class BlockServiceImpl implements BlockService {
     ModelMapper modelMapper;
+    Node node;
 
     @Autowired
-    public BlockServiceImpl(ModelMapper modelMapper) {
+    public BlockServiceImpl(ModelMapper modelMapper, Node node) {
         this.modelMapper = modelMapper;
+        this.node = node;
     }
 
     @Override
     public Set<BlockViewModel> getBlocks() {
-        return null;
+        Set<BlockViewModel> blockViewModels = new HashSet<>();
+        this.node.getBlocks().forEach((Block block) -> {
+            BlockViewModel blockViewModel = this.modelMapper.map(block, BlockViewModel.class);
+            blockViewModels.add(blockViewModel);
+        });
+
+        return blockViewModels;
     }
 
     @Override
