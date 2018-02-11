@@ -18,7 +18,6 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public NodeInfoViewModel getNodeInfo() {
         //this.nodeInfoViewModel.set
-        this.nodeInfoViewModel.setAddresses(10L);
 
         return this.nodeInfoViewModel;
     }

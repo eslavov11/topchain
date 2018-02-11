@@ -1,5 +1,7 @@
 package com.topchain.node.entity;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,6 +14,11 @@ public class Node {
     private Map<String, Block> miningJobs;
 
     public Node() {
+        this.peers = new HashSet<>();
+        this.blocks = new HashSet<>();
+        this.transactions = new HashSet<>();
+        this.balances = new HashMap<>();
+        this.miningJobs = new HashMap<>();
     }
 
     public Set<Peer> getPeers() {

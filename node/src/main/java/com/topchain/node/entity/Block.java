@@ -1,6 +1,7 @@
 package com.topchain.node.entity;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Block {
@@ -15,6 +16,7 @@ public class Block {
     private String blockHash;
 
     public Block() {
+        this.transactions = new HashSet<>();
     }
 
     public Long getIndex() {

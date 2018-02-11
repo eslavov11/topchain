@@ -1,5 +1,6 @@
 package com.topchain.node.config;
 
+import com.topchain.node.entity.Node;
 import com.topchain.node.model.viewModel.NodeInfoViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,12 +18,21 @@ public class AppConfig {
     @Value("${node.coins}")
     private Long nodeCoins;
 
+    @Value("${node.difficulty}")
+    private Long nodeDifficulty;
+
     @Bean
     public ModelMapper getModelMapper() {
         return new ModelMapper();
     }
 
-    //TODO: node bean
+    @Bean
+    public Node getNode() {
+        Node node = new Node();
+        node.setDifficulty(nodeDifficulty);
+
+        return node;
+    }
 
     @Bean
     public NodeInfoViewModel getNodeInfoViewModel() {

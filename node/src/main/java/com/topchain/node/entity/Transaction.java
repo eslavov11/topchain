@@ -16,6 +16,7 @@ public class Transaction {
     private Boolean paid;
 
     public Transaction() {
+        this.senderSignature = new String[2];
     }
 
     public String getFromAddress() {
