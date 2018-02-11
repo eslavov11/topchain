@@ -140,7 +140,7 @@
             return signature;
         }
 
-        public static void CreateAndSignTransaction(string recipientAddress, decimal value,
+        public static string CreateAndSignTransaction(string recipientAddress, decimal value,
             string iso8601datetime, string senderPrivKeyHex)
         {
             Console.WriteLine("Generate and sign a transaction");
@@ -187,9 +187,10 @@
                 }
             };
 
-            string signedTranJson = JsonConvert.SerializeObject(tranSigned, Formatting.Indented);
-            //Console.WriteLine("Signed transaction (JSON):");
-            //Console.WriteLine(signedTranJson);
+            string signedTransactionJson = JsonConvert.SerializeObject(tranSigned, Formatting.Indented);
+            //Console.WriteLine("json signed transaction :");
+            //Console.WriteLine(signedTransactionJson);
+            return signedTransactionJson;
         }
 
 

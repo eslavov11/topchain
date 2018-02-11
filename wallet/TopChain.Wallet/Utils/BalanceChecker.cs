@@ -23,23 +23,25 @@ namespace TopChain.Wallet.Utils
         {
             List<Block> blocks = GetCurrentBlocks();
             decimal currentSavingsForAddress = 0m;
-            foreach (var block in blocks)
+            if (blocks != null)
             {
-
-                foreach (var transaction in block.Transactions)
+                foreach (var block in blocks)
                 {
+                    foreach (var transaction in block.Transactions)
+                    {
 
-                    if (transaction.ToAddress == addressToCheck && transaction.TransferSuccessful == true)
-                    {
-                        currentSavingsForAddress += transaction.Value;
-                        continue;
-                    }
-                    if (transaction.SenderPubKey != null)
-                    {
-                        string addressFromTrans = Wallet.PublicKeyToAddress(transaction.SenderPubKey);
-                        if (addressFromTrans == addressToCheck && transaction.TransferSuccessful == true)
+                        if (transaction.ToAddress == addressToCheck && transaction.TransferSuccessful == true)
                         {
-                            currentSavingsForAddress -= transaction.Value;
+                            currentSavingsForAddress += transaction.Value;
+                            continue;
+                        }
+                        if (transaction.SenderPubKey != null)
+                        {
+                            string addressFromTrans = Wallet.PublicKeyToAddress(transaction.SenderPubKey);
+                            if (addressFromTrans == addressToCheck && transaction.TransferSuccessful == true)
+                            {
+                                currentSavingsForAddress -= transaction.Value;
+                            }
                         }
                     }
                 }

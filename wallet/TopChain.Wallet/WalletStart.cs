@@ -26,7 +26,7 @@
                         Console.Clear();
                         //string address = Console.ReadLine();
                         string address = "f51362b7351ef62253a227a77751ad9b2302f911";
-                        Console.WriteLine("Current BTC - {0}",BalanceChecker.GetAddressSavings(address));
+                        Console.WriteLine("Current BTC - {0}", BalanceChecker.GetAddressSavings(address));
                         flag = true;
                         break;
                     case 3:
@@ -46,7 +46,7 @@
                 if (flag) break;
             }
         }
-
+        //TODO:Send a message when NODE isn't running
         public static void CreateAndSignTransaction()
         {
             Console.Write("Enter private key => ");
@@ -60,10 +60,10 @@
             Console.WriteLine(valueToSend);
 
             string[] publicAndAddressPair = Wallet.PrivateKeyToAddress(privateKey);
-            if(!BalanceChecker.CheckIfAddressHasBalance(publicAndAddressPair[1], valueToSend))
+            if (!BalanceChecker.CheckIfAddressHasBalance(publicAndAddressPair[1], valueToSend))
             {
                 Console.WriteLine("Sorry,you don't have enough BTC in your wallet");
-                Console.WriteLine("Your balance is -> {0}",BalanceChecker.GetAddressSavings(publicAndAddressPair[1]));
+                Console.WriteLine("Your balance is -> {0}", BalanceChecker.GetAddressSavings(publicAndAddressPair[1]));
                 return;
             }
             Console.WriteLine();
@@ -72,8 +72,8 @@
             //string recipientAddress = Console.ReadLine();
             Console.WriteLine(recipientAddress);
 
-            Wallet.CreateAndSignTransaction(recipientAddress, valueToSend, DateTime.Now.ToString("0"), privateKey);
-
+            string signedTransactionAsJson = Wallet.CreateAndSignTransaction(recipientAddress, valueToSend, DateTime.Now.ToString("0"), privateKey);
+            TransactionSender.SendSignedTransaction(signedTransactionAsJson);
         }
     }
 }
