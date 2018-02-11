@@ -38,7 +38,8 @@ public class BlockServiceImpl implements BlockService {
 
     @Override
     public BlockViewModel getBlockByIndex(long index) {
-        Block block = this.node.getBlocks().stream().filter(b -> b.getIndex() == index).findFirst().get();
+        Block block = this.node.getBlocks().stream()
+                .filter(b -> b.getIndex() == index).findFirst().get();
         BlockViewModel blockViewModel = this.modelMapper.map(block, BlockViewModel.class);
 
         return blockViewModel;

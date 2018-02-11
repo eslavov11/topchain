@@ -20,7 +20,6 @@ public class NodeServiceImpl implements NodeService {
         this.node = node;
     }
 
-
     @Override
     public NodeInfoViewModel getNodeInfo() {
         this.nodeInfoViewModel.setBlocks(this.node.getBlocks().size());

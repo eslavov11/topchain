@@ -29,6 +29,10 @@ public class Node {
         this.peers = peers;
     }
 
+    public void addPeer(Peer peer) {
+        this.peers.add(peer);
+    }
+
     public Set<Block> getBlocks() {
         return blocks;
     }
