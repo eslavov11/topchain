@@ -37,6 +37,7 @@ public class PeerServiceImpl implements PeerService {
 
     @Override
     public ResponseMessageViewModel addPeer(PeerModel peerModel) {
+        //TODO: bidirectional peers
         Peer peer = this.modelMapper.map(peerModel, Peer.class);
         this.node.addPeer(peer);
 
