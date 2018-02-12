@@ -26,7 +26,7 @@ public class MiningServiceImpl implements MiningService {
     }
 
     @Override
-    public MinedBlockStatusViewModel submitBLock(MinedBlockModel minedBlockModel) {
+    public MinedBlockStatusViewModel submitBLock(MinedBlockModel minedBlockModel, String minerAddress) {
         return null;
     }
 }

@@ -21,8 +21,9 @@ public class MiningController {
         return this.miningService.getPendingBlock(minerAddress);
     }
 
-    @PostMapping("/mining/notify")
-    public MinedBlockStatusViewModel submitBLock(@RequestBody MinedBlockModel minedBlockModel) {
-        return this.miningService.submitBLock(minedBlockModel);
+    @PostMapping("/mining/submit-block/{minerAddress}")
+    public MinedBlockStatusViewModel submitBLock(@PathVariable String minerAddress,
+                                                 @RequestBody MinedBlockModel minedBlockModel) {
+        return this.miningService.submitBLock(minedBlockModel, minerAddress);
     }
 }
