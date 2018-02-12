@@ -1,10 +1,8 @@
 package com.topchain.node.model.viewModel;
 
-import java.math.BigDecimal;
-
 public class BalanceViewModel {
     private Integer confirmations;
-    private BigDecimal balance;
+    private Long balance;
 
     public BalanceViewModel() {
     }
@@ -17,11 +15,11 @@ public class BalanceViewModel {
         this.confirmations = confirmations;
     }
 
-    public BigDecimal getBalance() {
+    public Long getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(Long balance) {
         this.balance = balance;
     }
 }

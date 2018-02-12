@@ -32,6 +32,7 @@ public class TransactionController {
     @GetMapping("/balance/{address}/confirmations/{confirmations}")
     public FullBalanceViewModel getBalanceByAddressForConfirmations(@PathVariable String address,
                                                                     @PathVariable int confirmations) {
+        //TODO: return status code 200 on every request
         return this.transactionService
                 .getBalanceByAddressForConfirmations(address, confirmations);
     }

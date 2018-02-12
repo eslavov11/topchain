@@ -22,7 +22,7 @@ public class MiningController {
     }
 
     @PostMapping("/mining/submit-block/{minerAddress}")
-    public MinedBlockStatusViewModel submitBLock(@PathVariable String minerAddress,
+    public MinedBlockStatusViewModel submitBlock(@PathVariable String minerAddress,
                                                  @RequestBody MinedBlockModel minedBlockModel) {
         return this.miningService.submitBLock(minedBlockModel, minerAddress);
     }

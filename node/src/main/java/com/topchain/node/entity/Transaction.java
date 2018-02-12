@@ -1,13 +1,12 @@
 package com.topchain.node.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class Transaction {
     private String fromAddress;
     private String toAddress;
-    private BigDecimal value;
-    private BigDecimal fee;
+    private Long value;
+    private Long fee;
     private Date dateCreated;
     private String senderPublicKey;
     private String[] senderSignature;
@@ -36,20 +35,20 @@ public class Transaction {
         this.toAddress = toAddress;
     }
 
-    public BigDecimal getValue() {
+    public Long getValue() {
         return value;
     }
 
-    public BigDecimal getFee() {
+    public void setValue(Long value) {
+        this.value = value;
+    }
+
+    public Long getFee() {
         return fee;
     }
 
-    public void setFee(BigDecimal fee) {
+    public void setFee(Long fee) {
         this.fee = fee;
-    }
-
-    public void setValue(BigDecimal value) {
-        this.value = value;
     }
 
     public String getSenderPublicKey() {

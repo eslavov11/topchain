@@ -1,12 +1,11 @@
 package com.topchain.node.model.viewModel;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class TransactionViewModel {
     private String fromAddress;
     private String toAddress;
-    private BigDecimal value;
+    private Long value;
     private Date dateCreated;
     private String senderPublicKey;
     private String[] senderSignature;
@@ -33,11 +32,11 @@ public class TransactionViewModel {
         this.toAddress = toAddress;
     }
 
-    public BigDecimal getValue() {
+    public Long getValue() {
         return value;
     }
 
-    public void setValue(BigDecimal value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 

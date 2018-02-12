@@ -1,12 +1,9 @@
 package com.topchain.node.model.bindingModel;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 public class TransactionModel {
     private String from;
     private String to;
-    private BigDecimal value;
+    private Long value;
     private String senderPubKey;
     private String[] senderSignature;
 
@@ -29,11 +26,11 @@ public class TransactionModel {
         this.to = to;
     }
 
-    public BigDecimal getValue() {
+    public Long getValue() {
         return value;
     }
 
-    public void setValue(BigDecimal value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 

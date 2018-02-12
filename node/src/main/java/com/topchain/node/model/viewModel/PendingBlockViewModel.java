@@ -1,14 +1,12 @@
 package com.topchain.node.model.viewModel;
 
-import java.math.BigDecimal;
-
 /**
  * Created by eslavov on 12-Feb-18.
  */
 public class PendingBlockViewModel {
     private Long index;
     private Integer transactionsIncluded;
-    private BigDecimal expectedReward;
+    private Long expectedReward;
     private String blockDataHash;
 
     public PendingBlockViewModel() {
@@ -30,11 +28,11 @@ public class PendingBlockViewModel {
         this.transactionsIncluded = transactionsIncluded;
     }
 
-    public BigDecimal getExpectedReward() {
+    public Long getExpectedReward() {
         return expectedReward;
     }
 
-    public void setExpectedReward(BigDecimal expectedReward) {
+    public void setExpectedReward(Long expectedReward) {
         this.expectedReward = expectedReward;
     }
 
