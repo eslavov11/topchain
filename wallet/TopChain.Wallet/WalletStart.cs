@@ -45,6 +45,7 @@
                 }
                 if (flag) break;
             }
+            Console.ReadLine();
         }
         //TODO:Send a message when NODE isn't running
         public static void CreateAndSignTransaction()
