@@ -1,11 +1,11 @@
 package com.topchain.node.controller;
 
+import com.topchain.node.model.bindingModel.MinedBlockModel;
+import com.topchain.node.model.viewModel.MinedBlockStatusViewModel;
 import com.topchain.node.model.viewModel.PendingBlockViewModel;
 import com.topchain.node.service.MiningService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MiningController {
@@ -21,9 +21,8 @@ public class MiningController {
         return this.miningService.getPendingBlock(minerAddress);
     }
 
-//    @PostMapping("/blocks/notify")
-//    public ResponseMessageViewModel notify(@RequestBody NotifyBlockModel notifyBlockModel) {
-//        return this.blockService.notifyBlock(notifyBlockModel);
-//
-//    }
+    @PostMapping("/mining/notify")
+    public MinedBlockStatusViewModel submitBLock(@RequestBody MinedBlockModel minedBlockModel) {
+        return this.miningService.submitBLock(minedBlockModel);
+    }
 }

@@ -1,6 +1,8 @@
 package com.topchain.node.serviceImpl;
 
 import com.topchain.node.entity.Node;
+import com.topchain.node.model.bindingModel.MinedBlockModel;
+import com.topchain.node.model.viewModel.MinedBlockStatusViewModel;
 import com.topchain.node.model.viewModel.PendingBlockViewModel;
 import com.topchain.node.service.MiningService;
 import org.modelmapper.ModelMapper;
@@ -20,6 +22,11 @@ public class MiningServiceImpl implements MiningService {
 
     @Override
     public PendingBlockViewModel getPendingBlock(String minerAddress) {
+        return null;
+    }
+
+    @Override
+    public MinedBlockStatusViewModel submitBLock(MinedBlockModel minedBlockModel) {
         return null;
     }
 }
