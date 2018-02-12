@@ -111,3 +111,9 @@ yarn-error.log
 
 #ignore .folders
 .*/
+
+#ignore vs bin obj packages
+bin
+obj
+packages
+

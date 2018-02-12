@@ -11,20 +11,20 @@ namespace TopChain.Wallet.Utils
     {
         public static async void SendSignedTransaction(string signedJsonTransaction)
         {
+            string nodeIP = "127.0.0.1:5555";
+            string postNewTransactionURL = "/transactions/send";
             try
             {
-                HttpClient httpClient = new HttpClient();
-                string nodeIP = "127.0.0.1:5555";
-                string postNewTransactionURL = "/transactions/send";
-                var stringContent = new StringContent(JsonConvert.SerializeObject(signedJsonTransaction), Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync(string.Format("http://{0}{1}", nodeIP, postNewTransactionURL), stringContent);
-
+                using(HttpClient client = new HttpClient())
+                {
+                    var stringContent = new StringContent(signedJsonTransaction, Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync(string.Format("http://{0}{1}", nodeIP, postNewTransactionURL), stringContent);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-           
         }
     }
 }

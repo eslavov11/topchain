@@ -45,6 +45,7 @@
                 }
                 if (flag) break;
             }
+            Console.ReadLine();
         }
         //TODO:Send a message when NODE isn't running
         public static void CreateAndSignTransaction()
@@ -71,8 +72,8 @@
             string recipientAddress = "f51362b7351ef62253a227a77751ad9b2302f911";
             //string recipientAddress = Console.ReadLine();
             Console.WriteLine(recipientAddress);
-
-            string signedTransactionAsJson = Wallet.CreateAndSignTransaction(recipientAddress, valueToSend, DateTime.Now.ToString("0"), privateKey);
+            string iso8601standard = DateTime.UtcNow.ToString("o");
+            string signedTransactionAsJson = Wallet.CreateAndSignTransaction(recipientAddress, valueToSend, iso8601standard, privateKey);
             TransactionSender.SendSignedTransaction(signedTransactionAsJson);
         }
     }

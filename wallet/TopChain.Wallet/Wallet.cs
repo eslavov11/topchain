@@ -16,6 +16,7 @@
     using System.Text;
     using Newtonsoft.Json;
     using TopChain.Wallet.Models;
+    using Newtonsoft.Json.Serialization;
 
     public class Wallet
     {
@@ -162,7 +163,10 @@
                 SenderPubKey = senderPubKeyCompressed,
                 
             };
-            string tranJson = JsonConvert.SerializeObject(tran);
+            string tranJson = JsonConvert.SerializeObject(tran, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
             //Console.WriteLine("Transaction (JSON): {0}", tranJson);
 
             byte[] tranHash = CalcSHA256(tranJson);
@@ -187,7 +191,10 @@
                 }
             };
 
-            string signedTransactionJson = JsonConvert.SerializeObject(tranSigned, Formatting.Indented);
+            string signedTransactionJson = JsonConvert.SerializeObject(tranSigned, Formatting.Indented,new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
             //Console.WriteLine("json signed transaction :");
             //Console.WriteLine(signedTransactionJson);
             return signedTransactionJson;
