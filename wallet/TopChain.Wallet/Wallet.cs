@@ -163,7 +163,7 @@
                 SenderPubKey = senderPubKeyCompressed,
                 
             };
-            string tranJson = JsonConvert.SerializeObject(tran, new JsonSerializerSettings
+             string tranJson = JsonConvert.SerializeObject(tran, new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });

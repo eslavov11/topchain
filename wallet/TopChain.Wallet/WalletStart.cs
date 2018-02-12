@@ -11,6 +11,7 @@
 
             while (true)
             {
+                //TODO: Wallet new | check balance | send transaction
                 Console.WriteLine("Press 1 to generate new wallet.");
                 Console.WriteLine("Press 2 to check account balance from Private key.");
                 Console.WriteLine("Press 3 to send transaction.");
