@@ -1,11 +1,15 @@
 package com.topchain.node.model.viewModel;
 
+import java.util.Date;
+
 /**
  * Created by eslavov on 12-Feb-18.
  */
 public class PendingBlockViewModel {
     private Long index;
     private Integer transactionsIncluded;
+    private Long difficulty;
+    private Date dateCreated;
     private Long expectedReward;
     private String blockDataHash;
 
@@ -26,6 +30,22 @@ public class PendingBlockViewModel {
 
     public void setTransactionsIncluded(Integer transactionsIncluded) {
         this.transactionsIncluded = transactionsIncluded;
+    }
+
+    public Long getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Long difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Long getExpectedReward() {

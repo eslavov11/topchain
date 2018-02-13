@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class MiningServiceImpl implements MiningService {
     private ModelMapper modelMapper;
@@ -22,7 +24,12 @@ public class MiningServiceImpl implements MiningService {
 
     @Override
     public PendingBlockViewModel getPendingBlock(String minerAddress) {
-        return null;
+        PendingBlockViewModel pendingBlockViewModel = new PendingBlockViewModel();
+        pendingBlockViewModel.setDateCreated(new Date());
+        pendingBlockViewModel.setDifficulty(this.node.getDifficulty());
+        pendingBlockViewModel.setTransactionsIncluded(this.node.getPendingTransactions().size());
+
+        return pendingBlockViewModel;
     }
 
     @Override
