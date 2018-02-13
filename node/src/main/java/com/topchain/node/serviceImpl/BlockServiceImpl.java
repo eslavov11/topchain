@@ -51,4 +51,22 @@ public class BlockServiceImpl implements BlockService {
 
         return new ResponseMessageViewModel("Thank you");
     }
+
+    //TODO: new block
+    /**
+     * A special coinbase transaction is inserted before all user
+     transactions in the block, to transfer the block reward + fees
+
+     No sender public key and signature
+     The Coinbase Transaction (Reward)
+     {
+         "from": "0000000000000000000000000000000000000000",
+         "to": "9a9f082f37270ff54c5ca4204a0e4da6951fe917",
+         "value": 5000350,
+         "fee": 0,
+         "dateCreated": "2018-02-10T17:53:48.972Z",
+         "transactionHash": "4dfc3e0ef89ed603ed54e47435a18b836b…176a",
+         "transferSuccessful": true,
+     }
+     */
 }

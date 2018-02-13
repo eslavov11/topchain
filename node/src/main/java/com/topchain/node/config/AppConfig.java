@@ -78,4 +78,6 @@ public class AppConfig {
 
         return nodeInfoViewModel;
     }
+
+    //TODO: adjust difficulty
 }

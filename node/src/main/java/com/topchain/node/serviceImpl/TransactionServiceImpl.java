@@ -40,6 +40,8 @@ public class TransactionServiceImpl implements TransactionService {
         network
         * */
 
+        //TODO: value & fee positive ints validate
+
         //TODO: validate pubK -> address == pAddress?
 
         Transaction transaction = this.modelMapper.map(transactionModel, Transaction.class);
@@ -77,6 +79,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public FullBalanceViewModel getBalanceByAddressForConfirmations(String address,
                                                                     int confirmations) {
+        /** The address balance is calculated by iterating over all transactions
+         For each block and for each successful transaction for the specified address,
+         sum the values received and spent, matching the confirmations count
+         * */
         return null;
     }
 }

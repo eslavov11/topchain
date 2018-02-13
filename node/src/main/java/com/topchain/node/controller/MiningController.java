@@ -2,7 +2,7 @@ package com.topchain.node.controller;
 
 import com.topchain.node.model.bindingModel.MinedBlockModel;
 import com.topchain.node.model.viewModel.MinedBlockStatusViewModel;
-import com.topchain.node.model.viewModel.PendingBlockViewModel;
+import com.topchain.node.model.viewModel.BlockCandidateViewModel;
 import com.topchain.node.service.MiningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ public class MiningController {
     }
 
     @GetMapping("/mining/get-block/{minerAddress}")
-    public PendingBlockViewModel getPendingBlock(@PathVariable String minerAddress) {
+    public BlockCandidateViewModel getPendingBlock(@PathVariable String minerAddress) {
         return this.miningService.getPendingBlock(minerAddress);
     }
 

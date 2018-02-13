@@ -3,13 +3,13 @@ package com.topchain.node.model.viewModel;
 /**
  * Created by eslavov on 12-Feb-18.
  */
-public class PendingBlockViewModel {
+public class BlockCandidateViewModel {
     private Long index;
     private Integer transactionsIncluded;
     private Long expectedReward;
     private String blockDataHash;
 
-    public PendingBlockViewModel() {
+    public BlockCandidateViewModel() {
     }
 
     public Long getIndex() {
