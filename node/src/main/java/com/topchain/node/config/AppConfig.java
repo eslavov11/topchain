@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;
 
+import static com.topchain.node.util.NodeUtils.collectionToJSON;
 import static com.topchain.node.util.NodeUtils.hashText;
 
 @Configuration
@@ -48,6 +49,7 @@ public class AppConfig {
         Block genesis = new Block();
         genesis.setIndex(GENESIS_BLOCK_INDEX);
 
+        //TODO: faucet transaction
         Transaction t1 = new Transaction();
         t1.setFromAddress(INIT_MINER_ADDRESS);
         t1.setToAddress("f51362b7351ef62253a227a77751ad9b2302f911");
@@ -72,7 +74,7 @@ public class AppConfig {
         genesis.setPreviousBlockHash(null);
         genesis.setNonce(0L);
         genesis.setBlockDataHash(hashText(genesis.getIndex() +
-                genesis.getTransactions().toString() +   //TODO: transactions toString -> return json
+                collectionToJSON(genesis.getTransactions()) +
                 genesis.getDifficulty() +
                 genesis.getPreviousBlockHash() +
                 genesis.getMinedBy()));
