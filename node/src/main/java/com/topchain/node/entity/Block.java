@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Block {
-    private Long index;
+    private int index;
     private Set<Transaction> transactions;
     private Long difficulty;
     private String previousBlockHash;
@@ -19,11 +19,11 @@ public class Block {
         this.setTransactions(new HashSet<>());
     }
 
-    public Long getIndex() {
+    public int getIndex() {
         return index;
     }
 
-    public void setIndex(Long index) {
+    public void setIndex(int index) {
         this.index = index;
     }
 

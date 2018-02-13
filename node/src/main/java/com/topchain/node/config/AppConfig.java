@@ -10,11 +10,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+
+import static com.topchain.node.util.NodeUtils.collectionToJSON;
+import static com.topchain.node.util.NodeUtils.hashText;
 
 @Configuration
 public class AppConfig {
+    private static final int GENESIS_BLOCK_INDEX = 0;
+    private static final String INIT_MINER_ADDRESS = "0000000000000000000000000000000000000000";
+
     @Value("${node.about}")
     private String nodeAbout;
 
@@ -33,46 +37,57 @@ public class AppConfig {
     }
 
     @Bean
-    public Node getNode() {
+    public Node generateNode() {
         Node node = new Node();
         node.setDifficulty(nodeDifficulty);
-        Set<Block> blocks = new HashSet<>();
-        Block block1 = new Block();
-        block1.setIndex(1L);
-        Transaction t1 = new Transaction();
-        t1.setFromAddress("feff4ac90f8fcc68bfbdf882d52a806e8ac738ad");
-        t1.setToAddress("f51362b7351ef62253a227a77751ad9b2302f911");
-        t1.setValue(100L);
-        t1.setDateCreated(new Date());
-        t1.setMinedInBlockIndex(1L);
-        t1.setTransferSuccessful(true);
-        Transaction t2 = new Transaction();
-        t2.setFromAddress("f51362b7351ef62253a227a77751ad9b2302f911");
-        t2.setToAddress("feff4ac90f8fcc68bfbdf882d52a806e8ac738ad");
-        t2.setValue(20L);
-        t2.setDateCreated(new Date());
-        t2.setMinedInBlockIndex(1L);
-        t2.setTransferSuccessful(true);
-
-        block1.addTransaction(t1);
-        block1.addTransaction(t2);
-
-
-        Block block2 = new Block();
-        block2.setIndex(2L);
-
-
-        blocks.add(block1);
-        blocks.add(block2);
-
-        node.setBlocks(blocks);
+        node.addBlock(createGenesisBlock());
 
         return node;
     }
 
+    private Block createGenesisBlock() {
+        Block genesis = new Block();
+        genesis.setIndex(GENESIS_BLOCK_INDEX);
+
+        //TODO: faucet transaction
+        Transaction t1 = new Transaction();
+        t1.setFromAddress(INIT_MINER_ADDRESS);
+        t1.setToAddress("f51362b7351ef62253a227a77751ad9b2302f911");
+        t1.setValue(100L);
+        t1.setDateCreated(new Date());
+        t1.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
+        t1.setTransferSuccessful(true);
+
+        Transaction t2 = new Transaction();
+        t2.setFromAddress(INIT_MINER_ADDRESS);
+        t2.setToAddress("feff4ac90f8fcc68bfbdf882d52a806e8ac738ad");
+        t2.setValue(20L);
+        t2.setDateCreated(new Date());
+        t2.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
+        t2.setTransferSuccessful(true);
+
+        genesis.addTransaction(t1);
+        genesis.addTransaction(t2);
+        genesis.setDateCreated(new Date());
+        genesis.setDifficulty(this.nodeDifficulty);
+        genesis.setMinedBy(INIT_MINER_ADDRESS);
+        genesis.setPreviousBlockHash(null);
+        genesis.setNonce(0L);
+        genesis.setBlockDataHash(hashText(genesis.getIndex() +
+                collectionToJSON(genesis.getTransactions()) +
+                genesis.getDifficulty() +
+                genesis.getPreviousBlockHash() +
+                genesis.getMinedBy()));
+        genesis.setBlockHash(hashText(genesis.getBlockDataHash() +
+                genesis.getDateCreated() +
+                genesis.getDifficulty()));
+
+        return genesis;
+    }
+
     @Bean
-    public NodeInfoViewModel getNodeInfoViewModel() {
-        NodeInfoViewModel nodeInfoViewModel =  new NodeInfoViewModel();
+    public NodeInfoViewModel generateNodeInfoViewModel() {
+        NodeInfoViewModel nodeInfoViewModel = new NodeInfoViewModel();
         nodeInfoViewModel.setAbout(nodeAbout);
         nodeInfoViewModel.setNodeName(nodeName);
 

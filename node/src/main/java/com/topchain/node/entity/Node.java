@@ -1,13 +1,10 @@
 package com.topchain.node.entity;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Node {
     private Set<Peer> peers;
-    private Set<Block> blocks;
+    private List<Block> blocks;
     private Set<Transaction> pendingTransactions;
     private Long difficulty;
     private Map<String, Block> miningJobs;
@@ -15,7 +12,7 @@ public class Node {
 
     public Node() {
         this.setPeers(new HashSet<>());
-        this.setBlocks(new HashSet<>());
+        this.setBlocks(new ArrayList<>());
         this.setPendingTransactions(new HashSet<>());
         this.setBalances(new HashMap<>());
         this.setMiningJobs(new HashMap<>());
@@ -33,12 +30,16 @@ public class Node {
         this.peers.add(peer);
     }
 
-    public Set<Block> getBlocks() {
+    public List<Block> getBlocks() {
         return blocks;
     }
 
-    public void setBlocks(Set<Block> blocks) {
+    public void setBlocks(List<Block> blocks) {
         this.blocks = blocks;
+    }
+
+    public void addBlock(Block blocks) {
+        this.blocks.add(blocks);
     }
 
     public Set<Transaction> getPendingTransactions() {

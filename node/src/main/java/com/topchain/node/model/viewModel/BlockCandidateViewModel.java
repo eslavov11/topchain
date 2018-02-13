@@ -6,6 +6,11 @@ package com.topchain.node.model.viewModel;
 public class BlockCandidateViewModel {
     private Long index;
     private Integer transactionsIncluded;
+    private Long difficulty;
+
+//    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
+//    private Date dateCreated;
+
     private Long expectedReward;
     private String blockDataHash;
 
@@ -26,6 +31,14 @@ public class BlockCandidateViewModel {
 
     public void setTransactionsIncluded(Integer transactionsIncluded) {
         this.transactionsIncluded = transactionsIncluded;
+    }
+
+    public Long getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Long difficulty) {
+        this.difficulty = difficulty;
     }
 
     public Long getExpectedReward() {

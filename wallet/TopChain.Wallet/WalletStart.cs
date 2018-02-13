@@ -8,7 +8,6 @@
         static void Main(string[] args)
         {
             int input = 0;
-
             while (true)
             {
                 //TODO: Wallet new | check balance | send transaction
@@ -73,7 +72,7 @@
             string recipientAddress = "f51362b7351ef62253a227a77751ad9b2302f911";
             //string recipientAddress = Console.ReadLine();
             Console.WriteLine(recipientAddress);
-            string iso8601standard = DateTime.UtcNow.ToString("o");
+            string iso8601standard = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
             string signedTransactionAsJson = Wallet.CreateAndSignTransaction(recipientAddress, valueToSend, iso8601standard, privateKey);
             TransactionSender.SendSignedTransaction(signedTransactionAsJson);
         }

@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.topchain.node.util.NodeUtils.hashText;
+
 @Service
 public class MiningServiceImpl implements MiningService {
     private ModelMapper modelMapper;
@@ -22,8 +24,14 @@ public class MiningServiceImpl implements MiningService {
 
     @Override
     public BlockCandidateViewModel getPendingBlock(String minerAddress) {
+        BlockCandidateViewModel blockCandidateViewModel = new BlockCandidateViewModel();
+        blockCandidateViewModel.setIndex(1L);
+        blockCandidateViewModel.setDifficulty(this.node.getDifficulty());
+        blockCandidateViewModel.setTransactionsIncluded(this.node.getPendingTransactions().size());
 
-        return null;
+        blockCandidateViewModel.setBlockDataHash(hashText(blockCandidateViewModel.toString()));
+
+        return blockCandidateViewModel;
     }
 
     @Override
