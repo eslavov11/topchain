@@ -63,4 +63,16 @@ public class PendingBlockViewModel {
     public void setBlockDataHash(String blockDataHash) {
         this.blockDataHash = blockDataHash;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "index:" + index +
+                ",transactionsIncluded:" + transactionsIncluded +
+                ",difficulty:" + difficulty +
+                ",dateCreated:" + dateCreated +
+                ",expectedReward:" + expectedReward +
+                ",blockDataHash:'" + blockDataHash +
+                '}';
+    }
 }

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+import static com.topchain.node.util.NodeUtils.hashSHA256;
+
 @Service
 public class MiningServiceImpl implements MiningService {
     private ModelMapper modelMapper;
@@ -25,9 +27,12 @@ public class MiningServiceImpl implements MiningService {
     @Override
     public PendingBlockViewModel getPendingBlock(String minerAddress) {
         PendingBlockViewModel pendingBlockViewModel = new PendingBlockViewModel();
+        pendingBlockViewModel.setIndex(1L);
         pendingBlockViewModel.setDateCreated(new Date());
         pendingBlockViewModel.setDifficulty(this.node.getDifficulty());
         pendingBlockViewModel.setTransactionsIncluded(this.node.getPendingTransactions().size());
+
+        pendingBlockViewModel.setBlockDataHash(hashSHA256(pendingBlockViewModel.toString()));
 
         return pendingBlockViewModel;
     }
