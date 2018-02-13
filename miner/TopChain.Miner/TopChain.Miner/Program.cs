@@ -46,8 +46,6 @@
 
             string minerAddress = "d08498041433013fe278f9cd63c53e6b6f0e8033";
 
-            //GlobalCounter.Reset();
-            //var sw = Stopwatch.StartNew();
             var availableThreads = Environment.ProcessorCount - 1;
 
             var taskList = new List<Task<ResultWrapper>>();
@@ -59,35 +57,8 @@
             for (int i = 0; i < availableThreads; i++)
             {
                 taskList.Add(StartMining(minerAddress, startingNonce+(ulong)(5000000/availableThreads)));
+                taskList[i].Start();
             }
-
-            var result = taskList.FirstOrDefault(n => n.Result != null);
-            if (result != null)
-            {
-                SubmitPoW(result.Result);
-            }
-
-
-            //sw.Stop();
-
-            //var kiloHashesPerSecond = (GlobalCounter.Value / sw.Elapsed.TotalSeconds) / 1000;
-
-            //Console.WriteLine(kiloHashesPerSecond);
-            //Console.ReadLine();
-
-            //Block blockToMine = GetBlock(minerAddress);
-
-            //MineBlock(blockToMine);
-            
-            
-
-            //ResultWrapper result = MineBlock(blockToMine);
-
-            //SubmitPoW(result);
-
-
-
-
         }
         //public static void MethodToExecute(Block blockToMine,Stopwatch sw)
         //{
@@ -111,17 +82,21 @@
             string blockDataHash = string.Empty;
             while (true)
             {
+                GlobalCounter.Reset();
+                var sw = Stopwatch.StartNew();
                 if (blockDataHash!=blockToMine.BlockDataHash)
                 {
                     blockDataHash = blockToMine.BlockDataHash;
                     ResultWrapper result = await MineBlock(blockToMine,nonce);
-                    SubmitPoW(result);
+                    sw.Stop();
+                    var kiloHashesPerSecond = (GlobalCounter.Value / sw.Elapsed.TotalSeconds) / 1000;
+                    Console.WriteLine("kHs => {0} ",kiloHashesPerSecond);
+                    //SubmitPoW(result);
                 }
                 else
                 {
                     blockToMine = GetBlock(minerAddress);
                 }
-                Thread.Sleep(2000);
             }
         }
         
@@ -131,7 +106,7 @@
             ResultWrapper result = new ResultWrapper();
             string dateCreated = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
             int difficulty = blockToMine.Difficulty.Value;
-            var nextHash = await CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
+            var nextHash = CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
 
             string nextHashSubstring = BytesToHex(nextHash).Substring(0,difficulty);
             string difficultyToAchieve = string.Join(string.Empty, Enumerable.Repeat("0", difficulty).ToArray());
@@ -140,8 +115,9 @@
             {
                 nonce++;
                 dateCreated = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
-                nextHash = await CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
-                
+                nextHash = CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
+                GlobalCounter.Increment();
+
                 nextHashSubstring = BytesToHex(nextHash).Substring(0, difficulty);
                 
             }
@@ -154,16 +130,16 @@
             return result;
         }
 
-        private static async Task<byte[]> CalcSHA256(string text)
+        private static byte[] CalcSHA256(string text)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(text);
             Sha256Digest digest = new Sha256Digest();
              digest.BlockUpdate(bytes, 0, bytes.Length);
             byte[] result = new byte[digest.GetDigestSize()];
             digest.DoFinal(result, 0);
-            GlobalCounter.Increment();
             return result;
         }
+
         public static Block GetBlock(string minerAddress)
         {
             Block result = null;
