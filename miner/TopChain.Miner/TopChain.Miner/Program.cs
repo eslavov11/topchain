@@ -46,19 +46,23 @@
 
             string minerAddress = "d08498041433013fe278f9cd63c53e6b6f0e8033";
 
-            var availableThreads = Environment.ProcessorCount - 1;
+
+            var availableThreads = Environment.ProcessorCount;
 
             var taskList = new List<Task<ResultWrapper>>();
 
-            //todo:how to split nonce for every thread
 
-            ulong startingNonce = ulong.MinValue+1;
+            ulong startingNonce = ulong.MinValue + 1;
 
             for (int i = 0; i < availableThreads; i++)
             {
-                taskList.Add(StartMining(minerAddress, startingNonce+(ulong)(5000000/availableThreads)));
+                taskList.Add(StartMining(minerAddress, startingNonce + (ulong)(5000000 / availableThreads)));
                 taskList[i].Start();
             }
+            //TODO
+            //Start mining shouldnt be with while(true)
+            //get the while(true) outside and run the tasks
+            Task.WaitAll(taskList.ToArray());
         }
         //public static void MethodToExecute(Block blockToMine,Stopwatch sw)
         //{
@@ -80,12 +84,15 @@
         {
             Block blockToMine = GetBlock(minerAddress);
             string blockDataHash = string.Empty;
+
+
             while (true)
             {
-                GlobalCounter.Reset();
-                var sw = Stopwatch.StartNew();
                 if (blockDataHash!=blockToMine.BlockDataHash)
                 {
+
+                    GlobalCounter.Reset();
+                    var sw = Stopwatch.StartNew();
                     blockDataHash = blockToMine.BlockDataHash;
                     ResultWrapper result = await MineBlock(blockToMine,nonce);
                     sw.Stop();
