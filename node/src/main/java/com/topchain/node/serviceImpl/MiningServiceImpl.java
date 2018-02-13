@@ -9,9 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
-import static com.topchain.node.util.NodeUtils.hashSHA256;
+import static com.topchain.node.util.NodeUtils.hashText;
 
 @Service
 public class MiningServiceImpl implements MiningService {
@@ -28,11 +26,10 @@ public class MiningServiceImpl implements MiningService {
     public PendingBlockViewModel getPendingBlock(String minerAddress) {
         PendingBlockViewModel pendingBlockViewModel = new PendingBlockViewModel();
         pendingBlockViewModel.setIndex(1L);
-        pendingBlockViewModel.setDateCreated(new Date());
         pendingBlockViewModel.setDifficulty(this.node.getDifficulty());
         pendingBlockViewModel.setTransactionsIncluded(this.node.getPendingTransactions().size());
 
-        pendingBlockViewModel.setBlockDataHash(hashSHA256(pendingBlockViewModel.toString()));
+        pendingBlockViewModel.setBlockDataHash(hashText(pendingBlockViewModel.toString()));
 
         return pendingBlockViewModel;
     }

@@ -11,7 +11,7 @@ public class Transaction {
     private String senderPublicKey;
     private String[] senderSignature;
     private String transactionHash;
-    private Long minedInBlockIndex;
+    private int minedInBlockIndex;
     private Boolean transferSuccessful;
 
     public Transaction() {
@@ -83,11 +83,11 @@ public class Transaction {
         this.dateCreated = dateCreated;
     }
 
-    public Long getMinedInBlockIndex() {
+    public int getMinedInBlockIndex() {
         return minedInBlockIndex;
     }
 
-    public void setMinedInBlockIndex(Long minedInBlockIndex) {
+    public void setMinedInBlockIndex(int minedInBlockIndex) {
         this.minedInBlockIndex = minedInBlockIndex;
     }
 

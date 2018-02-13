@@ -7,8 +7,6 @@ import java.util.Date;
  */
 public class MinedBlockModel {
     private Long nonce;
-    private Date dateCreated;
-    private String blockHash;
 
     public MinedBlockModel() {
     }
@@ -19,21 +17,5 @@ public class MinedBlockModel {
 
     public void setNonce(Long nonce) {
         this.nonce = nonce;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public String getBlockHash() {
-        return blockHash;
-    }
-
-    public void setBlockHash(String blockHash) {
-        this.blockHash = blockHash;
     }
 }
