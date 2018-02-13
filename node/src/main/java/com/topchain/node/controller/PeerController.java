@@ -29,6 +29,11 @@ public class PeerController {
 
     @PostMapping("/peers")
     public ResponseMessageViewModel addPeer(@RequestBody PeerModel peerModel) {
-        return this.peerService.addPeer(peerModel);
+        ResponseMessageViewModel responseMessageViewModel = this.peerService.addPeer(peerModel);
+        if (responseMessageViewModel.isExists()) {
+
+        }
+
+        return responseMessageViewModel;
     }
 }

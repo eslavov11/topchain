@@ -1,5 +1,7 @@
 package com.topchain.node.model.viewModel;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -9,6 +11,8 @@ public class PendingBlockViewModel {
     private Long index;
     private Integer transactionsIncluded;
     private Long difficulty;
+
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
     private Date dateCreated;
     private Long expectedReward;
     private String blockDataHash;
