@@ -11,8 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;
 
-import static com.topchain.node.util.NodeUtils.collectionToJSON;
-import static com.topchain.node.util.NodeUtils.hashText;
+import static com.topchain.node.util.NodeUtils.*;
 
 @Configuration
 public class AppConfig {
@@ -28,7 +27,7 @@ public class AppConfig {
 //    @Value("${node.coins}")
 //    private Long nodeCoins;
 
-    @Value("${node.difficulty}")
+    @Value("${network.difficulty}")
     private Long nodeDifficulty;
 
     @Bean

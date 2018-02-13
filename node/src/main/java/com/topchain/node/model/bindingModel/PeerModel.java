@@ -1,18 +1,16 @@
 package com.topchain.node.model.bindingModel;
 
-import java.net.URL;
-
 public class PeerModel {
-    private URL url;
+    private String url;
 
     public PeerModel() {
     }
 
-    public URL getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public void setUrl(URL url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 }

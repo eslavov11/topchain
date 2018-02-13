@@ -1,18 +1,16 @@
 package com.topchain.node.entity;
 
-import java.net.URL;
-
 public class Peer {
-    private URL address;
+    private String url;
 
     public Peer() {
     }
 
-    public URL getAddress() {
-        return address;
+    public String getUrl() {
+        return url;
     }
 
-    public void setAddress(URL address) {
-        this.address = address;
+    public void setUrl(String address) {
+        this.url = address;
     }
 }

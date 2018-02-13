@@ -1,18 +1,16 @@
 package com.topchain.node.model.viewModel;
 
-import java.net.URL;
-
 public class PeerViewModel {
-    private URL address;
+    private String url;
 
     public PeerViewModel() {
     }
 
-    public URL getAddress() {
-        return address;
+    public String getUrl() {
+        return url;
     }
 
-    public void setAddress(URL address) {
-        this.address = address;
+    public void setUrl(String address) {
+        this.url = address;
     }
 }
