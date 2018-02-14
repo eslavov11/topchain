@@ -36,6 +36,7 @@
                 Value = 0;
             }
         }
+        private static Block blockToMine;
 
         static void Main(string[] args)
         {
@@ -43,32 +44,38 @@
             //private keys for miner address to TEST
             //string privateKey = "36bea7f877c979c9e8c7b4a5571bad692788ee3a41157d925d4a4c6f9655c420";
             //string pubKey = "bbcd517721426fccc243c6e482d91f316b2416a1228516fad991f29018bc99981";
+            var availableThreads = Environment.ProcessorCount - 1;
+            ulong startingNonce = ulong.MinValue + 1;
 
             string minerAddress = "d08498041433013fe278f9cd63c53e6b6f0e8033";
 
+            blockToMine = GetBlock(minerAddress);
+
             while (true)
             {
-                //use cancellation token to stop all tasks when one finishes start again..
-                //var tokenSource = new CancellationTokenSource();
-
-
-                var availableThreads = Environment.ProcessorCount;
+                //use cancellation token to stop all tasks when one finishes 
+                var tokenSource = new CancellationTokenSource();
 
                 var taskList = new List<Task<ResultWrapper>>();
 
                 GlobalCounter.Reset();
                 var sw = Stopwatch.StartNew();
 
-                ulong startingNonce = ulong.MinValue + 1;
 
                 for (int i = 0; i < availableThreads; i++)
                 {
-                    taskList.Add(Task.Factory.StartNew(() => StartMining(minerAddress, startingNonce + (ulong)(5000000 / availableThreads))));
+                    taskList.Add(Task.Run(() => 
+                    {
+                        return StartMining(blockToMine,minerAddress, startingNonce + (ulong)(5000000 / availableThreads));
+
+                    },tokenSource.Token));
 
                 }
                 
                 Task.WaitAll(taskList.ToArray());
                 var foundHash = taskList.FirstOrDefault(x => x.Result != null);
+                tokenSource.Cancel();
+                //tokenSource.Token.ThrowIfCancellationRequested();
 
                 if (foundHash != null)
                 {
@@ -78,6 +85,7 @@
                 sw.Stop();
                 var kiloHashesPerSecond = (GlobalCounter.Value / sw.Elapsed.TotalSeconds) / 1000;
                 Console.WriteLine("kHs => {0} ", kiloHashesPerSecond);
+                blockToMine = GetBlock(minerAddress);
 
             }
 
@@ -99,23 +107,16 @@
         //    }
         //}
 
-        public static ResultWrapper StartMining(string minerAddress, ulong nonce)
+        public static ResultWrapper StartMining(Block blockToMine,string minerAddress, ulong nonce)
         {
-            Block blockToMine = GetBlock(minerAddress);
+            
             string blockDataHash = string.Empty;
             ResultWrapper result = null;
 
-            if (blockDataHash != blockToMine.BlockDataHash)
-            {
+            result = MineBlock(blockToMine, nonce);
 
-                blockDataHash = blockToMine.BlockDataHash;
-                result = MineBlock(blockToMine, nonce);
-                //SubmitPoW(result);
-            }
-            else
-            {
-                blockToMine = GetBlock(minerAddress);
-            }
+            //SubmitPoW(result);
+
             return result;
         }
 
@@ -127,16 +128,15 @@
             int difficulty = blockToMine.Difficulty.Value;
             var nextHash = CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
             
-            string nextHashSubstring = BytesToHex(nextHash).Substring(0, difficulty);
-            string difficultyToAchieve = string.Join(string.Empty, Enumerable.Repeat("0", difficulty).ToArray());
-
-            while (nextHashSubstring != difficultyToAchieve)
+            string nextHashSubstring = ConvertToBase16Fast2(nextHash).Substring(0, difficulty);
+            string  difficultyToAchieve = new String('0', difficulty);
+            while (nextHashSubstring!=difficultyToAchieve)
             {
                 nonce++;
                 dateCreated = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
                 nextHash = CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
-                
-                nextHashSubstring = BytesToHex(nextHash).Substring(0, difficulty);
+
+                nextHashSubstring = ConvertToBase16Fast2(nextHash).Substring(0,difficulty);
 
             }
             result.Nonce = nonce;
@@ -240,6 +240,56 @@
             //    Console.WriteLine(ex.Message);
             //    //return result;
             //}
+        }
+
+
+        private static readonly string[] _base16CharTable = new[]
+        {
+            "00", "01", "02", "03", "04", "05", "06", "07",
+            "08", "09", "0A", "0B", "0C", "0D", "0E", "0F",
+            "10", "11", "12", "13", "14", "15", "16", "17",
+            "18", "19", "1A", "1B", "1C", "1D", "1E", "1F",
+            "20", "21", "22", "23", "24", "25", "26", "27",
+            "28", "29", "2A", "2B", "2C", "2D", "2E", "2F",
+            "30", "31", "32", "33", "34", "35", "36", "37",
+            "38", "39", "3A", "3B", "3C", "3D", "3E", "3F",
+            "40", "41", "42", "43", "44", "45", "46", "47",
+            "48", "49", "4A", "4B", "4C", "4D", "4E", "4F",
+            "50", "51", "52", "53", "54", "55", "56", "57",
+            "58", "59", "5A", "5B", "5C", "5D", "5E", "5F",
+            "60", "61", "62", "63", "64", "65", "66", "67",
+            "68", "69", "6A", "6B", "6C", "6D", "6E", "6F",
+            "70", "71", "72", "73", "74", "75", "76", "77",
+            "78", "79", "7A", "7B", "7C", "7D", "7E", "7F",
+            "80", "81", "82", "83", "84", "85", "86", "87",
+            "88", "89", "8A", "8B", "8C", "8D", "8E", "8F",
+            "90", "91", "92", "93", "94", "95", "96", "97",
+            "98", "99", "9A", "9B", "9C", "9D", "9E", "9F",
+            "A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
+            "A8", "A9", "AA", "AB", "AC", "AD", "AE", "AF",
+            "B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7",
+            "B8", "B9", "BA", "BB", "BC", "BD", "BE", "BF",
+            "C0", "C1", "C2", "C3", "C4", "C5", "C6", "C7",
+            "C8", "C9", "CA", "CB", "CC", "CD", "CE", "CF",
+            "D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7",
+            "D8", "D9", "DA", "DB", "DC", "DD", "DE", "DF",
+            "E0", "E1", "E2", "E3", "E4", "E5", "E6", "E7",
+            "E8", "E9", "EA", "EB", "EC", "ED", "EE", "EF",
+            "F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7",
+            "F8", "F9", "FA", "FB", "FC", "FD", "FE", "FF"
+        };
+
+        public static string ConvertToBase16Fast2(IList<byte> input)
+        {
+            if (input == null || input.Count <= 0)
+                return string.Empty;
+
+            var stringBuilder = new StringBuilder(input.Count * 2);
+
+            for (var i = 0; i < input.Count; ++i)
+                stringBuilder.Append(_base16CharTable[input[i]]);
+
+            return stringBuilder.ToString();
         }
     }
 }
