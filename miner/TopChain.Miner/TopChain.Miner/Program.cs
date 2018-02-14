@@ -44,7 +44,7 @@
             //private keys for miner address to TEST
             //string privateKey = "36bea7f877c979c9e8c7b4a5571bad692788ee3a41157d925d4a4c6f9655c420";
             //string pubKey = "bbcd517721426fccc243c6e482d91f316b2416a1228516fad991f29018bc99981";
-            var availableThreads = Environment.ProcessorCount - 1;
+            var availableThreads = Environment.ProcessorCount;
             ulong startingNonce = ulong.MinValue + 1;
 
             string minerAddress = "d08498041433013fe278f9cd63c53e6b6f0e8033";
@@ -54,7 +54,7 @@
             while (true)
             {
                 //use cancellation token to stop all tasks when one finishes 
-                var tokenSource = new CancellationTokenSource();
+                //var tokenSource = new CancellationTokenSource();
 
                 var taskList = new List<Task<ResultWrapper>>();
 
@@ -64,17 +64,16 @@
 
                 for (int i = 0; i < availableThreads; i++)
                 {
-                    taskList.Add(Task.Run(() => 
+                    taskList.Add(Task.Run(() =>
                     {
-                        return StartMining(blockToMine,minerAddress, startingNonce + (ulong)(5000000 / availableThreads));
+                        return StartMining(blockToMine, minerAddress, startingNonce += 1000000);
 
-                    },tokenSource.Token));
+                    }));
 
                 }
-                
-                Task.WaitAll(taskList.ToArray());
+
+                Task.WaitAny(taskList.ToArray());
                 var foundHash = taskList.FirstOrDefault(x => x.Result != null);
-                tokenSource.Cancel();
                 //tokenSource.Token.ThrowIfCancellationRequested();
 
                 if (foundHash != null)
@@ -88,7 +87,6 @@
                 blockToMine = GetBlock(minerAddress);
 
             }
-
 
         }
         //public static void MethodToExecute(Block blockToMine,Stopwatch sw)
@@ -107,9 +105,9 @@
         //    }
         //}
 
-        public static ResultWrapper StartMining(Block blockToMine,string minerAddress, ulong nonce)
+        public static ResultWrapper StartMining(Block blockToMine, string minerAddress, ulong nonce)
         {
-            
+
             string blockDataHash = string.Empty;
             ResultWrapper result = null;
 
@@ -127,16 +125,16 @@
             string dateCreated = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
             int difficulty = blockToMine.Difficulty.Value;
             var nextHash = CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
-            
+
             string nextHashSubstring = ConvertToBase16Fast2(nextHash).Substring(0, difficulty);
-            string  difficultyToAchieve = new String('0', difficulty);
-            while (nextHashSubstring!=difficultyToAchieve)
+            string difficultyToAchieve = new String('0', difficulty);
+            while (nextHashSubstring != difficultyToAchieve)
             {
                 nonce++;
                 dateCreated = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
                 nextHash = CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
 
-                nextHashSubstring = ConvertToBase16Fast2(nextHash).Substring(0,difficulty);
+                nextHashSubstring = ConvertToBase16Fast2(nextHash).Substring(0, difficulty);
 
             }
             result.Nonce = nonce;
@@ -164,7 +162,7 @@
         //{
         //    System.Security.Cryptography.SHA256Managed crypt = new System.Security.Cryptography.SHA256Managed();
         //    byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(randomString), 0, Encoding.UTF8.GetByteCount(randomString));
-           
+
         //    return crypto;
         //}
 
@@ -176,23 +174,30 @@
             string getBlocksURL = string.Format("/mining/get-block/{0}", minerAddress);
             try
             {
-                using (var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }))
-                {
-                    client.BaseAddress = new Uri(string.Format("http://{0}{1}", nodeIP, getBlocksURL));
-                    HttpResponseMessage response = client.GetAsync(getBlocksURL).Result;
-                    response.EnsureSuccessStatusCode();
-                    string responseResult = response.Content.ReadAsStringAsync().Result;
-                    result = JsonConvert.DeserializeObject<Block>(responseResult);
+                //seen from the colleague with 3mhs
+                string res = new WebClient().DownloadString(string.Format("http://{0}{1}", nodeIP, getBlocksURL));
+                Block obj = JsonConvert.DeserializeObject<Block>(res);
 
-                    //string signedTranJson = JsonConvert.SerializeObject(result, Formatting.Indented);
 
-                    //Console.WriteLine("testing serializing (JSON):");
-                    //Console.WriteLine(signedTranJson);
-                    //checking if its properly deserialized
-                    //Console.WriteLine("Result: " + result[0].Index);
-                    result.Difficulty = 5;
-                    return result;
-                }
+                //using (var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }))
+                //{
+                //    client.BaseAddress = new Uri(string.Format("http://{0}{1}", nodeIP, getBlocksURL));
+                //    HttpResponseMessage response = client.GetAsync(getBlocksURL).Result;
+                //    response.EnsureSuccessStatusCode();
+                //    string responseResult = response.Content.ReadAsStringAsync().Result;
+                //    result = JsonConvert.DeserializeObject<Block>(responseResult);
+
+                //    //string signedTranJson = JsonConvert.SerializeObject(result, Formatting.Indented);
+
+                //    //Console.WriteLine("testing serializing (JSON):");
+                //    //Console.WriteLine(signedTranJson);
+                //    //checking if its properly deserialized
+                //    //Console.WriteLine("Result: " + result[0].Index);
+                //    result.Difficulty = 5;
+                //    return result;
+                //}
+                obj.Difficulty = 5;
+                return obj;
             }
             catch (Exception ex)
             {
@@ -208,38 +213,28 @@
 
         public static void SubmitPoW(ResultWrapper result)
         {
-            Console.WriteLine("Submited Date  {0} ", result.DateCreated);
-            Console.WriteLine("Submited Nonce  {0} ", result.Nonce);
-
-
             //string nodeIP = "127.0.0.1:5555";
 
             //string getBlocksURL = string.Format("/mining/get-block/{0}{1}", result.DateCreated,result.Nonce);
-            //try
-            //{
-            //    using (var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }))
-            //    {
-            //        client.BaseAddress = new Uri(string.Format("http://{0}{1}", nodeIP, getBlocksURL));
-            //        HttpResponseMessage response = client.GetAsync(getBlocksURL).Result;
-            //        response.EnsureSuccessStatusCode();
-            //        string responseResult = response.Content.ReadAsStringAsync().Result;
-            //        //result = JsonConvert.DeserializeObject<Block>(responseResult);
 
-            //        //string signedTranJson = JsonConvert.SerializeObject(result, Formatting.Indented);
+            var dataToSend = JsonConvert.SerializeObject(result);
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                    client.Headers.Add(HttpRequestHeader.Accept, "application/json");
 
-            //        //Console.WriteLine("testing serializing (JSON):");
-            //        //Console.WriteLine(signedTranJson);
-            //        //checking if its properly deserialized
-            //        //Console.WriteLine("Result: " + result[0].Index);
-            //        //result.Difficulty = 5;
-            //        //return result;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //    //return result;
-            //}
+                    var res = client.UploadString("http://127.0.0.1:5555/mining/submit-block/1335246", "POST", dataToSend);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            Console.WriteLine("Submited Date  {0} ", result.DateCreated);
+            Console.WriteLine("Submited Nonce  {0} ", result.Nonce);
         }
 
 
