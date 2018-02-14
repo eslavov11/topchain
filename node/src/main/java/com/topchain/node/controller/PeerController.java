@@ -54,18 +54,24 @@ public class PeerController {
     }
 
     private void getLongestChain(PeerModel peerModel) {
-        if (!peerChainIsLonger(peerModel)) {
-
+        if (!peerChainIsLonger(peerModel) || !peerBlocksAreValid(peerModel)) {
+            return;
         }
 
+        // TODO: Update current node chain
+    }
+
+    private boolean peerBlocksAreValid(PeerModel peerModel) {
+        //TODO: validate blocks
+        return false;
     }
 
     private boolean peerChainIsLonger(PeerModel peerModel) {
         // TODO: rest tepmlate @bean
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<NodeInfoViewModel> entity = restTemplate.getForEntity(peerModel.getUrl() + ":" + serverPort, NodeInfoViewModel.class);
-
         NodeInfoViewModel peerInfo = entity.getBody();
+
         return peerInfo.getCumulativeDifficulty() > this.nodeInfoViewModel.getCumulativeDifficulty();
     }
 
