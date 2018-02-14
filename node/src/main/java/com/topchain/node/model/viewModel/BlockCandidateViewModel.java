@@ -4,7 +4,7 @@ package com.topchain.node.model.viewModel;
  * Created by eslavov on 12-Feb-18.
  */
 public class BlockCandidateViewModel {
-    private Long index;
+    private int index;
     private Integer transactionsIncluded;
     private Long difficulty;
 
@@ -17,11 +17,11 @@ public class BlockCandidateViewModel {
     public BlockCandidateViewModel() {
     }
 
-    public Long getIndex() {
+    public int getIndex() {
         return index;
     }
 
-    public void setIndex(Long index) {
+    public void setIndex(int index) {
         this.index = index;
     }
 

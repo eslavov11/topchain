@@ -38,8 +38,8 @@ public class Node {
         this.blocks = blocks;
     }
 
-    public void addBlock(Block blocks) {
-        this.blocks.add(blocks);
+    public void addBlock(Block block) {
+        this.blocks.add(block);
     }
 
     public Set<Transaction> getPendingTransactions() {
@@ -68,6 +68,10 @@ public class Node {
 
     public void setMiningJobs(Map<String, Block> miningJobs) {
         this.miningJobs = miningJobs;
+    }
+
+    public void addMiningJob(String address, Block block) {
+        this.miningJobs.put(address, block);
     }
 
     public Map<String, Long> getBalances() {

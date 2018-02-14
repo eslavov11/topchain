@@ -1,5 +1,6 @@
 package com.topchain.node.serviceImpl;
 
+import com.topchain.node.entity.Block;
 import com.topchain.node.entity.Node;
 import com.topchain.node.model.bindingModel.MinedBlockModel;
 import com.topchain.node.model.viewModel.MinedBlockStatusViewModel;
@@ -23,9 +24,17 @@ public class MiningServiceImpl implements MiningService {
     }
 
     @Override
-    public BlockCandidateViewModel getPendingBlock(String minerAddress) {
+    public BlockCandidateViewModel getBlockCandidate(String minerAddress) {
+        //TODO: create block and hash transactions
+        Block blockCandidate = new Block();
+        blockCandidate.setIndex(this.node.getBlocks().size() + 1);
+//        blockCandidate.set
+//TODO:    blockCandidate bean??
+
+        this.node.addMiningJob(minerAddress, new Block());
+
         BlockCandidateViewModel blockCandidateViewModel = new BlockCandidateViewModel();
-        blockCandidateViewModel.setIndex(1L);
+        blockCandidateViewModel.setIndex(blockCandidate.getIndex());
         blockCandidateViewModel.setDifficulty(this.node.getDifficulty());
         blockCandidateViewModel.setTransactionsIncluded(this.node.getPendingTransactions().size());
 

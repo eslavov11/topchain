@@ -18,7 +18,7 @@ public class MiningController {
 
     @GetMapping("/mining/get-block/{minerAddress}")
     public BlockCandidateViewModel getPendingBlock(@PathVariable String minerAddress) {
-        return this.miningService.getPendingBlock(minerAddress);
+        return this.miningService.getBlockCandidate(minerAddress);
     }
 
     @PostMapping("/mining/submit-block/{minerAddress}")
