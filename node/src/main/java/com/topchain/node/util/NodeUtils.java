@@ -3,19 +3,25 @@ package com.topchain.node.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.nio.charset.StandardCharsets;
-import java.math.BigInteger;
 import java.util.Collection;
 
 /**
  * Created by eslavov on 13-Feb-18.
  */
 public class NodeUtils {
+    @Value("${server.port}")
+    public static String serverPort;
+
     /**
      * Hashes input text to hex value, currently using SHA-256
      *
@@ -68,5 +74,17 @@ public class NodeUtils {
         }
 
         return resultJSON;
+    }
+
+    public static String getServerURL() {
+        try {
+            String url = "http://" +
+                    InetAddress.getLocalHost().getHostAddress() + ":" +
+                    serverPort;
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
+        return getServerURL();
     }
 }
