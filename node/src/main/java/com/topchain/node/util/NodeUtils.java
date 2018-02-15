@@ -19,8 +19,12 @@ import java.util.Collection;
  * Created by eslavov on 13-Feb-18.
  */
 public class NodeUtils {
-    @Value("${server.port}")
     public static String serverPort;
+
+    @Value("${mongodb.db}")
+    public void setServerPort(String port) {
+        serverPort = port;
+    }
 
     /**
      * Hashes input text to hex value, currently using SHA-256
