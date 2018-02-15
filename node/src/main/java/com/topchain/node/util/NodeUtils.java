@@ -77,14 +77,15 @@ public class NodeUtils {
     }
 
     public static String getServerURL() {
+        String url = null;
         try {
-            String url = "http://" +
+            url = "http://" +
                     InetAddress.getLocalHost().getHostAddress() + ":" +
                     serverPort;
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
 
-        return getServerURL();
+        return url;
     }
 }
