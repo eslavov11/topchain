@@ -53,8 +53,7 @@
 
             while (true)
             {
-                //use cancellation token to stop all tasks when one finishes 
-                //var tokenSource = new CancellationTokenSource();
+                var cancelTasks = new CancellationTokenSource();
 
                 var taskList = new List<Task<ResultWrapper>>();
 
@@ -66,15 +65,19 @@
                 {
                     taskList.Add(Task.Run(() =>
                     {
+                        if (cancelTasks.Token.IsCancellationRequested)
+                        {
+                            cancelTasks.Token.ThrowIfCancellationRequested();
+                        }
                         return StartMining(blockToMine, minerAddress, startingNonce += 1000000);
 
-                    }));
+                    }, cancelTasks.Token));
 
                 }
 
                 Task.WaitAny(taskList.ToArray());
                 var foundHash = taskList.FirstOrDefault(x => x.Result != null);
-                //tokenSource.Token.ThrowIfCancellationRequested();
+                cancelTasks.Cancel();
 
                 if (foundHash != null)
                 {
@@ -89,21 +92,6 @@
             }
 
         }
-        //public static void MethodToExecute(Block blockToMine,Stopwatch sw)
-        //{
-        //    bool _isRunning = true;
-        //    while (_isRunning)
-        //    {
-        //        
-        //todo
-        //        if (MineBlock(blockToMine) !=null)
-        //        {
-        //            Console.WriteLine(sw.Elapsed.TotalSeconds); 
-        //            break;
-        //        }
-
-        //    }
-        //}
 
         public static ResultWrapper StartMining(Block blockToMine, string minerAddress, ulong nonce)
         {
@@ -133,6 +121,7 @@
                 nonce++;
                 dateCreated = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
                 nextHash = CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
+
 
                 nextHashSubstring = ConvertToBase16Fast2(nextHash).Substring(0, difficulty);
 
