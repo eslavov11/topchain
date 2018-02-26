@@ -1,7 +1,6 @@
 ﻿namespace TopChain.Wallet
 {
     using Org.BouncyCastle.Asn1.Sec;
-    using Org.BouncyCastle.Asn1.X509;
     using Org.BouncyCastle.Asn1.X9;
     using Org.BouncyCastle.Crypto;
     using Org.BouncyCastle.Crypto.Digests;
@@ -12,7 +11,6 @@
     using Org.BouncyCastle.Math.EC;
     using Org.BouncyCastle.Security;
     using System;
-    using System.Linq;
     using System.Text;
     using Newtonsoft.Json;
     using TopChain.Wallet.Models;
@@ -167,14 +165,9 @@
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
-            //Console.WriteLine("Transaction (JSON): {0}", tranJson);
-
+            
             byte[] tranHash = CalcSHA256(tranJson);
-            //Console.WriteLine("Transaction hash(sha256): {0}", BytesToHex(tranHash));
-
             BigInteger[] tranSignature = SignTransaction(privateKey, tranHash);
-            //Console.WriteLine("Transaction signature: [{0}, {1}]",
-            //    tranSignature[0].ToString(16), tranSignature[1].ToString(16));
 
             Transaction tranSigned = new Transaction
             {
