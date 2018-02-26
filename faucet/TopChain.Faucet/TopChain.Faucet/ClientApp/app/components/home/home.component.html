@@ -1,1 +1,6 @@
-<h1>Hello, Soon this will be a faucet!</h1>
+<h1>Topchain Faucet!</h1>
+<label for="input_address">Put your address </label>
+<input type="text" id="input_address" [(ngModel)]="addressToReceive"/>
+<button (click)="receiveResponse(addressToReceive)">Send me coins!</button>
+<br/>
+<label>Transaction hash : {{txHash}} </label>
