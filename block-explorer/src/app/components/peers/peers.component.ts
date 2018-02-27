@@ -10,6 +10,8 @@ export class PeersComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+    
   }
 
 }

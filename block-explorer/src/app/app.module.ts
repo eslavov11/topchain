@@ -10,6 +10,7 @@ import { ConfirmedTransactionsComponent } from './components/confirmed-transacti
 import { PendingTransactionsComponent } from './components/pending-transactions/pending-transactions.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
 import { NetworkDifficultyComponent } from './components/network-difficulty/network-difficulty.component';
+import { BlockService } from './components/services/blocks.services';
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { NetworkDifficultyComponent } from './components/network-difficulty/netw
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [BlockService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
