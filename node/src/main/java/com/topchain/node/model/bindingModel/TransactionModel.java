@@ -1,11 +1,14 @@
 package com.topchain.node.model.bindingModel;
 
+import java.util.Date;
+
 public class TransactionModel {
     private String from;
     private String to;
-    private Long value;
     private String senderPubKey;
-    private String[] senderSignature;
+    private Long value;
+    private Long fee;
+    private Date dateCreated;
 
     public TransactionModel() {
     }
@@ -26,14 +29,6 @@ public class TransactionModel {
         this.to = to;
     }
 
-    public Long getValue() {
-        return value;
-    }
-
-    public void setValue(Long value) {
-        this.value = value;
-    }
-
     public String getSenderPubKey() {
         return senderPubKey;
     }
@@ -42,11 +37,27 @@ public class TransactionModel {
         this.senderPubKey = senderPubKey;
     }
 
-    public String[] getSenderSignature() {
-        return senderSignature;
+    public Long getValue() {
+        return value;
     }
 
-    public void setSenderSignature(String[] senderSignature) {
-        this.senderSignature = senderSignature;
+    public void setValue(Long value) {
+        this.value = value;
+    }
+
+    public Long getFee() {
+        return fee;
+    }
+
+    public void setFee(Long fee) {
+        this.fee = fee;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 }
