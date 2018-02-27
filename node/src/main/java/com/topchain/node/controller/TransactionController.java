@@ -6,6 +6,8 @@ import com.topchain.node.model.viewModel.NewTransactionViewModel;
 import com.topchain.node.model.viewModel.TransactionViewModel;
 import com.topchain.node.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,9 +20,16 @@ public class TransactionController {
     }
 
     @PostMapping("/transactions/send")
-    public NewTransactionViewModel crateTransaction(
+    public ResponseEntity<NewTransactionViewModel> crateTransaction(
             @RequestBody TransactionModel transactionModel) {
-        return this.transactionService.createTransaction(transactionModel);
+        NewTransactionViewModel newTransactionViewModel =
+                this.transactionService.createTransaction(transactionModel);
+
+        if (newTransactionViewModel.getTransactionHash() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(newTransactionViewModel, HttpStatus.OK);
     }
 
     @GetMapping("/transactions/{fromAddress}/info")
