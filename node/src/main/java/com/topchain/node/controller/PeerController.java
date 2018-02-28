@@ -20,17 +20,19 @@ import java.util.Set;
 
 import static com.topchain.node.util.NodeUtils.getServerURL;
 import static com.topchain.node.util.NodeUtils.serializeJSON;
-import static com.topchain.node.util.NodeUtils.serverPort;
+import static com.topchain.node.util.NodeUtils.SERVER_PORT;
 
 @RestController
 public class PeerController {
     private PeerService peerService;
     private NodeInfoViewModel nodeInfoViewModel;
+    private RestTemplate restTemplate;
 
     @Autowired
-    public PeerController(PeerService peerService, NodeInfoViewModel nodeInfoViewModel) {
+    public PeerController(PeerService peerService, NodeInfoViewModel nodeInfoViewModel, RestTemplate restTemplate) {
         this.peerService = peerService;
         this.nodeInfoViewModel = nodeInfoViewModel;
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping("/peers")
@@ -47,13 +49,13 @@ public class PeerController {
             connectToPeer(peerModel);
 
             // check for longer chain
-            getLongestChain(peerModel);
+            setLongestChain(peerModel);
         }
 
         return responseMessageViewModel;
     }
 
-    private void getLongestChain(PeerModel peerModel) {
+    private void setLongestChain(PeerModel peerModel) {
         if (!peerChainIsLonger(peerModel) || !peerBlocksAreValid(peerModel)) {
             return;
         }
@@ -67,9 +69,9 @@ public class PeerController {
     }
 
     private boolean peerChainIsLonger(PeerModel peerModel) {
-        // TODO: rest tepmlate @bean
-        RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<NodeInfoViewModel> entity = restTemplate.getForEntity(peerModel.getUrl() + ":" + serverPort, NodeInfoViewModel.class);
+        HttpEntity<NodeInfoViewModel> entity = this.restTemplate.getForEntity(peerModel.getUrl() +
+                ":" + SERVER_PORT + "/info",
+                NodeInfoViewModel.class);
         NodeInfoViewModel peerInfo = entity.getBody();
 
         return peerInfo.getCumulativeDifficulty() > this.nodeInfoViewModel.getCumulativeDifficulty();
@@ -85,8 +87,7 @@ public class PeerController {
         HttpEntity<String> request = new HttpEntity<>(
                 serializeJSON(nodePeerModel, false), httpHeaders);
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate
+        ResponseEntity<String> response = this.restTemplate
                 .postForEntity(peerModel.getUrl(), request, String.class);
     }
 }

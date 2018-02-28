@@ -19,11 +19,11 @@ import java.util.Collection;
  * Created by eslavov on 13-Feb-18.
  */
 public class NodeUtils {
-    public static String serverPort;
+    public static String SERVER_PORT;
 
     @Value("${mongodb.db}")
     public void setServerPort(String port) {
-        serverPort = port;
+        SERVER_PORT = port;
     }
 
     /**
@@ -85,7 +85,7 @@ public class NodeUtils {
         try {
             url = "http://" +
                     InetAddress.getLocalHost().getHostAddress() + ":" +
-                    serverPort;
+                    SERVER_PORT;
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

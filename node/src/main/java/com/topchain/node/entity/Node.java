@@ -8,7 +8,7 @@ public class Node {
     private Set<Transaction> pendingTransactions;
     private Long difficulty;
     private Map<String, Block> miningJobs;
-    private Map<String, Long> balances;
+    private Map<String, Long> balances; //TODO: remove?
 
     public Node() {
         this.setPeers(new HashSet<>());

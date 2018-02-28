@@ -11,7 +11,7 @@ public class NodeInfoViewModel {
     private Integer pendingTransactions;
 //    private Long addresses;
 //    private Long coins;
-
+//TODO: refactor
     public NodeInfoViewModel() {
     }
 
