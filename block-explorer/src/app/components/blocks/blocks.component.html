@@ -1,3 +1,9 @@
 <p>
   blocks works!
 </p>
+<h1>{{blocks}}</h1>
+<h1>{{test}}</h1>
+<h1>{{anotherTest}}</h1>
+<div *ngFor="let block of this.blocks">
+  {{block.transactions[0].dateCreated}}
+</div>

@@ -53,7 +53,6 @@ public class AppConfig {
     private Block createGenesisBlock() {
         Block genesis = new Block();
         genesis.setIndex(GENESIS_BLOCK_INDEX);
-
         //TODO: faucet transaction
         Transaction t1 = new Transaction();
         t1.setFromAddress(INIT_MINER_ADDRESS);

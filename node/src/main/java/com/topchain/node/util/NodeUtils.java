@@ -3,6 +3,7 @@ package com.topchain.node.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.ByteArrayOutputStream;
@@ -11,8 +12,8 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Collection;
 
 /**
@@ -46,6 +47,39 @@ public class NodeUtils {
 
         return hex;
     }
+
+//    public static boolean checkSignature(String message, String[] signature, String publicKey) {
+//        Signature ecdsaVerify = null;
+//        try {
+//            ecdsaVerify = Signature.getInstance("SHA256withECDSA", "BC");
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchProviderException e) {
+//            e.printStackTrace();
+//        }
+//
+//        PublicKey publicKey1 = PublicKey.
+//        ecdsaVerify.initVerify(publicKey);
+//        ecdsaVerify.update(plaintext.getBytes("UTF-8"));
+//        boolean result = ecdsaVerify.verify(signature);
+//
+//        return false;
+//    }
+//
+//    public static PublicKey getKey(String key){
+//        try{
+//            byte[] byteKey = Base64.decode(key.getBytes(), Base64.DEFAULT);
+//            X509EncodedKeySpec X509publicKey = new X509EncodedKeySpec(byteKey);
+//            KeyFactory kf = KeyFactory.getInstance("RSA");
+//
+//            return kf.generatePublic(X509publicKey);
+//        }
+//        catch(Exception e){
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
 
     public static String collectionToJSON(Collection collection) {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();

@@ -6,15 +6,14 @@ public class Node {
     private Set<Peer> peers;
     private List<Block> blocks;
     private Set<Transaction> pendingTransactions;
+    private Set<String> pendingTransactionsHashes;
     private Long difficulty;
     private Map<String, Block> miningJobs;
-    private Map<String, Long> balances; //TODO: remove?
 
     public Node() {
         this.setPeers(new HashSet<>());
         this.setBlocks(new ArrayList<>());
         this.setPendingTransactions(new HashSet<>());
-        this.setBalances(new HashMap<>());
         this.setMiningJobs(new HashMap<>());
     }
 
@@ -54,6 +53,19 @@ public class Node {
         this.pendingTransactions.add(transaction);
     }
 
+    public Set<String> getPendingTransactionsHashes() {
+        return pendingTransactionsHashes;
+    }
+
+    public void setPendingTransactionsHashes(Set<String> pendingTransactionsHashes) {
+        this.pendingTransactionsHashes = pendingTransactionsHashes;
+    }
+
+    public void addPendingTransactionsHashes(String transactionHash) {
+        this.pendingTransactionsHashes.add(transactionHash);
+    }
+
+
     public Long getDifficulty() {
         return difficulty;
     }
@@ -72,13 +84,5 @@ public class Node {
 
     public void addMiningJob(String address, Block block) {
         this.miningJobs.put(address, block);
-    }
-
-    public Map<String, Long> getBalances() {
-        return balances;
-    }
-
-    public void setBalances(Map<String, Long> balances) {
-        this.balances = balances;
     }
 }
