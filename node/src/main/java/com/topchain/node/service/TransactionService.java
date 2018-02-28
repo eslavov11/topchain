@@ -17,4 +17,6 @@ public interface TransactionService {
 
     Set<TransactionViewModel> getPendingTransactions();
 
+    Set<TransactionViewModel> getConfirmedTransactions();
+
 }

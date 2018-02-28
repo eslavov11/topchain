@@ -54,4 +54,10 @@ public class TransactionController {
         return this.transactionService.getPendingTransactions();
     }
 
+    @GetMapping("/transactions/confirmed")
+    public Set<TransactionViewModel> getConfirmedTransaction() {
+
+        return this.transactionService.getConfirmedTransactions();
+    }
+
 }

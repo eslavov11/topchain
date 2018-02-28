@@ -103,6 +103,21 @@ public class TransactionServiceImpl implements TransactionService {
         return pendingTransactions;
     }
 
+    public Set<TransactionViewModel> getConfirmedTransactions(){
+        Set<TransactionViewModel> confirmedTransactions = new HashSet<>();
+
+        this.node.getBlocks().forEach((block) -> {
+            block.getTransactions().forEach((tx)->{
+                if(tx.getTransferSuccessful()){
+                    TransactionViewModel txVM = this.modelMapper.map(tx,TransactionViewModel.class);
+                    confirmedTransactions.add(txVM);
+                }
+            });
+        });
+
+        return confirmedTransactions;
+    }
+
     private boolean transactionIsValid(TransactionModel transactionModel,
                                        String transactionHash) {
         return !this.node.getPendingTransactionsHashes().contains(transactionHash);
