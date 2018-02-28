@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 public class TransactionController {
     private TransactionService transactionService;
@@ -45,4 +47,11 @@ public class TransactionController {
         return this.transactionService
                 .getBalanceByAddressForConfirmations(address, confirmations);
     }
+
+   @GetMapping("/transactions/pending")
+    public Set<TransactionViewModel> getPendingTransaction() {
+
+        return this.transactionService.getPendingTransactions();
+    }
+
 }

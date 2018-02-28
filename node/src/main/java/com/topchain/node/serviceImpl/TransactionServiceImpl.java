@@ -13,7 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.topchain.node.util.NodeUtils.hashText;
 import static com.topchain.node.util.NodeUtils.serializeJSON;
@@ -92,6 +94,13 @@ public class TransactionServiceImpl implements TransactionService {
          sum the values received and spent, matching the confirmations count
          * */
         return null;
+    }
+
+    public Set<TransactionViewModel> getPendingTransactions(){
+        Set<TransactionViewModel> pendingTransactions = new HashSet<>();
+        this.modelMapper.map(this.node.getPendingTransactions(), pendingTransactions);
+
+        return pendingTransactions;
     }
 
     private boolean transactionIsValid(TransactionModel transactionModel,
