@@ -65,7 +65,6 @@ public class Node {
         this.pendingTransactionsHashes.add(transactionHash);
     }
 
-
     public Long getDifficulty() {
         return difficulty;
     }
