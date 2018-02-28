@@ -6,6 +6,7 @@ import { PeersComponent } from './components/peers/peers.component';
 import { PendingTransactionsComponent } from './components/pending-transactions/pending-transactions.component';
 import { ConfirmedTransactionsComponent } from './components/confirmed-transactions/confirmed-transactions.component';
 import { NetworkDifficultyComponent } from './components/network-difficulty/network-difficulty.component';
+import { AddressBalanceComponent } from './components/address-balance/address-balance.component';
 
 const routes: Routes = [
   { path: 'blocks',component : BlocksComponent },
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'peers',component : PeersComponent },
   { path: 'pending-transactions',component :PendingTransactionsComponent },
   { path: 'confirmed-transactions',component :ConfirmedTransactionsComponent },
-  { path: 'network-difficulty', component : NetworkDifficultyComponent }
+  { path: 'network-difficulty', component : NetworkDifficultyComponent },
+  { path: 'address-balance/:address', component : AddressBalanceComponent}
 ];
 
 @NgModule({

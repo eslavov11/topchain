@@ -1,4 +1,4 @@
-import { Block } from "../../models/block-model";
+import { Block } from "../models/block-model";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 

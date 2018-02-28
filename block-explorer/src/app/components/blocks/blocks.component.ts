@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Block } from '../../models/block-model';
-import { BlockService } from '../services/blocks.services';
+import { BlockService } from '../../services/blocks.services';
 @Component({
   selector: 'app-blocks',
   templateUrl: './blocks.component.html',
