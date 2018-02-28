@@ -16,6 +16,8 @@ import { AccountsService } from './services/accounts.services';
 import { NetworkDifficultyService } from './services/network-difficulty.services';
 import { AddressBalanceComponent } from './components/address-balance/address-balance.component';
 import { AddressBalanceService } from './services/adress-balance.services';
+import { ConfirmedTransactionsService } from './services/confirmed-transactions.services';
+import { PendingTransactionsService } from './services/pending-transactions.services';
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import { AddressBalanceService } from './services/adress-balance.services';
     AccountsService,
     NetworkDifficultyService,
     AddressBalanceService,
-    
+    ConfirmedTransactionsService,
+    PendingTransactionsService
   ],
   bootstrap: [AppComponent]
 })

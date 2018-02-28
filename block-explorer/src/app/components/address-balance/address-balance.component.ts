@@ -11,15 +11,10 @@ export class AddressBalanceComponent implements OnInit {
   constructor(private route:ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params=> 
-      { 
-        this.getBalance(params['address'])});
-
-
+    this.route.params.subscribe(params=> this.getBalance(params['address']));
   }
 
   getBalance(address:string){
-    
+    //get balance and data from service
   }
-
 }
