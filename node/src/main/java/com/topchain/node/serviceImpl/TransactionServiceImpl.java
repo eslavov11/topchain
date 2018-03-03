@@ -8,14 +8,13 @@ import com.topchain.node.model.bindingModel.TransactionModel;
 import com.topchain.node.model.viewModel.FullBalanceViewModel;
 import com.topchain.node.model.viewModel.NewTransactionViewModel;
 import com.topchain.node.model.viewModel.TransactionViewModel;
+import com.topchain.node.model.viewModel.TransactionsForAddressViewModel;
 import com.topchain.node.service.TransactionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static com.topchain.node.util.NodeUtils.hashText;
 import static com.topchain.node.util.NodeUtils.serializeJSON;
@@ -96,6 +95,7 @@ public class TransactionServiceImpl implements TransactionService {
         return null;
     }
 
+    @Override
     public Set<TransactionViewModel> getPendingTransactions(){
         Set<TransactionViewModel> pendingTransactions = new HashSet<>();
         this.modelMapper.map(this.node.getPendingTransactions(), pendingTransactions);
@@ -103,6 +103,7 @@ public class TransactionServiceImpl implements TransactionService {
         return pendingTransactions;
     }
 
+    @Override
     public Set<TransactionViewModel> getConfirmedTransactions(){
         Set<TransactionViewModel> confirmedTransactions = new HashSet<>();
 
@@ -118,6 +119,33 @@ public class TransactionServiceImpl implements TransactionService {
         return confirmedTransactions;
     }
 
+    @Override
+    public TransactionsForAddressViewModel getTransactionsForAddress(String address) {
+        List<Transaction> transactions = new ArrayList<>();
+        this.node.getPendingTransactions().forEach(t -> {
+            if (t.getFromAddress().equals(address) || t.getToAddress().equals(address)) {
+                transactions.add(t);
+            }
+        });
+
+        this.node.getBlocks().forEach(b -> {
+            b.getTransactions().forEach(t -> {
+                if (t.getFromAddress().equals(address) || t.getToAddress().equals(address)) {
+                    transactions.add(t);
+                }
+            });
+        });
+
+        transactions.sort(Comparator.comparing(Transaction::getDateCreated));
+
+        TransactionsForAddressViewModel transactionsForAddressViewModel = new TransactionsForAddressViewModel();
+        transactionsForAddressViewModel.setAddress(address);
+        transactionsForAddressViewModel.setTransactions(transactions);
+
+        return transactionsForAddressViewModel;
+    }
+
+    //TODO: not used transaction model??
     private boolean transactionIsValid(TransactionModel transactionModel,
                                        String transactionHash) {
         return !this.node.getPendingTransactionsHashes().contains(transactionHash);

@@ -41,7 +41,8 @@ public class MiningServiceImpl implements MiningService {
         rewardTransaction.setValue(totalValue);
         rewardTransaction.setDateCreated(new Date());
         rewardTransaction.setTransferSuccessful(true);
-        rewardTransaction.setTransactionHash(hashText(serializeJSON(rewardTransaction, false)));
+        rewardTransaction.setTransactionHash(
+                hashText(serializeJSON(rewardTransaction, false)));
 
         return rewardTransaction;
     }
@@ -69,7 +70,8 @@ public class MiningServiceImpl implements MiningService {
         blockCandidateViewModel.setTransactionsIncluded(blockCandidate.getTransactions().size());
         blockCandidateViewModel.setRewardAddress(blockCandidate.getMinedBy());
         blockCandidateViewModel.setBlockDataHash(blockCandidate.getBlockDataHash());
-        blockCandidateViewModel.setExpectedReward(blockCandidate.getTransactions().get(0).getValue());
+        blockCandidateViewModel.setExpectedReward(
+                blockCandidate.getTransactions().get(0).getValue());
         return blockCandidateViewModel;
     }
 

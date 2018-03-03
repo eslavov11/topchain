@@ -4,6 +4,7 @@ import com.topchain.node.model.bindingModel.TransactionModel;
 import com.topchain.node.model.viewModel.FullBalanceViewModel;
 import com.topchain.node.model.viewModel.NewTransactionViewModel;
 import com.topchain.node.model.viewModel.TransactionViewModel;
+import com.topchain.node.model.viewModel.TransactionsForAddressViewModel;
 import com.topchain.node.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,16 +49,18 @@ public class TransactionController {
                 .getBalanceByAddressForConfirmations(address, confirmations);
     }
 
-   @GetMapping("/transactions/pending")
+    @GetMapping("/transactions/pending")
     public Set<TransactionViewModel> getPendingTransaction() {
-
         return this.transactionService.getPendingTransactions();
     }
 
     @GetMapping("/transactions/confirmed")
     public Set<TransactionViewModel> getConfirmedTransaction() {
-
         return this.transactionService.getConfirmedTransactions();
     }
 
+    @GetMapping("/address/{address}/transactions")
+    public TransactionsForAddressViewModel getTransactionsForAddress(@PathVariable String address) {
+        return this.transactionService.getTransactionsForAddress(address);
+    }
 }
