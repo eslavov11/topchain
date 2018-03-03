@@ -3,11 +3,14 @@ package com.topchain.node.serviceImpl;
 import com.topchain.node.entity.Block;
 import com.topchain.node.entity.Node;
 import com.topchain.node.entity.Transaction;
+import com.topchain.node.model.viewModel.BlockViewModel;
 import com.topchain.node.model.viewModel.NodeInfoViewModel;
 import com.topchain.node.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service

@@ -1,10 +1,13 @@
 package com.topchain.node.controller;
 
+import com.topchain.node.entity.Node;
 import com.topchain.node.model.bindingModel.PeerModel;
 import com.topchain.node.model.viewModel.BlockViewModel;
 import com.topchain.node.model.viewModel.NodeInfoViewModel;
 import com.topchain.node.model.viewModel.PeerViewModel;
 import com.topchain.node.model.viewModel.ResponseMessageViewModel;
+import com.topchain.node.service.BlockService;
+import com.topchain.node.service.NodeService;
 import com.topchain.node.service.PeerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -21,7 +24,6 @@ import java.util.logging.Logger;
 
 import static com.topchain.node.util.NodeUtils.getServerURL;
 import static com.topchain.node.util.NodeUtils.serializeJSON;
-import static com.topchain.node.util.NodeUtils.SERVER_PORT;
 
 @RestController
 public class PeerController {
@@ -30,12 +32,17 @@ public class PeerController {
     private PeerService peerService;
     private NodeInfoViewModel nodeInfoViewModel;
     private RestTemplate restTemplate;
+    private BlockService blockService;
 
     @Autowired
-    public PeerController(PeerService peerService, NodeInfoViewModel nodeInfoViewModel, RestTemplate restTemplate) {
+    public PeerController(PeerService peerService,
+                          NodeInfoViewModel nodeInfoViewModel,
+                          RestTemplate restTemplate,
+                          BlockService blockService) {
         this.peerService = peerService;
         this.nodeInfoViewModel = nodeInfoViewModel;
         this.restTemplate = restTemplate;
+        this.blockService = blockService;
     }
 
     @GetMapping("/peers")
@@ -59,20 +66,23 @@ public class PeerController {
     }
 
     private void setLongestChain(PeerModel peerModel) {
-        if (!peerChainIsLonger(peerModel) || !peerBlocksAreValid(peerModel)) {
+        if (!peerChainIsLonger(peerModel)) {
             return;
         }
 
-        // TODO: Update current node chain
-    }
-
-    private boolean peerBlocksAreValid(PeerModel peerModel) {
         HttpEntity<List<BlockViewModel>> entity = this.restTemplate
                 .exchange(peerModel.getUrl() + "/blocks", HttpMethod.GET, null,
                         new ParameterizedTypeReference<List<BlockViewModel>>() {
                         });
         List<BlockViewModel> blockViewModels = entity.getBody();
+        if (!peerBlocksAreValid(blockViewModels)) {
+            return;
+        }
 
+        this.blockService.updateBlockchain(blockViewModels);
+    }
+
+    private boolean peerBlocksAreValid(List<BlockViewModel> blockViewModels) {
 
         return false;
     }

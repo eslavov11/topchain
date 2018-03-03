@@ -12,4 +12,6 @@ public interface BlockService {
     BlockViewModel getBlockByIndex(long index);
 
     ResponseMessageViewModel notifyBlock(NotifyBlockModel notifyBlockModel);
+
+    void updateBlockchain(List<BlockViewModel> blockViewModels);
 }

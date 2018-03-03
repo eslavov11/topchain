@@ -70,4 +70,14 @@ public class BlockServiceImpl implements BlockService {
          "transferSuccessful": true,
      }
      */
+
+    @Override
+    public void updateBlockchain(List<BlockViewModel> blockViewModels) {
+        List<Block> blocks = new ArrayList<>();
+        blockViewModels.forEach(b -> {
+            blocks.add(this.modelMapper.map(b, Block.class));
+        });
+
+        this.node.setBlocks(blocks);
+    }
 }
