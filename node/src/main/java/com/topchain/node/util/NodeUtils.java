@@ -22,10 +22,16 @@ import java.util.Collection;
 @Component
 public class NodeUtils {
     public static String SERVER_PORT;
+    public static long BLOCK_REWARD_COINS;
 
     @Value("${server.port}")
     public void setServerPort(String port) {
         SERVER_PORT = port;
+    }
+
+    @Value("${block.rewardCoins}")
+    public void setBlockRewardCoins(long rewardCoins) {
+        BLOCK_REWARD_COINS = rewardCoins;
     }
 
     /**
@@ -135,5 +141,21 @@ public class NodeUtils {
         }
 
         return outputBuffer.toString();
+    }
+
+    public static long milCoinsFromCoins(long coins) {
+        return coins * 1000;
+    }
+
+    public static long micCoinsFromCoins(long coins) {
+        return milCoinsFromCoins(coins) * 1000;
+    }
+
+    public static long coinsFromMilCoins(long milCoins) {
+        return milCoins / 1000;
+    }
+
+    public static long coinsFromMicCoins(long micCoins) {
+        return coinsFromMilCoins(micCoins / 1000);
     }
 }
