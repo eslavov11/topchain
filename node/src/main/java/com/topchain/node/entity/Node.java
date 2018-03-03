@@ -3,25 +3,25 @@ package com.topchain.node.entity;
 import java.util.*;
 
 public class Node {
-    private Set<Peer> peers;
+    private List<Peer> peers;
     private List<Block> blocks;
-    private Set<Transaction> pendingTransactions;
+    private List<Transaction> pendingTransactions;
     private Set<String> pendingTransactionsHashes;
     private int difficulty;
     private Map<String, Block> miningJobs;
 
     public Node() {
-        this.setPeers(new HashSet<>());
+        this.setPeers(new ArrayList<>());
         this.setBlocks(new ArrayList<>());
-        this.setPendingTransactions(new HashSet<>());
+        this.setPendingTransactions(new ArrayList<>());
         this.setMiningJobs(new HashMap<>());
     }
 
-    public Set<Peer> getPeers() {
+    public List<Peer> getPeers() {
         return peers;
     }
 
-    public void setPeers(Set<Peer> peers) {
+    public void setPeers(List<Peer> peers) {
         this.peers = peers;
     }
 
@@ -41,11 +41,11 @@ public class Node {
         this.blocks.add(block);
     }
 
-    public Set<Transaction> getPendingTransactions() {
+    public List<Transaction> getPendingTransactions() {
         return pendingTransactions;
     }
 
-    public void setPendingTransactions(Set<Transaction> pendingTransactions) {
+    public void setPendingTransactions(List<Transaction> pendingTransactions) {
         this.pendingTransactions = pendingTransactions;
     }
 

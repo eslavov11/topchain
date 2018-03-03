@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.topchain.node.util.NodeUtils.*;
@@ -73,7 +74,47 @@ public class MiningServiceImpl implements MiningService {
     }
 
     @Override
-    public MinedBlockStatusViewModel submitBLock(MinedBlockModel minedBlockModel, String minerAddress) {
-        return null;
+    public MinedBlockStatusViewModel submitBlock(MinedBlockModel minedBlockModel) {
+        MinedBlockStatusViewModel minedBlockStatusViewModel = new MinedBlockStatusViewModel();
+
+        Block blockCandidate = this.node.getMiningJobs().get(minedBlockModel.getBlockDataHash());
+        if (blockCandidate == null) {
+            minedBlockStatusViewModel.setStatus("not-found");
+            minedBlockStatusViewModel.setMessage("The block is rejected.");
+
+            return minedBlockStatusViewModel;
+        }
+
+        if (!hashText(minedBlockModel.getBlockDataHash() +
+                minedBlockModel.getNonce() +
+                minedBlockModel.getDateCreated())
+                .startsWith(newString("0", blockCandidate.getDifficulty()))) {
+            minedBlockStatusViewModel.setStatus("rejected");
+            minedBlockStatusViewModel.setMessage("The block is rejected.");
+            return minedBlockStatusViewModel;
+        }
+
+        // Is the block already mined
+        if (this.node.getBlocks().size() - 1 != blockCandidate.getIndex()) {
+            minedBlockStatusViewModel.setStatus("not-found");
+            minedBlockStatusViewModel.setMessage("The block is rejected.");
+            return minedBlockStatusViewModel;
+        }
+
+        blockCandidate.setNonce(minedBlockModel.getNonce());
+        blockCandidate.setDateCreated(minedBlockModel.getDateCreated());
+        blockCandidate.setBlockHash(minedBlockModel.getBlockDataHash());
+
+        this.node.addBlock(blockCandidate);
+        this.node.setPendingTransactions(new ArrayList<>());
+        this.node.setPendingTransactionsHashes(new HashSet<>());
+
+        //TODO: notify peers this.peerService
+
+        minedBlockStatusViewModel.setMessage("Block accepted, reward paid: " +
+                blockCandidate.getTransactions().get(0).getValue() + " microcoins");
+        minedBlockStatusViewModel.setStatus("accepted");
+
+        return minedBlockStatusViewModel;
     }
 }
