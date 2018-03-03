@@ -51,18 +51,15 @@ public class PeerController {
     }
 
     @PostMapping("/peers")
-    public ResponseMessageViewModel addPeer(@RequestBody PeerModel peerModel) {
+    public ResponseEntity<ResponseMessageViewModel> addPeer(@RequestBody PeerModel peerModel) {
         ResponseMessageViewModel responseMessageViewModel =
                 this.peerService.addPeer(peerModel);
         if (!responseMessageViewModel.isExists()) {
-            // check for longer chain
-            setLongestChain(peerModel);
-
-            // make connection bidirectional
-            connectToPeer(peerModel);
+            new Thread(new PeerConnectRunnable(peerModel)).start();
         }
 
-        return responseMessageViewModel;
+        return new ResponseEntity<>(responseMessageViewModel,
+                responseMessageViewModel.isExists() ? HttpStatus.CONFLICT : HttpStatus.OK);
     }
 
     private void setLongestChain(PeerModel peerModel) {
@@ -108,5 +105,21 @@ public class PeerController {
         ResponseEntity<String> response = this.restTemplate
                 .postForEntity(peerModel.getUrl() + "/peers", request, String.class);
 
+    }
+
+    private class PeerConnectRunnable implements Runnable {
+        PeerModel peerModel;
+
+        public PeerConnectRunnable(PeerModel peerModel) {
+            this.peerModel = peerModel;
+        }
+
+        public void run() {
+            // check for longer chain
+            setLongestChain(peerModel);
+
+            // make connection bidirectional
+            connectToPeer(peerModel);
+        }
     }
 }
