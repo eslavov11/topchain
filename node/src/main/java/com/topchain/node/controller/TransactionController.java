@@ -36,17 +36,17 @@ public class TransactionController {
     }
 
     @GetMapping("/transactions/{hash}")
-    public TransactionViewModel getTransactionByFromAddress(
+    public TransactionViewModel getTransaction(
             @PathVariable String hash) {
-        return this.transactionService.getTransactionByFromAddress(hash);
+        return this.transactionService.getTransactionByHash(hash);
     }
 
-    @GetMapping("/balance/{address}/confirmations/{confirmations}")
-    public FullBalanceViewModel getBalanceByAddressForConfirmations(@PathVariable String address,
-                                                                    @PathVariable int confirmations) {
+    @GetMapping("/address/{address}/balance")
+    public FullBalanceViewModel getBalanceByAddressForConfirmations(
+            @PathVariable String address) {
         //TODO: return status code 200 on every request
         return this.transactionService
-                .getBalanceByAddressForConfirmations(address, confirmations);
+                .getBalanceByAddress(address);
     }
 
     @GetMapping("/transactions/pending")

@@ -1,6 +1,5 @@
 package com.topchain.node.serviceImpl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.topchain.node.entity.Block;
 import com.topchain.node.entity.Node;
 import com.topchain.node.entity.Transaction;
@@ -62,7 +61,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionViewModel getTransactionByFromAddress(String fromAddress) {
+    public TransactionViewModel getTransactionByHash(String hash) {
         Optional<Transaction> transaction = Optional.empty();
         for (Block block : this.node.getBlocks()) {
             if (transaction.isPresent()) {
@@ -70,12 +69,12 @@ public class TransactionServiceImpl implements TransactionService {
             }
 
             transaction = block.getTransactions().stream()
-                    .filter(t -> t.getFromAddress().equals(fromAddress)).findAny();
+                    .filter(t -> t.getFromAddress().equals(hash)).findAny();
         }
 
         if (!transaction.isPresent()) {
             transaction = this.node.getPendingTransactions().stream()
-                    .filter(t -> t.getFromAddress().equals(fromAddress)).findAny();
+                    .filter(t -> t.getFromAddress().equals(hash)).findAny();
         }
 
         //TODO: if pending -> successful & blockIndex not shown!!
@@ -86,8 +85,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public FullBalanceViewModel getBalanceByAddressForConfirmations(String address,
-                                                                    int confirmations) {
+    public FullBalanceViewModel getBalanceByAddress(String address) {
         /** The address balance is calculated by iterating over all transactions
          For each block and for each successful transaction for the specified address,
          sum the values received and spent, matching the confirmations count

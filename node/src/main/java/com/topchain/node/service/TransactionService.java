@@ -11,9 +11,9 @@ import java.util.Set;
 public interface TransactionService {
     NewTransactionViewModel createTransaction(TransactionModel transactionModel);
 
-    TransactionViewModel getTransactionByFromAddress(String fromAddress);
+    TransactionViewModel getTransactionByHash(String hash);
 
-    FullBalanceViewModel getBalanceByAddressForConfirmations(String address, int confirmations);
+    FullBalanceViewModel getBalanceByAddress(String address);
 
     Set<TransactionViewModel> getPendingTransactions();
 
