@@ -46,10 +46,10 @@ public class AppConfig {
     private String nodeName;
 
     @Value("${node.coins}")
-    private Long nodeCoins;
+    private long nodeCoins;
 
     @Value("${faucet.coins}")
-    private Long faucetCoins;
+    private long faucetCoins;
 
     @Value("${network.difficulty}")
     private int nodeDifficulty;
@@ -74,6 +74,28 @@ public class AppConfig {
         Node node = new Node();
         node.setDifficulty(nodeDifficulty);
         node.addBlock(createGenesisBlock());
+
+        //TODO: remove
+        Transaction t1 = new Transaction();
+        t1.setFromAddress(NIL_ADDRESS);
+        t1.setToAddress("f51362b7351ef62253a227a77751ad9b2302f911");
+        t1.setValue(100L);
+        t1.setFee(10000L);
+        t1.setDateCreated(new Date());
+        t1.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
+        t1.setTransferSuccessful(true);
+
+        Transaction t2 = new Transaction();
+        t2.setFromAddress(NIL_ADDRESS);
+        t2.setToAddress("f51362b7351ef62253a227a77751ad9b2302f333");
+        t2.setValue(20000L);
+        t2.setFee(3);
+        t2.setDateCreated(new Date());
+        t2.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
+        t2.setTransferSuccessful(true);
+
+        node.addPendingTransaction(t1);
+        node.addPendingTransaction(t2);
 
         return node;
     }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.topchain.node.util.NodeUtils.*;
@@ -37,6 +38,10 @@ public class MiningServiceImpl implements MiningService {
         rewardTransaction.setFromAddress(NIL_ADDRESS);
         rewardTransaction.setToAddress(minerAddress);
         rewardTransaction.setValue(totalValue);
+        rewardTransaction.setDateCreated(new Date());
+        rewardTransaction.setTransferSuccessful(true);
+        rewardTransaction.setTransactionHash(hashText(serializeJSON(rewardTransaction, false)));
+
         return rewardTransaction;
     }
 
@@ -46,7 +51,6 @@ public class MiningServiceImpl implements MiningService {
         newTransactions.add(calculateRewardTransaction(minerAddress));
         newTransactions.addAll(this.node.getPendingTransactions());
 
-        //TODO: create block and hash transactions
         Block blockCandidate = new Block();
         blockCandidate.setIndex(this.node.getBlocks().size() + 1);
         blockCandidate.setTransactions(newTransactions);
@@ -56,17 +60,15 @@ public class MiningServiceImpl implements MiningService {
         blockCandidate.setPreviousBlockHash(
                 this.node.getBlocks().get(this.node.getBlocks().size() - 1).getBlockHash());
 
-        //TODO:    blockCandidate bean??
-
         this.node.addMiningJob(blockCandidate.getBlockDataHash(), blockCandidate);
 
         BlockCandidateViewModel blockCandidateViewModel = new BlockCandidateViewModel();
         blockCandidateViewModel.setIndex(blockCandidate.getIndex());
         blockCandidateViewModel.setDifficulty(blockCandidate.getDifficulty());
         blockCandidateViewModel.setTransactionsIncluded(blockCandidate.getTransactions().size());
-        //TODO: blockCandidateViewModel.setRewardAddress("addr???");
+        blockCandidateViewModel.setRewardAddress(blockCandidate.getMinedBy());
         blockCandidateViewModel.setBlockDataHash(blockCandidate.getBlockDataHash());
-
+        blockCandidateViewModel.setExpectedReward(blockCandidate.getTransactions().get(0).getValue());
         return blockCandidateViewModel;
     }
 

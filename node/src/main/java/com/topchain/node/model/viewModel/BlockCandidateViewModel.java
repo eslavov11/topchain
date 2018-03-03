@@ -12,7 +12,7 @@ public class BlockCandidateViewModel {
 //    private Date dateCreated;
 
     private String rewardAddress;
-    private Long expectedReward;
+    private long expectedReward;
     private String blockDataHash;
 
     public BlockCandidateViewModel() {
@@ -50,11 +50,11 @@ public class BlockCandidateViewModel {
         this.rewardAddress = rewardAddress;
     }
 
-    public Long getExpectedReward() {
+    public long getExpectedReward() {
         return expectedReward;
     }
 
-    public void setExpectedReward(Long expectedReward) {
+    public void setExpectedReward(long expectedReward) {
         this.expectedReward = expectedReward;
     }
 

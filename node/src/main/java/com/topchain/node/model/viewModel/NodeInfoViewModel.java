@@ -6,9 +6,9 @@ public class NodeInfoViewModel {
     private Integer peers;
     private int difficulty;
     private Integer blocks;
-    private Long cumulativeDifficulty;
-    private Integer confirmedTransactions;
-    private Integer pendingTransactions;
+    private long cumulativeDifficulty;
+    private int confirmedTransactions;
+    private int pendingTransactions;
 //    private Long addresses;
 //    private Long coins;
 //TODO: refactor
@@ -61,27 +61,27 @@ public class NodeInfoViewModel {
         this.blocks = blocks;
     }
 
-    public Long getCumulativeDifficulty() {
+    public long getCumulativeDifficulty() {
         return cumulativeDifficulty;
     }
 
-    public void setCumulativeDifficulty(Long cumulativeDifficulty) {
+    public void setCumulativeDifficulty(long cumulativeDifficulty) {
         this.cumulativeDifficulty = cumulativeDifficulty;
     }
 
-    public Integer getConfirmedTransactions() {
+    public int getConfirmedTransactions() {
         return confirmedTransactions;
     }
 
-    public void setConfirmedTransactions(Integer confirmedTransactions) {
+    public void setConfirmedTransactions(int confirmedTransactions) {
         this.confirmedTransactions = confirmedTransactions;
     }
 
-    public Integer getPendingTransactions() {
+    public int getPendingTransactions() {
         return pendingTransactions;
     }
 
-    public void setPendingTransactions(Integer pendingTransactions) {
+    public void setPendingTransactions(int pendingTransactions) {
         this.pendingTransactions = pendingTransactions;
     }
 

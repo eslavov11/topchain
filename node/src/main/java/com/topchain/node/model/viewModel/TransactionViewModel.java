@@ -5,12 +5,12 @@ import java.util.Date;
 public class TransactionViewModel {
     private String fromAddress;
     private String toAddress;
-    private Long value;
+    private long value;
     private Date dateCreated;
     private String senderPublicKey;
     private String[] senderSignature;
     private String transactionHash;
-    private Long minedInBlockIndex;
+    private long minedInBlockIndex;
     private Boolean transferSuccessful;
 
     public TransactionViewModel() {
@@ -32,11 +32,11 @@ public class TransactionViewModel {
         this.toAddress = toAddress;
     }
 
-    public Long getValue() {
+    public long getValue() {
         return value;
     }
 
-    public void setValue(Long value) {
+    public void setValue(long value) {
         this.value = value;
     }
 
@@ -72,11 +72,11 @@ public class TransactionViewModel {
         this.dateCreated = dateCreated;
     }
 
-    public Long getMinedInBlockIndex() {
+    public long getMinedInBlockIndex() {
         return minedInBlockIndex;
     }
 
-    public void setMinedInBlockIndex(Long minedInBlockIndex) {
+    public void setMinedInBlockIndex(long minedInBlockIndex) {
         this.minedInBlockIndex = minedInBlockIndex;
     }
 

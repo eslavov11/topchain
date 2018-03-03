@@ -1,25 +1,25 @@
 package com.topchain.node.model.viewModel;
 
 public class BalanceViewModel {
-    private Integer confirmations;
-    private Long balance;
+    private int confirmations;
+    private long balance;
 
     public BalanceViewModel() {
     }
 
-    public Integer getConfirmations() {
+    public int getConfirmations() {
         return confirmations;
     }
 
-    public void setConfirmations(Integer confirmations) {
+    public void setConfirmations(int confirmations) {
         this.confirmations = confirmations;
     }
 
-    public Long getBalance() {
+    public long getBalance() {
         return balance;
     }
 
-    public void setBalance(Long balance) {
+    public void setBalance(long balance) {
         this.balance = balance;
     }
 }

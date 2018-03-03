@@ -1,12 +1,16 @@
 package com.topchain.node.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Transaction {
     private String fromAddress;
     private String toAddress;
-    private Long value;
-    private Long fee;
+    private long value;
+    private long fee;
+
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
     private Date dateCreated;
     private String senderPublicKey;
     private String[] senderSignature;
@@ -35,19 +39,19 @@ public class Transaction {
         this.toAddress = toAddress;
     }
 
-    public Long getValue() {
+    public long getValue() {
         return value;
     }
 
-    public void setValue(Long value) {
+    public void setValue(long value) {
         this.value = value;
     }
 
-    public Long getFee() {
+    public long getFee() {
         return fee;
     }
 
-    public void setFee(Long fee) {
+    public void setFee(long fee) {
         this.fee = fee;
     }
 

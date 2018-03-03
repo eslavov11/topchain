@@ -9,7 +9,7 @@ public class Block {
     private String previousBlockHash;
     private String minedBy;
     private String blockDataHash;
-    private Long nonce;
+    private long nonce;
     private Date dateCreated;
     private String blockHash;
 
@@ -69,11 +69,11 @@ public class Block {
         this.blockDataHash = blockDataHash;
     }
 
-    public Long getNonce() {
+    public long getNonce() {
         return nonce;
     }
 
-    public void setNonce(Long nonce) {
+    public void setNonce(long nonce) {
         this.nonce = nonce;
     }
 

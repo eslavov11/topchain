@@ -30,7 +30,7 @@ public class NodeServiceImpl implements NodeService {
         this.nodeInfoViewModel.setPeers(this.node.getPeers().size());
         this.nodeInfoViewModel.setDifficulty(this.node.getDifficulty());
         this.nodeInfoViewModel.setCumulativeDifficulty(this.node.getBlocks().stream()
-                .mapToLong(Block::getDifficulty).sum());
+                .mapToInt(Block::getDifficulty).sum());
         this.nodeInfoViewModel.setPendingTransactions(this.node
                 .getPendingTransactions().stream().filter(pt -> !pt.getTransferSuccessful())
                 .collect(Collectors.toSet()).size());
