@@ -10,7 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -25,8 +27,8 @@ public class BlockServiceImpl implements BlockService {
     }
 
     @Override
-    public Set<BlockViewModel> getBlocks() {
-        Set<BlockViewModel> blockViewModels = new HashSet<>();
+    public List<BlockViewModel> getBlocks() {
+        List<BlockViewModel> blockViewModels = new ArrayList<>();
         this.node.getBlocks().forEach((Block block) -> {
             BlockViewModel blockViewModel = this.modelMapper.map(block, BlockViewModel.class);
             blockViewModels.add(blockViewModel);

@@ -3,8 +3,8 @@ package com.topchain.node.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,17 +12,18 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
-import java.security.*;
-import java.security.spec.X509EncodedKeySpec;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 
 /**
  * Created by eslavov on 13-Feb-18.
  */
+@Component
 public class NodeUtils {
     public static String SERVER_PORT;
 
-    @Value("${mongodb.db}")
+    @Value("${server.port}")
     public void setServerPort(String port) {
         SERVER_PORT = port;
     }

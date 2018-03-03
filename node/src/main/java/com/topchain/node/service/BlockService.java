@@ -4,10 +4,10 @@ import com.topchain.node.model.bindingModel.NotifyBlockModel;
 import com.topchain.node.model.viewModel.BlockViewModel;
 import com.topchain.node.model.viewModel.ResponseMessageViewModel;
 
-import java.util.Set;
+import java.util.List;
 
 public interface BlockService {
-    Set<BlockViewModel> getBlocks();
+    List<BlockViewModel> getBlocks();
 
     BlockViewModel getBlockByIndex(long index);
 

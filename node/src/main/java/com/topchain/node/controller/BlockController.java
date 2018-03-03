@@ -7,7 +7,7 @@ import com.topchain.node.service.BlockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 public class BlockController {
@@ -19,7 +19,7 @@ public class BlockController {
     }
 
     @GetMapping("/blocks")
-    public Set<BlockViewModel> getBlocks() {
+    public List<BlockViewModel> getBlocks() {
         return this.blockService.getBlocks();
     }
 
