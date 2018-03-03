@@ -75,16 +75,11 @@ public class PeerController {
                         new ParameterizedTypeReference<List<BlockViewModel>>() {
                         });
         List<BlockViewModel> blockViewModels = entity.getBody();
-        if (!peerBlocksAreValid(blockViewModels)) {
+        if (!this.blockService.peerBlocksAreValid(blockViewModels)) {
             return;
         }
 
         this.blockService.updateBlockchain(blockViewModels);
-    }
-
-    private boolean peerBlocksAreValid(List<BlockViewModel> blockViewModels) {
-
-        return false;
     }
 
     private boolean peerChainIsLonger(PeerModel peerModel) {

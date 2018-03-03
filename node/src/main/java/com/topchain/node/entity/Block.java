@@ -7,7 +7,7 @@ import java.util.Set;
 public class Block {
     private int index;
     private Set<Transaction> transactions;
-    private Long difficulty;
+    private int difficulty;
     private String previousBlockHash;
     private String minedBy;
     private String blockDataHash;
@@ -39,11 +39,11 @@ public class Block {
         this.transactions.add(transaction);
     }
 
-    public Long getDifficulty() {
+    public int getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(Long difficulty) {
+    public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
 

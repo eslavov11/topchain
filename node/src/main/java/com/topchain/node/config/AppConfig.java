@@ -29,7 +29,7 @@ public class AppConfig {
 //    private Long nodeCoins;
 
     @Value("${network.difficulty}")
-    private Long nodeDifficulty;
+    private int nodeDifficulty;
 
     @Bean
     public ModelMapper getModelMapper() {

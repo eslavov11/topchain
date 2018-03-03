@@ -14,4 +14,6 @@ public interface BlockService {
     ResponseMessageViewModel notifyBlock(NotifyBlockModel notifyBlockModel);
 
     void updateBlockchain(List<BlockViewModel> blockViewModels);
+
+    boolean peerBlocksAreValid(List<BlockViewModel> blockViewModels);
 }

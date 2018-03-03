@@ -7,7 +7,7 @@ public class Node {
     private List<Block> blocks;
     private Set<Transaction> pendingTransactions;
     private Set<String> pendingTransactionsHashes;
-    private Long difficulty;
+    private int difficulty;
     private Map<String, Block> miningJobs;
 
     public Node() {
@@ -65,11 +65,11 @@ public class Node {
         this.pendingTransactionsHashes.add(transactionHash);
     }
 
-    public Long getDifficulty() {
+    public int getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(Long difficulty) {
+    public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
 

@@ -127,4 +127,13 @@ public class NodeUtils {
 
         return url;
     }
+
+    public static String newString(String append, int length) {
+        StringBuffer outputBuffer = new StringBuffer(length);
+        for (int i = 0; i < length; i++) {
+            outputBuffer.append(append);
+        }
+
+        return outputBuffer.toString();
+    }
 }

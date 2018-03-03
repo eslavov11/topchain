@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.topchain.node.util.NodeUtils.newString;
+
 @Service
 public class BlockServiceImpl implements BlockService {
     private ModelMapper modelMapper;
@@ -54,21 +56,22 @@ public class BlockServiceImpl implements BlockService {
     }
 
     //TODO: new block
+
     /**
      * A special coinbase transaction is inserted before all user
-     transactions in the block, to transfer the block reward + fees
-
-     No sender public key and signature
-     The Coinbase Transaction (Reward)
-     {
-         "from": "0000000000000000000000000000000000000000",
-         "to": "9a9f082f37270ff54c5ca4204a0e4da6951fe917",
-         "value": 5000350,
-         "fee": 0,
-         "dateCreated": "2018-02-10T17:53:48.972Z",
-         "transactionHash": "4dfc3e0ef89ed603ed54e47435a18b836b…176a",
-         "transferSuccessful": true,
-     }
+     * transactions in the block, to transfer the block reward + fees
+     * <p>
+     * No sender public key and signature
+     * The Coinbase Transaction (Reward)
+     * {
+     * "from": "0000000000000000000000000000000000000000",
+     * "to": "9a9f082f37270ff54c5ca4204a0e4da6951fe917",
+     * "value": 5000350,
+     * "fee": 0,
+     * "dateCreated": "2018-02-10T17:53:48.972Z",
+     * "transactionHash": "4dfc3e0ef89ed603ed54e47435a18b836b…176a",
+     * "transferSuccessful": true,
+     * }
      */
 
     @Override
@@ -79,5 +82,27 @@ public class BlockServiceImpl implements BlockService {
         });
 
         this.node.setBlocks(blocks);
+    }
+
+    @Override
+    public boolean peerBlocksAreValid(List<BlockViewModel> blockViewModels) {
+        List<Block> blocks = new ArrayList<>();
+        blockViewModels.forEach(b -> {
+            blocks.add(this.modelMapper.map(b, Block.class));
+        });
+
+        for (int i = 1; i < blocks.size(); i++) {
+            if (!blocks.get(i).getBlockHash().equals(hashBlock(blocks.get(i - 1))) ||
+                    !blocks.get(i).getBlockHash()
+                            .startsWith(newString("0", blocks.get(i).getDifficulty()))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private String hashBlock(Block block) {
+        return null;
     }
 }

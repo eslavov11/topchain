@@ -6,7 +6,7 @@ package com.topchain.node.model.viewModel;
 public class BlockCandidateViewModel {
     private int index;
     private Integer transactionsIncluded;
-    private Long difficulty;
+    private int difficulty;
 
 //    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
 //    private Date dateCreated;
@@ -33,11 +33,11 @@ public class BlockCandidateViewModel {
         this.transactionsIncluded = transactionsIncluded;
     }
 
-    public Long getDifficulty() {
+    public int getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(Long difficulty) {
+    public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
 

@@ -4,7 +4,7 @@ public class NodeInfoViewModel {
     private String about;
     private String nodeName;
     private Integer peers;
-    private Long difficulty;
+    private int difficulty;
     private Integer blocks;
     private Long cumulativeDifficulty;
     private Integer confirmedTransactions;
@@ -45,11 +45,11 @@ public class NodeInfoViewModel {
         this.peers = peers;
     }
 
-    public Long getDifficulty() {
+    public int getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(Long difficulty) {
+    public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
 
