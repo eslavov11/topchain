@@ -23,6 +23,8 @@ import java.util.Collection;
 public class NodeUtils {
     public static String SERVER_PORT;
     public static long BLOCK_REWARD_COINS;
+    public static final String NIL_ADDRESS = "0000000000000000000000000000000000000000";
+
 
     @Value("${server.port}")
     public void setServerPort(String port) {

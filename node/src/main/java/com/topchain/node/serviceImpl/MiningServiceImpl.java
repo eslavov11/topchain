@@ -2,6 +2,7 @@ package com.topchain.node.serviceImpl;
 
 import com.topchain.node.entity.Block;
 import com.topchain.node.entity.Node;
+import com.topchain.node.entity.Transaction;
 import com.topchain.node.model.bindingModel.MinedBlockModel;
 import com.topchain.node.model.viewModel.MinedBlockStatusViewModel;
 import com.topchain.node.model.viewModel.BlockCandidateViewModel;
@@ -10,8 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.topchain.node.util.NodeUtils.hashText;
-import static com.topchain.node.util.NodeUtils.serializeJSON;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.topchain.node.util.NodeUtils.*;
 
 @Service
 public class MiningServiceImpl implements MiningService {
@@ -24,12 +27,29 @@ public class MiningServiceImpl implements MiningService {
         this.node = node;
     }
 
+    private Transaction calculateRewardTransaction(String minerAddress) {
+        Transaction rewardTransaction = new Transaction();
+        long totalValue = micCoinsFromCoins(BLOCK_REWARD_COINS);
+        for (Transaction transaction : this.node.getPendingTransactions()) {
+            totalValue += transaction.getFee();
+        }
+
+        rewardTransaction.setFromAddress(NIL_ADDRESS);
+        rewardTransaction.setToAddress(minerAddress);
+        rewardTransaction.setValue(totalValue);
+        return rewardTransaction;
+    }
+
     @Override
     public BlockCandidateViewModel getBlockCandidate(String minerAddress) {
+        List<Transaction> newTransactions = new ArrayList<>();
+        newTransactions.add(calculateRewardTransaction(minerAddress));
+        newTransactions.addAll(this.node.getPendingTransactions());
+
         //TODO: create block and hash transactions
         Block blockCandidate = new Block();
         blockCandidate.setIndex(this.node.getBlocks().size() + 1);
-        blockCandidate.setTransactions(this.node.getPendingTransactions());
+        blockCandidate.setTransactions(newTransactions);
         blockCandidate.setDifficulty(this.node.getDifficulty());
         blockCandidate.setBlockDataHash(hashText(serializeJSON(blockCandidate, false)));
         blockCandidate.setMinedBy(minerAddress);

@@ -1,12 +1,10 @@
 package com.topchain.node.entity;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Block {
     private int index;
-    private Set<Transaction> transactions;
+    private List<Transaction> transactions;
     private int difficulty;
     private String previousBlockHash;
     private String minedBy;
@@ -16,7 +14,7 @@ public class Block {
     private String blockHash;
 
     public Block() {
-        this.setTransactions(new HashSet<>());
+        this.setTransactions(new ArrayList<>());
     }
 
     public int getIndex() {
@@ -27,11 +25,11 @@ public class Block {
         this.index = index;
     }
 
-    public Set<Transaction> getTransactions() {
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(Set<Transaction> transactions) {
+    public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
     }
 
