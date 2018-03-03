@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.topchain.node.util.NodeUtils.hashText;
+import static com.topchain.node.util.NodeUtils.serializeJSON;
 
 @Service
 public class MiningServiceImpl implements MiningService {
@@ -28,17 +29,23 @@ public class MiningServiceImpl implements MiningService {
         //TODO: create block and hash transactions
         Block blockCandidate = new Block();
         blockCandidate.setIndex(this.node.getBlocks().size() + 1);
-//        blockCandidate.set
-//TODO:    blockCandidate bean??
+        blockCandidate.setTransactions(this.node.getPendingTransactions());
+        blockCandidate.setDifficulty(this.node.getDifficulty());
+        blockCandidate.setBlockDataHash(hashText(serializeJSON(blockCandidate, false)));
+        blockCandidate.setMinedBy(minerAddress);
+        blockCandidate.setPreviousBlockHash(
+                this.node.getBlocks().get(this.node.getBlocks().size() - 1).getBlockHash());
 
-        this.node.addMiningJob(minerAddress, new Block());
+        //TODO:    blockCandidate bean??
+
+        this.node.addMiningJob(blockCandidate.getBlockDataHash(), blockCandidate);
 
         BlockCandidateViewModel blockCandidateViewModel = new BlockCandidateViewModel();
         blockCandidateViewModel.setIndex(blockCandidate.getIndex());
-        blockCandidateViewModel.setDifficulty(this.node.getDifficulty());
-        blockCandidateViewModel.setTransactionsIncluded(this.node.getPendingTransactions().size());
-
-        blockCandidateViewModel.setBlockDataHash(hashText(blockCandidateViewModel.toString()));
+        blockCandidateViewModel.setDifficulty(blockCandidate.getDifficulty());
+        blockCandidateViewModel.setTransactionsIncluded(blockCandidate.getTransactions().size());
+        //TODO: blockCandidateViewModel.setRewardAddress("addr???");
+        blockCandidateViewModel.setBlockDataHash(blockCandidate.getBlockDataHash());
 
         return blockCandidateViewModel;
     }

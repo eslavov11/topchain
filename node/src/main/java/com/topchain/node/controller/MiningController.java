@@ -16,12 +16,12 @@ public class MiningController {
         this.miningService = miningService;
     }
 
-    @GetMapping("/mining/get-block/{minerAddress}")
+    @GetMapping("/mining/get-mining-job/{minerAddress}")
     public BlockCandidateViewModel getPendingBlock(@PathVariable String minerAddress) {
         return this.miningService.getBlockCandidate(minerAddress);
     }
 
-    @PostMapping("/mining/submit-block/{minerAddress}")
+    @PostMapping("/mining/submit-mined-block")
     public MinedBlockStatusViewModel submitBlock(@PathVariable String minerAddress,
                                                  @RequestBody MinedBlockModel minedBlockModel) {
         return this.miningService.submitBLock(minedBlockModel, minerAddress);

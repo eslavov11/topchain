@@ -11,6 +11,7 @@ public class BlockCandidateViewModel {
 //    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
 //    private Date dateCreated;
 
+    private String rewardAddress;
     private Long expectedReward;
     private String blockDataHash;
 
@@ -39,6 +40,14 @@ public class BlockCandidateViewModel {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public String getRewardAddress() {
+        return rewardAddress;
+    }
+
+    public void setRewardAddress(String rewardAddress) {
+        this.rewardAddress = rewardAddress;
     }
 
     public Long getExpectedReward() {

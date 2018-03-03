@@ -81,7 +81,7 @@ public class Node {
         this.miningJobs = miningJobs;
     }
 
-    public void addMiningJob(String address, Block block) {
-        this.miningJobs.put(address, block);
+    public void addMiningJob(String blockDataHash, Block block) {
+        this.miningJobs.put(blockDataHash, block);
     }
 }

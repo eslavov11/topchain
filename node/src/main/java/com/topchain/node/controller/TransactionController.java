@@ -34,10 +34,10 @@ public class TransactionController {
         return new ResponseEntity<>(newTransactionViewModel, HttpStatus.OK);
     }
 
-    @GetMapping("/transactions/{fromAddress}/info")
+    @GetMapping("/transactions/{hash}")
     public TransactionViewModel getTransactionByFromAddress(
-            @PathVariable String fromAddress) {
-        return this.transactionService.getTransactionByFromAddress(fromAddress);
+            @PathVariable String hash) {
+        return this.transactionService.getTransactionByFromAddress(hash);
     }
 
     @GetMapping("/balance/{address}/confirmations/{confirmations}")
