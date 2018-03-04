@@ -4,10 +4,7 @@ import com.topchain.node.entity.Block;
 import com.topchain.node.entity.Node;
 import com.topchain.node.entity.Transaction;
 import com.topchain.node.model.bindingModel.TransactionModel;
-import com.topchain.node.model.viewModel.FullBalanceViewModel;
-import com.topchain.node.model.viewModel.NewTransactionViewModel;
-import com.topchain.node.model.viewModel.TransactionViewModel;
-import com.topchain.node.model.viewModel.TransactionsForAddressViewModel;
+import com.topchain.node.model.viewModel.*;
 import com.topchain.node.service.TransactionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,11 +83,48 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public FullBalanceViewModel getBalanceByAddress(String address) {
+
         /** The address balance is calculated by iterating over all transactions
          For each block and for each successful transaction for the specified address,
          sum the values received and spent, matching the confirmations count
          * */
-        return null;
+        FullBalanceViewModel ballanceForAddress = new FullBalanceViewModel();
+        BalanceViewModel balanceVMForComfirmed = new BalanceViewModel();
+        BalanceViewModel balanceVMForPending = new BalanceViewModel();
+        BalanceViewModel balanceVMForLastMined = new BalanceViewModel();
+
+        //get confirmed balance for given address
+        //TODO:Dont take in account the latest 6 blocks or whatever number it is set to believe the transactions are confirmed
+        this.node.getBlocks().forEach(x-> {
+            x.getTransactions().forEach(tx-> {
+                if(tx.getTransferSuccessful() && tx.getFromAddress() == address){
+                    balanceVMForComfirmed.setBalance(balanceVMForComfirmed.getBalance() - tx.getValue());
+                }
+                if(tx.getTransferSuccessful() && tx.getToAddress() == address){
+                    balanceVMForComfirmed.setBalance(balanceVMForComfirmed.getBalance() + tx.getValue());
+                }
+            });
+        });
+        //get pending transactions and all of the balance for given address in those transactions
+        this.node.getPendingTransactions().forEach(x->{
+            if(x.getFromAddress() == address) {
+                balanceVMForPending.setBalance(balanceVMForPending.getBalance() - x.getValue());
+            }
+            if(x.getToAddress()==address){
+                balanceVMForPending.setBalance((balanceVMForPending.getBalance()+ x.getValue()));
+            }
+        });
+        //last mined
+        //get latest block where toAdress or FromAdress == address and set value for last mined balance
+        for (int i = this.node.getBlocks().size() - 1; i >= 0; i--) {
+//            if(this.node.getBlocks().)
+        }
+
+        ballanceForAddress.setConfirmedBalance(balanceVMForComfirmed);
+        ballanceForAddress.setPendingBalance(balanceVMForPending);
+        ballanceForAddress.setLastMinedBalance(balanceVMForLastMined);
+
+        return ballanceForAddress;
     }
 
     @Override
