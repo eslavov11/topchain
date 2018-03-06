@@ -7,19 +7,20 @@
     <groupId>com.topchain.node</groupId>
     <artifactId>node</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>LATEST</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <!--<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <start-class>com.topchain.node.TopChainNode</start-class>
     </properties>
 
     <dependencies>
@@ -54,9 +55,16 @@
             <artifactId>bcprov-jdk15on</artifactId>
             <version>1.59</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>node</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
