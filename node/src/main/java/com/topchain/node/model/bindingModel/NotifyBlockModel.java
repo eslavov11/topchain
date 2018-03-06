@@ -1,25 +1,25 @@
 package com.topchain.node.model.bindingModel;
 
 public class NotifyBlockModel {
-    private Long index;
-    private Long cumulativeDifficulty;
+    private long index;
+    private long cumulativeDifficulty;
 
     public NotifyBlockModel() {
     }
 
-    public Long getIndex() {
+    public long getIndex() {
         return index;
     }
 
-    public void setIndex(Long index) {
+    public void setIndex(long index) {
         this.index = index;
     }
 
-    public Long getCumulativeDifficulty() {
+    public long getCumulativeDifficulty() {
         return cumulativeDifficulty;
     }
 
-    public void setCumulativeDifficulty(Long cumulativeDifficulty) {
+    public void setCumulativeDifficulty(long cumulativeDifficulty) {
         this.cumulativeDifficulty = cumulativeDifficulty;
     }
 }

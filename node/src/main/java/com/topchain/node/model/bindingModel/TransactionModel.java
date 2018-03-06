@@ -16,10 +16,10 @@ public class TransactionModel {
     private String senderPubKey;
 
     @Min(value = 1)
-    private Long value;
+    private long value;
 
     @Min(value = 1)
-    private Long fee;
+    private long fee;
 
     @NotNull
     private Date dateCreated;
@@ -54,19 +54,19 @@ public class TransactionModel {
         this.senderPubKey = senderPubKey;
     }
 
-    public Long getValue() {
+    public long getValue() {
         return value;
     }
 
-    public void setValue(Long value) {
+    public void setValue(long value) {
         this.value = value;
     }
 
-    public Long getFee() {
+    public long getFee() {
         return fee;
     }
 
-    public void setFee(Long fee) {
+    public void setFee(long fee) {
         this.fee = fee;
     }
 

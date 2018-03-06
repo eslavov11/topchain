@@ -7,5 +7,5 @@ import com.topchain.node.model.viewModel.BlockCandidateViewModel;
 public interface MiningService {
     BlockCandidateViewModel getBlockCandidate(String minerAddress);
 
-    MinedBlockStatusViewModel submitBLock(MinedBlockModel minedBlockModel, String minerAddress);
+    MinedBlockStatusViewModel submitBlock(MinedBlockModel minedBlockModel);
 }

@@ -4,6 +4,7 @@ import com.topchain.node.model.bindingModel.TransactionModel;
 import com.topchain.node.model.viewModel.FullBalanceViewModel;
 import com.topchain.node.model.viewModel.NewTransactionViewModel;
 import com.topchain.node.model.viewModel.TransactionViewModel;
+import com.topchain.node.model.viewModel.TransactionsForAddressViewModel;
 import com.topchain.node.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,30 +35,32 @@ public class TransactionController {
         return new ResponseEntity<>(newTransactionViewModel, HttpStatus.OK);
     }
 
-    @GetMapping("/transactions/{fromAddress}/info")
-    public TransactionViewModel getTransactionByFromAddress(
-            @PathVariable String fromAddress) {
-        return this.transactionService.getTransactionByFromAddress(fromAddress);
+    @GetMapping("/transactions/{hash}")
+    public TransactionViewModel getTransaction(
+            @PathVariable String hash) {
+        return this.transactionService.getTransactionByHash(hash);
     }
 
-    @GetMapping("/balance/{address}/confirmations/{confirmations}")
-    public FullBalanceViewModel getBalanceByAddressForConfirmations(@PathVariable String address,
-                                                                    @PathVariable int confirmations) {
+    @GetMapping("/address/{address}/balance")
+    public FullBalanceViewModel getBalanceByAddressForConfirmations(
+            @PathVariable String address) {
         //TODO: return status code 200 on every request
         return this.transactionService
-                .getBalanceByAddressForConfirmations(address, confirmations);
+                .getBalanceByAddress(address);
     }
 
-   @GetMapping("/transactions/pending")
+    @GetMapping("/transactions/pending")
     public Set<TransactionViewModel> getPendingTransaction() {
-
         return this.transactionService.getPendingTransactions();
     }
 
     @GetMapping("/transactions/confirmed")
     public Set<TransactionViewModel> getConfirmedTransaction() {
-
         return this.transactionService.getConfirmedTransactions();
     }
 
+    @GetMapping("/address/{address}/transactions")
+    public TransactionsForAddressViewModel getTransactionsForAddress(@PathVariable String address) {
+        return this.transactionService.getTransactionsForAddress(address);
+    }
 }

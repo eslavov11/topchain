@@ -6,24 +6,24 @@ import java.util.Date;
 import java.util.Set;
 
 public class BlockViewModel {
-    private Long index;
+    private long index;
     private Set<Transaction> transactions;
-    private Long difficulty;
+    private int difficulty;
     private String previousBlockHash;
     private String minedBy;
     private String blockDataHash;
-    private Long nonce;
+    private long nonce;
     private Date dateCreated;
     private String blockHash;
 
     public BlockViewModel() {
     }
 
-    public Long getIndex() {
+    public long getIndex() {
         return index;
     }
 
-    public void setIndex(Long index) {
+    public void setIndex(long index) {
         this.index = index;
     }
 
@@ -35,11 +35,11 @@ public class BlockViewModel {
         this.transactions = transactions;
     }
 
-    public Long getDifficulty() {
+    public int getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(Long difficulty) {
+    public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
 
@@ -67,11 +67,11 @@ public class BlockViewModel {
         this.blockDataHash = blockDataHash;
     }
 
-    public Long getNonce() {
+    public long getNonce() {
         return nonce;
     }
 
-    public void setNonce(Long nonce) {
+    public void setNonce(long nonce) {
         this.nonce = nonce;
     }
 

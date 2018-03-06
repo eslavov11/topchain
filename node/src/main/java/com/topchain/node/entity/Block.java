@@ -1,22 +1,20 @@
 package com.topchain.node.entity;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Block {
     private int index;
-    private Set<Transaction> transactions;
-    private Long difficulty;
+    private List<Transaction> transactions;
+    private int difficulty;
     private String previousBlockHash;
     private String minedBy;
     private String blockDataHash;
-    private Long nonce;
+    private long nonce;
     private Date dateCreated;
     private String blockHash;
 
     public Block() {
-        this.setTransactions(new HashSet<>());
+        this.setTransactions(new ArrayList<>());
     }
 
     public int getIndex() {
@@ -27,11 +25,11 @@ public class Block {
         this.index = index;
     }
 
-    public Set<Transaction> getTransactions() {
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(Set<Transaction> transactions) {
+    public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
     }
 
@@ -39,11 +37,11 @@ public class Block {
         this.transactions.add(transaction);
     }
 
-    public Long getDifficulty() {
+    public int getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(Long difficulty) {
+    public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
 
@@ -71,11 +69,11 @@ public class Block {
         this.blockDataHash = blockDataHash;
     }
 
-    public Long getNonce() {
+    public long getNonce() {
         return nonce;
     }
 
-    public void setNonce(Long nonce) {
+    public void setNonce(long nonce) {
         this.nonce = nonce;
     }
 

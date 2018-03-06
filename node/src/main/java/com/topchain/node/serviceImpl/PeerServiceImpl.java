@@ -39,9 +39,11 @@ public class PeerServiceImpl implements PeerService {
     public ResponseMessageViewModel addPeer(PeerModel peerModel) {
         Peer peer = this.modelMapper.map(peerModel, Peer.class);
 
-        if (this.node.getPeers().contains(peer)) {
-            ResponseMessageViewModel responseMessageViewModel = new ResponseMessageViewModel("Peer already present...");
-            responseMessageViewModel.setExists(false);
+        if (this.node.getPeers().stream()
+                .filter(p -> p.getUrl().equals(peer.getUrl())).count() != 0) {
+            ResponseMessageViewModel responseMessageViewModel =
+                    new ResponseMessageViewModel("Peer already present...");
+            responseMessageViewModel.setExists(true);
             return responseMessageViewModel;
         }
 

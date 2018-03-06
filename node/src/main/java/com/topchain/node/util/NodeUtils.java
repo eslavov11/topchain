@@ -3,8 +3,8 @@ package com.topchain.node.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,19 +12,28 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
-import java.security.*;
-import java.security.spec.X509EncodedKeySpec;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 
 /**
  * Created by eslavov on 13-Feb-18.
  */
+@Component
 public class NodeUtils {
     public static String SERVER_PORT;
+    public static long BLOCK_REWARD_COINS;
+    public static final String NIL_ADDRESS = "0000000000000000000000000000000000000000";
 
-    @Value("${mongodb.db}")
+
+    @Value("${server.port}")
     public void setServerPort(String port) {
         SERVER_PORT = port;
+    }
+
+    @Value("${block.rewardCoins}")
+    public void setBlockRewardCoins(long rewardCoins) {
+        BLOCK_REWARD_COINS = rewardCoins;
     }
 
     /**
@@ -125,5 +134,30 @@ public class NodeUtils {
         }
 
         return url;
+    }
+
+    public static String newString(String append, int length) {
+        StringBuffer outputBuffer = new StringBuffer(length);
+        for (int i = 0; i < length; i++) {
+            outputBuffer.append(append);
+        }
+
+        return outputBuffer.toString();
+    }
+
+    public static long milCoinsFromCoins(long coins) {
+        return coins * 1000;
+    }
+
+    public static long micCoinsFromCoins(long coins) {
+        return milCoinsFromCoins(coins) * 1000;
+    }
+
+    public static long coinsFromMilCoins(long milCoins) {
+        return milCoins / 1000;
+    }
+
+    public static long coinsFromMicCoins(long micCoins) {
+        return coinsFromMilCoins(micCoins / 1000);
     }
 }
