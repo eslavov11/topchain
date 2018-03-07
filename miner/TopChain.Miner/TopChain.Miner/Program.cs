@@ -111,6 +111,7 @@
         {
             ResultWrapper result = new ResultWrapper();
             string dateCreated = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            if (blockToMine == null) return null;
             int difficulty = blockToMine.Difficulty.Value;
             var nextHash = CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
 
@@ -126,9 +127,10 @@
                 nextHashSubstring = ConvertToBase16Fast2(nextHash).Substring(0, difficulty);
 
             }
+
             result.Nonce = nonce;
             result.DateCreated = dateCreated;
-
+            result.BlockDataHash = blockToMine.BlockDataHash;
             //Console.WriteLine(result.DateCreated);
             //Console.WriteLine(result.Nonce);
             return result;
