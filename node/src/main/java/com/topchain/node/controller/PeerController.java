@@ -1,13 +1,11 @@
 package com.topchain.node.controller;
 
-import com.topchain.node.entity.Node;
 import com.topchain.node.model.bindingModel.PeerModel;
 import com.topchain.node.model.viewModel.BlockViewModel;
 import com.topchain.node.model.viewModel.NodeInfoViewModel;
 import com.topchain.node.model.viewModel.PeerViewModel;
 import com.topchain.node.model.viewModel.ResponseMessageViewModel;
 import com.topchain.node.service.BlockService;
-import com.topchain.node.service.NodeService;
 import com.topchain.node.service.PeerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;

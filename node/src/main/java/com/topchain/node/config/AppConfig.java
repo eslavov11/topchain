@@ -48,6 +48,8 @@ public class AppConfig {
 
     @Bean
     public Node generateNode() {
+        System.out.println(getServerURL());
+
         Node node = new Node();
         node.setDifficulty(nodeDifficulty);
         node.addBlock(createGenesisBlock());

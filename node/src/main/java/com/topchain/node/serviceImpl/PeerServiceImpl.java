@@ -27,7 +27,7 @@ public class PeerServiceImpl implements PeerService {
     @Override
     public Set<PeerViewModel> getPeers() {
         Set<PeerViewModel> peerViewModels = new HashSet<>();
-        this.node.getBlocks().forEach((p) -> {
+        this.node.getPeers().forEach((p) -> {
             PeerViewModel peerViewModel = this.modelMapper.map(p, PeerViewModel.class);
             peerViewModels.add(peerViewModel);
         });

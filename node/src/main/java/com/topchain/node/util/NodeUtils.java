@@ -10,11 +10,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
+import java.util.Enumeration;
 
 /**
  * Created by eslavov on 13-Feb-18.
@@ -124,16 +127,29 @@ public class NodeUtils {
     }
 
     public static String getServerURL() {
-        String url = null;
+        String ipAddress = null;
+        Enumeration en = null;
         try {
-            url = "http://" +
-                    InetAddress.getLocalHost().getHostAddress() + ":" +
-                    SERVER_PORT;
-        } catch (UnknownHostException e) {
+            en = NetworkInterface.getNetworkInterfaces();
+        } catch (SocketException e) {
             e.printStackTrace();
         }
 
-        return url;
+        while(en.hasMoreElements()){
+            NetworkInterface ni=(NetworkInterface) en.nextElement();
+            Enumeration ee = ni.getInetAddresses();
+            while(ee.hasMoreElements()) {
+                InetAddress ia = (InetAddress) ee.nextElement();
+                //TODO: find better way to get address
+                if (ia.getHostAddress().startsWith("192")) {
+                    ipAddress = ia.getHostAddress();
+                }
+            }
+        }
+
+        return "http://" +
+                    ipAddress + ":" +
+                    SERVER_PORT;
     }
 
     public static String newString(String append, int length) {
