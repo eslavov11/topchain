@@ -60,39 +60,6 @@ public class NodeUtils {
         return hex;
     }
 
-//    public static boolean checkSignature(String message, String[] signature, String publicKey) {
-//        Signature ecdsaVerify = null;
-//        try {
-//            ecdsaVerify = Signature.getInstance("SHA256withECDSA", "BC");
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchProviderException e) {
-//            e.printStackTrace();
-//        }
-//
-//        PublicKey publicKey1 = PublicKey.
-//        ecdsaVerify.initVerify(publicKey);
-//        ecdsaVerify.update(plaintext.getBytes("UTF-8"));
-//        boolean result = ecdsaVerify.verify(signature);
-//
-//        return false;
-//    }
-//
-//    public static PublicKey getKey(String key){
-//        try{
-//            byte[] byteKey = Base64.decode(key.getBytes(), Base64.DEFAULT);
-//            X509EncodedKeySpec X509publicKey = new X509EncodedKeySpec(byteKey);
-//            KeyFactory kf = KeyFactory.getInstance("RSA");
-//
-//            return kf.generatePublic(X509publicKey);
-//        }
-//        catch(Exception e){
-//            e.printStackTrace();
-//        }
-//
-//        return null;
-//    }
-
     public static String collectionToJSON(Collection collection) {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         final ObjectMapper mapper = new ObjectMapper();

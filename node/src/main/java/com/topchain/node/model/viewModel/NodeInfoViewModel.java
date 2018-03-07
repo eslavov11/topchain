@@ -4,22 +4,14 @@ public class NodeInfoViewModel {
     private String about;
     private String nodeUrl;
     private String nodeName;
-    private Integer peers;
+    private int peers;
     private int difficulty;
-    private Integer blocks;
+    private int blocks;
     private long cumulativeDifficulty;
     private int confirmedTransactions;
     private int pendingTransactions;
-//    private Long addresses;
-//    private Long coins;
-//TODO: refactor
-    public NodeInfoViewModel() {
-    }
 
-    public NodeInfoViewModel(String about, String nodeName, Integer peers,
-                             Integer blocks, Integer confirmedTransactions,
-                             Integer pendingTransactions/*, Long addresses,
-                             Long coins*/) {
+    public NodeInfoViewModel() {
     }
 
     public String getAbout() {
@@ -46,11 +38,11 @@ public class NodeInfoViewModel {
         this.nodeName = nodeName;
     }
 
-    public Integer getPeers() {
+    public int getPeers() {
         return peers;
     }
 
-    public void setPeers(Integer peers) {
+    public void setPeers(int peers) {
         this.peers = peers;
     }
 
@@ -62,11 +54,11 @@ public class NodeInfoViewModel {
         this.difficulty = difficulty;
     }
 
-    public Integer getBlocks() {
+    public int getBlocks() {
         return blocks;
     }
 
-    public void setBlocks(Integer blocks) {
+    public void setBlocks(int blocks) {
         this.blocks = blocks;
     }
 

@@ -20,13 +20,11 @@ import static com.topchain.node.util.NodeUtils.newString;
 public class BlockServiceImpl implements BlockService {
     private ModelMapper modelMapper;
     private Node node;
-    private NodeInfoViewModel nodeInfo;
 
     @Autowired
-    public BlockServiceImpl(ModelMapper modelMapper, Node node, NodeInfoViewModel nodeInfo) {
+    public BlockServiceImpl(ModelMapper modelMapper, Node node) {
         this.modelMapper = modelMapper;
         this.node = node;
-        this.nodeInfo = nodeInfo;
     }
 
     @Override
@@ -47,18 +45,6 @@ public class BlockServiceImpl implements BlockService {
         BlockViewModel blockViewModel = this.modelMapper.map(block, BlockViewModel.class);
 
         return blockViewModel;
-    }
-
-    @Override
-    public ResponseMessageViewModel notifyBlock(NotifyBlockModel notifyBlockModel) {
-        //TODO:
-
-        if (notifyBlockModel.getCumulativeDifficulty() > this.nodeInfo.getCumulativeDifficulty()) {
-            //TODO: get blockchain
-        }
-        //TODO: update nodeInfo on events, ex: blockchain update, new block etc.
-
-        return new ResponseMessageViewModel("Thank you");
     }
 
     /**

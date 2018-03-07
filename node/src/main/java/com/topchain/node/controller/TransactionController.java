@@ -110,6 +110,6 @@ public class TransactionController {
                 serializeJSON(transactionModel, false), httpHeaders);
 
         ResponseEntity<String> response = this.restTemplate
-                .postForEntity(peer.getUrl() + "/peers", request, String.class);
+                .postForEntity(peer.getUrl() + "/transactions/send", request, String.class);
     }
 }
