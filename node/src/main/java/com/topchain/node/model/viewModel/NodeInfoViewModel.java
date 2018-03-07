@@ -2,6 +2,7 @@ package com.topchain.node.model.viewModel;
 
 public class NodeInfoViewModel {
     private String about;
+    private String nodeUrl;
     private String nodeName;
     private Integer peers;
     private int difficulty;
@@ -27,6 +28,14 @@ public class NodeInfoViewModel {
 
     public void setAbout(String about) {
         this.about = about;
+    }
+
+    public String getNodeUrl() {
+        return nodeUrl;
+    }
+
+    public void setNodeUrl(String nodeUrl) {
+        this.nodeUrl = nodeUrl;
     }
 
     public String getNodeName() {

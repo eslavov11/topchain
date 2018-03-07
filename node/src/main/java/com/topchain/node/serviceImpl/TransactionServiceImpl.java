@@ -54,11 +54,14 @@ public class TransactionServiceImpl implements TransactionService {
         this.node.addPendingTransaction(transaction);
         this.node.addPendingTransactionsHashes(transactionHash);
 
+        //TODO: send transaction to all peer nodes
+
         return newTransactionViewModel;
     }
 
     @Override
     public TransactionViewModel getTransactionByHash(String hash) {
+        //TODO: fix
         Optional<Transaction> transaction = Optional.empty();
         for (Block block : this.node.getBlocks()) {
             if (transaction.isPresent()) {
@@ -66,12 +69,12 @@ public class TransactionServiceImpl implements TransactionService {
             }
 
             transaction = block.getTransactions().stream()
-                    .filter(t -> t.getFromAddress().equals(hash)).findAny();
+                    .filter(t -> Objects.equals(t.getTransactionHash(),(hash))).findAny();
         }
 
         if (!transaction.isPresent()) {
             transaction = this.node.getPendingTransactions().stream()
-                    .filter(t -> t.getFromAddress().equals(hash)).findAny();
+                    .filter(t -> Objects.equals(t.getTransactionHash(), hash)).findAny();
         }
 
         TransactionViewModel transactionViewModel =
@@ -203,6 +206,7 @@ public class TransactionServiceImpl implements TransactionService {
                                              int endIndex) {
         long balance = 0;
         Transaction tx = null;
+        //TODO:fix
         for (int i = startIndex; i < endIndex; i++) {
             for (int j = 0; j < this.node.getBlocks().get(i).getTransactions().size(); j++) {
                 tx = this.node.getBlocks().get(i).getTransactions().get(j);

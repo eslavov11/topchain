@@ -48,8 +48,6 @@ public class AppConfig {
 
     @Bean
     public Node generateNode() {
-        System.out.println(getServerURL());
-
         Node node = new Node();
         node.setDifficulty(nodeDifficulty);
         node.addBlock(createGenesisBlock());
@@ -63,6 +61,8 @@ public class AppConfig {
         t1.setDateCreated(new Date());
         t1.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
         t1.setTransferSuccessful(true);
+        //TODO: remove
+        t1.setTransactionHash("teeest");
 
         Transaction t2 = new Transaction();
         t2.setFromAddress(NIL_ADDRESS);

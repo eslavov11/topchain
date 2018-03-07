@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.topchain.node.util.NodeUtils.getServerURL;
+
 @Service
 public class NodeServiceImpl implements NodeService {
     private NodeInfoViewModel nodeInfoViewModel;
@@ -26,6 +28,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public NodeInfoViewModel getNodeInfo() {
+        this.nodeInfoViewModel.setNodeUrl(getServerURL());
         this.nodeInfoViewModel.setBlocks(this.node.getBlocks().size());
         this.nodeInfoViewModel.setPeers(this.node.getPeers().size());
         this.nodeInfoViewModel.setDifficulty(this.node.getDifficulty());

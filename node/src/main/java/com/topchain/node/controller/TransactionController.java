@@ -36,9 +36,14 @@ public class TransactionController {
     }
 
     @GetMapping("/transactions/{hash}")
-    public TransactionViewModel getTransaction(
+    public ResponseEntity<TransactionViewModel> getTransaction(
             @PathVariable String hash) {
-        return this.transactionService.getTransactionByHash(hash);
+        TransactionViewModel transactionViewModel = this.transactionService
+                .getTransactionByHash(hash);
+
+        //TODO: check if found then return 404
+
+        return new ResponseEntity<>(transactionViewModel, HttpStatus.OK);
     }
 
     @GetMapping("/address/{address}/balance")
@@ -61,6 +66,8 @@ public class TransactionController {
 
     @GetMapping("/address/{address}/transactions")
     public TransactionsForAddressViewModel getTransactionsForAddress(@PathVariable String address) {
+        //TODO: return 404 if not found
+
         return this.transactionService.getTransactionsForAddress(address);
     }
 }
