@@ -190,13 +190,8 @@ public class TransactionServiceImpl implements TransactionService {
         boolean transactionExists = this.node
                 .getPendingTransactionsHashes().contains(transactionHash);
 
-        TransactionSignatureModel transactionSignatureModel = new TransactionSignatureModel();
-        transactionSignatureModel.setFromAddress(transactionModel.getFrom());
-        transactionSignatureModel.setToAddress(transactionModel.getTo());
-        transactionSignatureModel.setSenderPublicKey(transactionModel.getSenderPubKey());
-        transactionSignatureModel.setValue(transactionModel.getValue());
-        transactionSignatureModel.setFee(transactionModel.getFee());
-        transactionSignatureModel.setDateCreated(transactionModel.getDateCreated());
+        TransactionSignatureModel transactionSignatureModel = this.modelMapper
+                .map(transactionModel, TransactionSignatureModel.class);
 
         boolean verified = CryptoUtils.verifySignature(
                 serializeJSON(transactionSignatureModel, false),

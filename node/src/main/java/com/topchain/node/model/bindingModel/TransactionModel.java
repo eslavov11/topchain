@@ -7,10 +7,10 @@ import java.util.Date;
 
 public class TransactionModel {
     @Size(min = 40, max = 40)
-    private String from;
+    private String fromAddress;
 
     @Size(min = 40, max = 40)
-    private String to;
+    private String toAddress;
 
     @Size(min = 64, max = 64)
     private String senderPubKey;
@@ -30,20 +30,20 @@ public class TransactionModel {
     public TransactionModel() {
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromAddress() {
+        return fromAddress;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
     }
 
-    public String getTo() {
-        return to;
+    public String getToAddress() {
+        return toAddress;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
     }
 
     public String getSenderPubKey() {
