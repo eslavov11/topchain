@@ -4,6 +4,7 @@ import com.topchain.node.entity.Block;
 import com.topchain.node.entity.Node;
 import com.topchain.node.entity.Transaction;
 import com.topchain.node.model.bindingModel.TransactionModel;
+import com.topchain.node.model.bindingModel.TransactionSignatureModel;
 import com.topchain.node.model.viewModel.*;
 import com.topchain.node.service.TransactionService;
 import com.topchain.node.util.CryptoUtils;
@@ -189,12 +190,12 @@ public class TransactionServiceImpl implements TransactionService {
         boolean transactionExists = this.node
                 .getPendingTransactionsHashes().contains(transactionHash);
 
-        //TODO: messageJSON
-//        boolean verified = CryptoUtils.verifySignature("",
-//                transactionModel.getSenderSignature(),
-//                transactionModel.getSenderPubKey());
+        TransactionSignatureModel transactionSignatureModel = this.modelMapper
+                .map(transactionModel, TransactionSignatureModel.class);
 
-        boolean verified = true;
+        boolean verified = CryptoUtils.verifySignature(serializeJSON(transactionSignatureModel, false),
+                transactionModel.getSenderSignature(),
+                transactionModel.getSenderPubKey());
 
         return !transactionExists && verified;
     }
