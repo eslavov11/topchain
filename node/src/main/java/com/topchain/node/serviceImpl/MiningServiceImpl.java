@@ -11,10 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static com.topchain.node.util.NodeUtils.*;
 
@@ -108,8 +105,10 @@ public class MiningServiceImpl implements MiningService {
         blockCandidate.setBlockHash(minedBlockModel.getBlockDataHash());
 
         this.node.addBlock(blockCandidate);
+        // Reset new block meta
         this.node.setPendingTransactions(new ArrayList<>());
         this.node.setPendingTransactionsHashes(new HashSet<>());
+        this.node.setMiningJobs(new HashMap<>());
 
         //TODO: notify peers this.peerService
 
