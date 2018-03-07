@@ -88,17 +88,20 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public FullBalanceViewModel getBalanceByAddress(String address) {
         FullBalanceViewModel balanceForAddress = new FullBalanceViewModel();
+        balanceForAddress.setAddress(address);
         BalanceViewModel balanceVMForConfirmed = new BalanceViewModel();
         BalanceViewModel balanceVMForLastMined = new BalanceViewModel();
         BalanceViewModel balanceVMForPending = new BalanceViewModel();
 
         // Calculate confirmed balance
+        balanceVMForConfirmed.setConfirmations(PENDING_BLOCKS_COUNT);
         balanceVMForConfirmed.setBalance(calcBalanceForBlocksIndexes(address,
                 this.node.getBlocks(),
                 0,
                 this.node.getBlocks().size() - PENDING_BLOCKS_COUNT));
 
         // Calculate last mined balance
+        balanceVMForLastMined.setConfirmations(1);
         balanceVMForLastMined.setBalance(balanceVMForConfirmed.getBalance());
         balanceVMForLastMined.setBalance(balanceVMForLastMined.getBalance() +
                 calcBalanceForBlocksIndexes(address,
@@ -107,6 +110,7 @@ public class TransactionServiceImpl implements TransactionService {
                         this.node.getBlocks().size()));
 
         // Calculate pending balance
+        balanceVMForConfirmed.setConfirmations(0);
         balanceVMForPending.setBalance(balanceVMForLastMined.getBalance());
         // get pending transactions and all of the balance for
         // given address in those transactions
