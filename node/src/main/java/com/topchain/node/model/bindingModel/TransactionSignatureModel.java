@@ -7,7 +7,7 @@ import java.util.Date;
 public class TransactionSignatureModel {
     private String fromAddress;
     private String toAddress;
-    private String senderPublicKey;
+    private String senderPubKey;
     private long value;
     private long fee;
 
@@ -33,12 +33,12 @@ public class TransactionSignatureModel {
         this.toAddress = toAddress;
     }
 
-    public String getSenderPublicKey() {
-        return senderPublicKey;
+    public String getSenderPubKey() {
+        return senderPubKey;
     }
 
-    public void setSenderPublicKey(String senderPublicKey) {
-        this.senderPublicKey = senderPublicKey;
+    public void setSenderPubKey(String senderPublicKey) {
+        this.senderPubKey = senderPublicKey;
     }
 
     public long getValue() {

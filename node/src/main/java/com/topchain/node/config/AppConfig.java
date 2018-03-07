@@ -34,7 +34,7 @@ public class AppConfig {
     @Value("${network.difficulty}")
     private int nodeDifficulty;
 
-    private String FAUCET_ADDRESS = "f51362b7351ef62253a227a77751ad9b2302f911";
+    private String FAUCET_ADDRESS = "9a959a9a2eb68ab550e0355dfef656a5e6016d71";
 
     @Bean
     public ModelMapper getModelMapper() {

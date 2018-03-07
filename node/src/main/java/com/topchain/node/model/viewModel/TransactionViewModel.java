@@ -7,7 +7,7 @@ public class TransactionViewModel {
     private String toAddress;
     private long value;
     private Date dateCreated;
-    private String senderPublicKey;
+    private String senderPubKey;
     private String[] senderSignature;
     private String transactionHash;
     private long minedInBlockIndex;
@@ -40,12 +40,12 @@ public class TransactionViewModel {
         this.value = value;
     }
 
-    public String getSenderPublicKey() {
-        return senderPublicKey;
+    public String getSenderPubKey() {
+        return senderPubKey;
     }
 
-    public void setSenderPublicKey(String senderPublicKey) {
-        this.senderPublicKey = senderPublicKey;
+    public void setSenderPubKey(String senderPublicKey) {
+        this.senderPubKey = senderPubKey;
     }
 
     public String[] getSenderSignature() {

@@ -12,7 +12,7 @@ public class Transaction {
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
     private Date dateCreated;
-    private String senderPublicKey;
+    private String senderPubKey;
     private String[] senderSignature;
     private String transactionHash;
     private int minedInBlockIndex;
@@ -55,12 +55,12 @@ public class Transaction {
         this.fee = fee;
     }
 
-    public String getSenderPublicKey() {
-        return senderPublicKey;
+    public String getSenderPubKey() {
+        return senderPubKey;
     }
 
-    public void setSenderPublicKey(String senderPublicKey) {
-        this.senderPublicKey = senderPublicKey;
+    public void setSenderPubKey(String senderPublicKey) {
+        this.senderPubKey = senderPublicKey;
     }
 
     public String[] getSenderSignature() {
