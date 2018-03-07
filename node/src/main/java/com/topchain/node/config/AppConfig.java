@@ -52,30 +52,6 @@ public class AppConfig {
         node.setDifficulty(nodeDifficulty);
         node.addBlock(createGenesisBlock());
 
-        //TODO: remove
-        Transaction t1 = new Transaction();
-        t1.setFromAddress(NIL_ADDRESS);
-        t1.setToAddress("f51362b7351ef62253a227a77751ad9b2302f911");
-        t1.setValue(100L);
-        t1.setFee(10000L);
-        t1.setDateCreated(new Date());
-        t1.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
-        t1.setTransferSuccessful(true);
-        //TODO: remove
-        t1.setTransactionHash("teeest");
-
-        Transaction t2 = new Transaction();
-        t2.setFromAddress(NIL_ADDRESS);
-        t2.setToAddress("f51362b7351ef62253a227a77751ad9b2302f333");
-        t2.setValue(20000L);
-        t2.setFee(3);
-        t2.setDateCreated(new Date());
-        t2.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
-        t2.setTransferSuccessful(true);
-
-        node.addPendingTransaction(t1);
-        node.addPendingTransaction(t2);
-
         return node;
     }
 
@@ -90,25 +66,7 @@ public class AppConfig {
         faucetTransaction.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
         faucetTransaction.setTransferSuccessful(true);
 
-        Transaction t1 = new Transaction();
-        t1.setFromAddress(NIL_ADDRESS);
-        t1.setToAddress("f51362b7351ef62253a227a77751ad9b2302f911");
-        t1.setValue(100L);
-        t1.setDateCreated(new Date());
-        t1.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
-        t1.setTransferSuccessful(true);
-
-        Transaction t2 = new Transaction();
-        t2.setFromAddress(NIL_ADDRESS);
-        t2.setToAddress("feff4ac90f8fcc68bfbdf882d52a806e8ac738ad");
-        t2.setValue(20L);
-        t2.setDateCreated(new Date());
-        t2.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
-        t2.setTransferSuccessful(true);
-
         genesis.addTransaction(faucetTransaction);
-        genesis.addTransaction(t1);
-        genesis.addTransaction(t2);
         genesis.setDateCreated(new Date());
         genesis.setDifficulty(0);
         genesis.setMinedBy(NIL_ADDRESS);
