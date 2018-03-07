@@ -193,7 +193,8 @@ public class TransactionServiceImpl implements TransactionService {
         TransactionSignatureModel transactionSignatureModel = this.modelMapper
                 .map(transactionModel, TransactionSignatureModel.class);
 
-        boolean verified = CryptoUtils.verifySignature(serializeJSON(transactionSignatureModel, false),
+        boolean verified = CryptoUtils.verifySignature(
+                serializeJSON(transactionSignatureModel, false),
                 transactionModel.getSenderSignature(),
                 transactionModel.getSenderPubKey());
 

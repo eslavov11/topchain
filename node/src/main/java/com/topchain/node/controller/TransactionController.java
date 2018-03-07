@@ -101,7 +101,8 @@ public class TransactionController {
         }
     }
 
-    private void sendNewTransactionToPeers(TransactionModel transactionModel, Peer peer) {
+    private void sendNewTransactionToPeers(TransactionModel transactionModel,
+                                           Peer peer) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 

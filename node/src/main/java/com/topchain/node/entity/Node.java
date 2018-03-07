@@ -14,6 +14,7 @@ public class Node {
         this.setPeers(new ArrayList<>());
         this.setBlocks(new ArrayList<>());
         this.setPendingTransactions(new ArrayList<>());
+        this.setPendingTransactionsHashes(new HashSet<>());
         this.setMiningJobs(new HashMap<>());
     }
 
