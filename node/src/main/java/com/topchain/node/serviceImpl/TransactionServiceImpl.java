@@ -74,7 +74,6 @@ public class TransactionServiceImpl implements TransactionService {
                     .filter(t -> t.getFromAddress().equals(hash)).findAny();
         }
 
-        //TODO: if pending -> successful & blockIndex not shown!!
         TransactionViewModel transactionViewModel =
                 this.modelMapper.map(transaction, TransactionViewModel.class);
 
@@ -126,30 +125,6 @@ public class TransactionServiceImpl implements TransactionService {
         balanceForAddress.setLastMinedBalance(balanceVMForLastMined);
 
         return balanceForAddress;
-    }
-
-    private long calcBalanceForBlocksIndexes(String address,
-                                             List<Block> blocks,
-                                             int startIndex,
-                                             int endIndex) {
-        long balance = 0;
-        Transaction tx = null;
-        for (int i = startIndex; i < endIndex; i++) {
-            for (int j = 0; j < this.node.getBlocks().get(i).getTransactions().size(); j++) {
-                tx = this.node.getBlocks().get(i).getTransactions().get(j);
-                if (!tx.getTransferSuccessful()) {
-                    continue;
-                }
-
-                if (tx.getFromAddress().equals(address)) {
-                    balance -= tx.getValue();
-                } else if (tx.getToAddress().equals(address)) {
-                    balance += tx.getValue();
-                }
-            }
-        }
-
-        return balance;
     }
 
     @Override
@@ -215,5 +190,30 @@ public class TransactionServiceImpl implements TransactionService {
         boolean verified = true;
 
         return !transactionExists && verified;
+    }
+
+
+    private long calcBalanceForBlocksIndexes(String address,
+                                             List<Block> blocks,
+                                             int startIndex,
+                                             int endIndex) {
+        long balance = 0;
+        Transaction tx = null;
+        for (int i = startIndex; i < endIndex; i++) {
+            for (int j = 0; j < this.node.getBlocks().get(i).getTransactions().size(); j++) {
+                tx = this.node.getBlocks().get(i).getTransactions().get(j);
+                if (!tx.getTransferSuccessful()) {
+                    continue;
+                }
+
+                if (tx.getFromAddress().equals(address)) {
+                    balance -= tx.getValue();
+                } else if (tx.getToAddress().equals(address)) {
+                    balance += tx.getValue();
+                }
+            }
+        }
+
+        return balance;
     }
 }

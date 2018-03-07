@@ -19,7 +19,4 @@ public class NodeController {
     public NodeInfoViewModel getNodeInfo() {
         return this.nodeService.getNodeInfo();
     }
-
-    //TODO: Nodes can provide additional data, e.g. at additional REST endpoint,
-    // e.g. total number of addresses, total coins issued, etc.
 }

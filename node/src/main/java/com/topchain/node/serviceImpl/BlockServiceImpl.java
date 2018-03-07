@@ -55,8 +55,6 @@ public class BlockServiceImpl implements BlockService {
         return new ResponseMessageViewModel("Thank you");
     }
 
-    //TODO: new block
-
     /**
      * A special coinbase transaction is inserted before all user
      * transactions in the block, to transfer the block reward + fees
