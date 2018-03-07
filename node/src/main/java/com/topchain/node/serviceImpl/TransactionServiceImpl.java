@@ -9,6 +9,7 @@ import com.topchain.node.model.viewModel.NewTransactionViewModel;
 import com.topchain.node.model.viewModel.TransactionViewModel;
 import com.topchain.node.model.viewModel.TransactionsForAddressViewModel;
 import com.topchain.node.service.TransactionService;
+import com.topchain.node.util.CryptoUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,13 +50,10 @@ public class TransactionServiceImpl implements TransactionService {
             return newTransactionViewModel;
         }
 
-        //TODO: validate pubK -> address == pAddress?
-
         transaction.setTransactionHash(transactionHash);
         newTransactionViewModel.setTransactionHash(transactionHash);
         this.node.addPendingTransaction(transaction);
         this.node.addPendingTransactionsHashes(transactionHash);
-        //TODO: on block creation remove pending transactions & hashes
 
         return newTransactionViewModel;
     }
@@ -143,9 +141,18 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionsForAddressViewModel;
     }
 
-    //TODO: not used transaction model??
     private boolean transactionIsValid(TransactionModel transactionModel,
                                        String transactionHash) {
-        return !this.node.getPendingTransactionsHashes().contains(transactionHash);
+        boolean transactionExists = this.node
+                .getPendingTransactionsHashes().contains(transactionHash);
+
+        //TODO: messageJSON
+//        boolean verified = CryptoUtils.verifySignature("",
+//                transactionModel.getSenderSignature(),
+//                transactionModel.getSenderPubKey());
+
+        boolean verified = true;
+
+        return !transactionExists && verified;
     }
 }
