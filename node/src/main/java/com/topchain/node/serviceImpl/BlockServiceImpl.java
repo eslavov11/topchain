@@ -4,6 +4,7 @@ import com.topchain.node.entity.Block;
 import com.topchain.node.entity.Node;
 import com.topchain.node.model.bindingModel.NotifyBlockModel;
 import com.topchain.node.model.viewModel.BlockViewModel;
+import com.topchain.node.model.viewModel.NodeInfoViewModel;
 import com.topchain.node.model.viewModel.ResponseMessageViewModel;
 import com.topchain.node.service.BlockService;
 import org.modelmapper.ModelMapper;
@@ -11,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static com.topchain.node.util.NodeUtils.newString;
 
@@ -21,11 +20,13 @@ import static com.topchain.node.util.NodeUtils.newString;
 public class BlockServiceImpl implements BlockService {
     private ModelMapper modelMapper;
     private Node node;
+    private NodeInfoViewModel nodeInfo;
 
     @Autowired
-    public BlockServiceImpl(ModelMapper modelMapper, Node node) {
+    public BlockServiceImpl(ModelMapper modelMapper, Node node, NodeInfoViewModel nodeInfo) {
         this.modelMapper = modelMapper;
         this.node = node;
+        this.nodeInfo = nodeInfo;
     }
 
     @Override
@@ -51,6 +52,11 @@ public class BlockServiceImpl implements BlockService {
     @Override
     public ResponseMessageViewModel notifyBlock(NotifyBlockModel notifyBlockModel) {
         //TODO:
+
+        if (notifyBlockModel.getCumulativeDifficulty() > this.nodeInfo.getCumulativeDifficulty()) {
+            //TODO: get blockchain
+        }
+        //TODO: update nodeInfo on events, ex: blockchain update, new block etc.
 
         return new ResponseMessageViewModel("Thank you");
     }
@@ -101,6 +107,7 @@ public class BlockServiceImpl implements BlockService {
     }
 
     private String hashBlock(Block block) {
+        //TODO:
         return null;
     }
 }
