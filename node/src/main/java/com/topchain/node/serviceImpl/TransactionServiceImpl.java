@@ -55,14 +55,11 @@ public class TransactionServiceImpl implements TransactionService {
         this.node.addPendingTransaction(transaction);
         this.node.addPendingTransactionsHashes(transactionHash);
 
-        //TODO: send transaction to all peer nodes
-
         return newTransactionViewModel;
     }
 
     @Override
     public TransactionViewModel getTransactionByHash(String hash) {
-        //TODO: fix
         Optional<Transaction> transaction = Optional.empty();
         for (Block block : this.node.getBlocks()) {
             if (transaction.isPresent()) {

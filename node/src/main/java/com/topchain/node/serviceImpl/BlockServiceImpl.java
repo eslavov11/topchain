@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.topchain.node.util.NodeUtils.newString;
 
@@ -40,9 +41,13 @@ public class BlockServiceImpl implements BlockService {
 
     @Override
     public BlockViewModel getBlockByIndex(long index) {
-        Block block = this.node.getBlocks().stream()
-                .filter(b -> b.getIndex() == index).findFirst().get();
-        BlockViewModel blockViewModel = this.modelMapper.map(block, BlockViewModel.class);
+        Optional<Block> block = this.node.getBlocks().stream()
+                .filter(b -> b.getIndex() == index).findAny();
+        BlockViewModel blockViewModel = new BlockViewModel();
+        if (block.isPresent()) {
+            blockViewModel = this.modelMapper.map(block.get(), BlockViewModel.class);
+            blockViewModel.setExists(true);
+        }
 
         return blockViewModel;
     }

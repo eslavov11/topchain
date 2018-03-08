@@ -1,5 +1,6 @@
 package com.topchain.node.controller;
 
+import com.sun.org.apache.bcel.internal.generic.I2F;
 import com.topchain.node.entity.Node;
 import com.topchain.node.entity.Peer;
 import com.topchain.node.model.bindingModel.NotifyBlockModel;
@@ -13,6 +14,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.swing.text.html.BlockView;
 import java.util.List;
 
 import static com.topchain.node.util.NodeUtils.getServerURL;
@@ -44,8 +46,14 @@ public class BlockController {
     }
 
     @GetMapping("/blocks/{index}")
-    public BlockViewModel getBlockByIndex(@PathVariable long index) {
-        return this.blockService.getBlockByIndex(index);
+    public ResponseEntity<BlockViewModel> getBlockByIndex(@PathVariable long index) {
+        BlockViewModel blockViewModel = this.blockService.getBlockByIndex(index);
+
+        if (!blockViewModel.isExists()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(blockViewModel, HttpStatus.OK);
     }
 
     @PostMapping("/blocks/notify")
@@ -57,8 +65,6 @@ public class BlockController {
 
             notifyPeersForNewBlock(notifyBlockModel, this.node.getPeers());
         }
-
-        //TODO:***(use nodeservice.getinfo method) update nodeInfo on events, ex: blockchain update, new block etc.
 
         return new ResponseMessageViewModel("Thank you for the notification.");
     }

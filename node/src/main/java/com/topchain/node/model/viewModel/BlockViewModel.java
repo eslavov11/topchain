@@ -1,5 +1,6 @@
 package com.topchain.node.model.viewModel;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.topchain.node.entity.Transaction;
 
 import java.util.Date;
@@ -15,6 +16,9 @@ public class BlockViewModel {
     private long nonce;
     private Date dateCreated;
     private String blockHash;
+
+    @JsonIgnore
+    private boolean exists;
 
     public BlockViewModel() {
     }
@@ -89,5 +93,13 @@ public class BlockViewModel {
 
     public void setBlockHash(String blockHash) {
         this.blockHash = blockHash;
+    }
+
+    public boolean isExists() {
+        return exists;
+    }
+
+    public void setExists(boolean exists) {
+        this.exists = exists;
     }
 }

@@ -25,9 +25,6 @@ public class AppConfig {
     @Value("${node.name}")
     private String nodeName;
 
-    @Value("${node.coins}")
-    private long nodeCoins;
-
     @Value("${faucet.coins}")
     private long faucetCoins;
 
@@ -93,9 +90,7 @@ public class AppConfig {
         NodeInfoViewModel nodeInfoViewModel = new NodeInfoViewModel();
         nodeInfoViewModel.setAbout(nodeAbout);
         nodeInfoViewModel.setNodeName(nodeName);
-
-        //TODO: properties are not set difficulty, etc.
-        //TODO: call /info
+        nodeInfoViewModel.setCumulativeDifficulty(nodeDifficulty);
 
         return nodeInfoViewModel;
     }
