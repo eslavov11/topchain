@@ -1,6 +1,6 @@
 ﻿namespace TopChain.Wallet.Models
 {
-    public class Transaction
+    public class TransactionSign
     {
         public string FromAddress { get; set; }
         public string ToAddress { get; set; }
@@ -10,6 +10,5 @@
         public string DateCreated { get; set; }
         public string[] SenderSignature { get; set; }
         public string TransactionHash { get; set; }
-        public bool TransferSuccessful { get; set; }
     }
 }

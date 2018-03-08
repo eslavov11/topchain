@@ -15,6 +15,7 @@
     using Newtonsoft.Json;
     using TopChain.Wallet.Models;
     using Newtonsoft.Json.Serialization;
+    using System.Linq;
 
     public class Wallet
     {
@@ -40,23 +41,26 @@
 
         public static string BytesToHex(byte[] bytes)
         {
-            return BitConverter.ToString(bytes).Replace("-", string.Empty).ToLower();
+            return string.Concat(bytes.Select(b => b.ToString("x2")));
         }
+
+        //public static string EncodeECPointHexCompressed(ECPoint point)
+        //{
+        //    BigInteger x = point.XCoord.ToBigInteger();
+        //    return x.ToString(16) + Convert.ToInt32(!x.TestBit(0));
+        //}
 
         public static string EncodeECPointHexCompressed(ECPoint point)
         {
-            BigInteger x = point.XCoord.ToBigInteger();
-            return x.ToString(16) + Convert.ToInt32(!x.TestBit(0));
-        }
+            var compressedPoint = point.GetEncoded(true);
+            BigInteger biInt = new BigInteger(compressedPoint);
 
-        //almost made me rewrite RipeMD160Managed from http://referencesource.microsoft.com/mscorlib/system/security/cryptography/ripemd160managed.cs.html#http://referencesource.microsoft.com/mscorlib/system/security/cryptography/ripemd160managed.cs.html,http://referencesource.microsoft.com/mscorlib/system/security/cryptography/ripemd160managed.cs.html
+            return biInt.ToString(16);
+        }
 
         private static string CalculateRipeMD160Digest(string text)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(text);
-
-            //RIPEMD160Managed hashstring = new RIPEMD160Managed();
-            //string tt = hashstring.ComputeHash(bytes)
 
             RipeMD160Digest digest = new RipeMD160Digest();
             digest.BlockUpdate(bytes, 0, bytes.Length);
@@ -85,7 +89,7 @@
             BigInteger privateKey = ((ECPrivateKeyParameters)keyPair.Private).D;
             Console.WriteLine("Private key : " + privateKey.ToString(16));
 
-            ECPoint pubKey = ((ECPublicKeyParameters)keyPair.Public).Q;
+            ECPoint pubKey = GetPublicKeyFromPrivateKey(privateKey);
 
             string pubKeyCompressed = EncodeECPointHexCompressed(pubKey);
             Console.WriteLine("Public key : " + pubKeyCompressed);
@@ -93,24 +97,6 @@
             string addr = CalculateRipeMD160Digest(pubKeyCompressed);
             Console.WriteLine("address: " + addr);
             Console.WriteLine("Please SAVE your private key somewhere that cannot be lost easily.");
-        }
-
-        public static string[] PrivateKeyToAddress(string privateKeyHex)
-        {
-            string[] result = new string[2];
-
-            BigInteger privateKey = new BigInteger(privateKeyHex, 16);
-
-            ECPoint pubKey = GetPublicKeyFromPrivateKey(privateKey);
-            
-            //result[0] holds compressed pub key
-            result[0] = EncodeECPointHexCompressed(pubKey);
-            //Console.WriteLine("Public key : " + result[0]);
-
-            //result[1] holds address
-            result[1]= CalculateRipeMD160Digest(result[0]);
-            //Console.WriteLine("address: " + result[1]);
-            return result;
         }
 
         public static string AddressFromPrivateKey(string privateKeyHex)
@@ -128,6 +114,9 @@
             return CalculateRipeMD160Digest(pubKey);
         }
 
+        /// <summary>
+        /// Calculates deterministic ECDSA signature (with HMAC-SHA256), based on secp256k1 and RFC-6979.
+        /// </summary>
         private static BigInteger[] SignTransaction(BigInteger privateKey, byte[] data)
         {
             ECDomainParameters ecSpec = new ECDomainParameters(curve.Curve, curve.G, curve.N, curve.H);
@@ -139,26 +128,33 @@
             return signature;
         }
 
-        public static string CreateAndSignTransaction(string recipientAddress, decimal value,
+        public static string GetPublicKeyCompressed(string privateKeyString)
+        {
+            BigInteger privateKey = new BigInteger(privateKeyString, 16);
+            ECPoint pubKey = GetPublicKeyFromPrivateKey(privateKey);
+
+            string pubKeyCompressed = EncodeECPointHexCompressed(pubKey);
+            return pubKeyCompressed;
+        }
+
+        public static string CreateAndSignTransaction(string recipientAddress, long value,
             string iso8601datetime, string senderPrivKeyHex)
         {
             Console.WriteLine("Generate and sign a transaction");
 
-            BigInteger privateKey = new BigInteger(senderPrivKeyHex, 16);
+            BigInteger hexPrivateKey = new BigInteger(senderPrivKeyHex, 16);
 
-            ECPoint pubKey = GetPublicKeyFromPrivateKey(privateKey);
-            string senderPubKeyCompressed = EncodeECPointHexCompressed(pubKey);
+            string publicKey = GetPublicKeyCompressed(senderPrivKeyHex);
+            string senderAddress = CalculateRipeMD160Digest(publicKey);
 
-
-            string senderAddress = CalculateRipeMD160Digest(senderPubKeyCompressed);
-
-            Transaction tran = new Transaction
+            TransactionRaw tran = new TransactionRaw
             {
                 FromAddress = senderAddress,
                 ToAddress = recipientAddress,
+                SenderPubKey = publicKey,
                 Value = value,
+                Fee = 20,
                 DateCreated = iso8601datetime,
-                SenderPubKey = senderPubKeyCompressed,
                 
             };
              string tranJson = JsonConvert.SerializeObject(tran, new JsonSerializerSettings
@@ -166,17 +162,20 @@
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
             
-            byte[] tranHash = CalcSHA256(tranJson);
-            BigInteger[] tranSignature = SignTransaction(privateKey, tranHash);
+            byte[] txHash = CalcSHA256(tranJson);
+            string transHash = BytesToHex(txHash);
 
-            Transaction tranSigned = new Transaction
+            BigInteger[] tranSignature = SignTransaction(hexPrivateKey, txHash);
+
+            TransactionSign tranSigned = new TransactionSign
             {
                 FromAddress = senderAddress,
                 ToAddress = recipientAddress,
                 Value = value,
                 DateCreated = iso8601datetime,
-                SenderPubKey = senderPubKeyCompressed,
-                TransactionHash = tranHash,
+                Fee = 20,
+                SenderPubKey = publicKey,
+                TransactionHash = transHash,
                 SenderSignature = new string[]
                 {
                     tranSignature[0].ToString(16),
@@ -184,12 +183,10 @@
                 }
             };
 
-            string signedTransactionJson = JsonConvert.SerializeObject(tranSigned, Formatting.Indented,new JsonSerializerSettings
+            string signedTransactionJson = JsonConvert.SerializeObject(tranSigned,new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
-            //Console.WriteLine("json signed transaction :");
-            //Console.WriteLine(signedTransactionJson);
             return signedTransactionJson;
         }
 

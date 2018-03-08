@@ -9,20 +9,10 @@ namespace TopChain.Wallet.Utils
 {
     public class BalanceChecker
     {
-        public static bool CheckIfAddressHasBalance(string privateKey, decimal valueToSend)
-        {
-            string addressToCheck = Wallet.AddressFromPrivateKey(privateKey);
-
-            if (GetAddressSavings(addressToCheck) > valueToSend)
-                return true;
-            else
-                return false;
-        }
-
-        public static decimal GetAddressSavings(string addressToCheck)
+        public static long GetAddressSavings(string addressToCheck)
         {
             List<Block> blocks = GetCurrentBlocks();
-            decimal currentSavingsForAddress = 0m;
+            long currentSavingsForAddress = 0;
             if (blocks != null)
             {
                 foreach (var block in blocks)
