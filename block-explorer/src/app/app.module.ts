@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { BlocksComponent } from './components/blocks/blocks.component';
-import { PeersComponent } from './components/peers/peers.component';
 import { ConfirmedTransactionsComponent } from './components/confirmed-transactions/confirmed-transactions.component';
 import { PendingTransactionsComponent } from './components/pending-transactions/pending-transactions.component';
 import { AccountsComponent } from './components/accounts/accounts.component';
@@ -24,7 +23,6 @@ import { PendingTransactionsService } from './services/pending-transactions.serv
   declarations: [
     AppComponent,
     BlocksComponent,
-    PeersComponent,
     ConfirmedTransactionsComponent,
     PendingTransactionsComponent,
     AccountsComponent,

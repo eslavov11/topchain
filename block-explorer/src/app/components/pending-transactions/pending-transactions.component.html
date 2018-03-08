@@ -1,55 +1,21 @@
 <h1>Pending transactions</h1>
-<div class="container">
-  <div class="row">
-    <div class="col-sm column-titles">
-      From address
-    </div>
-    <div class="col-sm">
-      To address
-    </div>
-    <div class="col-sm">
-      Value
-    </div>
-    <div class="col-sm">
-      Date created
-    </div>
-    <div class="col-sm">
-      Sender public key
-    </div>
-    <div class="col-sm">
-      Transaction hash
-    </div>
-    <div class="col-sm">
-      Mined in block
-    </div>
-    <div class="col-sm">
-      Transfer Successful
-    </div>
-  </div>
-  <div class="row" *ngFor="let transactions of pendingTransactions">
-    <div class="col-sm">
-      {{transactions.fromAddress}}
-    </div>
-    <div class="col-sm">
-      {{transactions.toAddress}}
-    </div>
-    <div class="col-sm">
-      {{transactions.value}}
-    </div>
-    <div class="col-sm">
-      {{transactions.dateCreated}}
-    </div>
-    <div class="col-sm">
-      {{transactions.senderPubKey}}
-    </div>
-    <div class="col-sm">
-      {{transactions.transactionHash}}
-    </div>
-    <div class="col-sm">
-      {{transactions.minedInBlockIndex}}
-    </div>
-    <div class="col-sm">
-      {{transactions.transferSuccessful}}
-    </div>
-  </div>
-</div>
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">From Address</th>
+    <th scope="col">To Address</th>
+    <th scope="col">Value</th>
+    <th scope="col">Fee</th>
+    <th scope="col">Date Created</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let transactions of pendingTransactions">
+    <td><a routerLink=""><p class="address">{{transactions.fromAddress}}</p></a> </td>
+    <td><a routerLink=""><p class="address">{{transactions.toAddress}}</p></a> </td>
+    <td> {{transactions.value}}</td>
+    <td> {{transactions.fee}}</td>
+    <td> {{transactions.dateCreated | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+  </tr>
+  </tbody>
+</table>

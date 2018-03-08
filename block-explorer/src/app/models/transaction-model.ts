@@ -3,7 +3,7 @@ export class Transaction {
   toAddress: string;
   value: number;
   fee: number;
-  dateCreated: string;
+  dateCreated: Date;
   senderPubKey: string;
   senderSignature: string[];
   transactionHash: string;
