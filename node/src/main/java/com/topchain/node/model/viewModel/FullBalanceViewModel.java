@@ -1,10 +1,15 @@
 package com.topchain.node.model.viewModel;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class FullBalanceViewModel {
     private String address;
     private BalanceViewModel confirmedBalance;
     private BalanceViewModel lastMinedBalance;
     private BalanceViewModel pendingBalance;
+
+    @JsonIgnore
+    private boolean isExists;
 
     public FullBalanceViewModel() {
     }
@@ -39,5 +44,13 @@ public class FullBalanceViewModel {
 
     public void setPendingBalance(BalanceViewModel pendingBalance) {
         this.pendingBalance = pendingBalance;
+    }
+
+    public boolean isExists() {
+        return isExists;
+    }
+
+    public void setExists(boolean exists) {
+        isExists = exists;
     }
 }

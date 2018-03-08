@@ -67,7 +67,7 @@ public class TransactionServiceImpl implements TransactionService {
             }
 
             transaction = block.getTransactions().stream()
-                    .filter(t -> Objects.equals(t.getTransactionHash(),(hash))).findAny();
+                    .filter(t -> Objects.equals(t.getTransactionHash(), (hash))).findAny();
         }
 
         if (!transaction.isPresent()) {
@@ -133,6 +133,10 @@ public class TransactionServiceImpl implements TransactionService {
         balanceForAddress.setPendingBalance(balanceVMForPending);
         balanceForAddress.setLastMinedBalance(balanceVMForLastMined);
 
+        balanceForAddress.setExists(balanceVMForConfirmed.getBalance() > 0 ||
+                balanceVMForLastMined.getBalance() > 0 ||
+                balanceVMForPending.getBalance() > 0);
+
         return balanceForAddress;
     }
 
@@ -140,20 +144,20 @@ public class TransactionServiceImpl implements TransactionService {
     public Set<TransactionViewModel> getPendingTransactions() {
         Set<TransactionViewModel> pendingTransactions = new HashSet<>();
 //        this.modelMapper.map(this.node.getPendingTransactions(), pendingTransactions);
-        this.node.getPendingTransactions().forEach(x->{
-                TransactionViewModel t = new TransactionViewModel();
+        this.node.getPendingTransactions().forEach(x -> {
+            TransactionViewModel t = new TransactionViewModel();
 
-                t.setFromAddress(x.getFromAddress());
-                t.setToAddress(x.getToAddress());
-                t.setValue(x.getValue());
-                t.setFee(x.getFee());
-                t.setDateCreated(x.getDateCreated());
-                t.setSenderPubKey(x.getSenderPublicKey());
-                t.setTransactionHash(x.getTransactionHash());
-                t.setMinedInBlockIndex(x.getMinedInBlockIndex());
-                t.setSenderSignature(x.getSenderSignature());
-                t.setTransferSuccessful(x.getTransferSuccessful());
-                pendingTransactions.add(t);
+            t.setFromAddress(x.getFromAddress());
+            t.setToAddress(x.getToAddress());
+            t.setValue(x.getValue());
+            t.setFee(x.getFee());
+            t.setDateCreated(x.getDateCreated());
+            t.setSenderPubKey(x.getSenderPublicKey());
+            t.setTransactionHash(x.getTransactionHash());
+            t.setMinedInBlockIndex(x.getMinedInBlockIndex());
+            t.setSenderSignature(x.getSenderSignature());
+            t.setTransferSuccessful(x.getTransferSuccessful());
+            pendingTransactions.add(t);
         });
 
         return pendingTransactions;
@@ -224,7 +228,8 @@ public class TransactionServiceImpl implements TransactionService {
                                              int endIndex) {
         long balance = 0;
         Transaction tx = null;
-        //TODO:fix
+        if (startIndex < 0) startIndex = 0;
+        if (endIndex < 0) endIndex = 0;
         for (int i = startIndex; i < endIndex; i++) {
             for (int j = 0; j < this.node.getBlocks().get(i).getTransactions().size(); j++) {
                 tx = this.node.getBlocks().get(i).getTransactions().get(j);

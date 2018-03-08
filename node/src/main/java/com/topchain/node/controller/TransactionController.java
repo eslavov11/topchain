@@ -66,11 +66,16 @@ public class TransactionController {
     }
 
     @GetMapping("/address/{address}/balance")
-    public FullBalanceViewModel getBalanceByAddressForConfirmations(
+    public ResponseEntity<FullBalanceViewModel> getBalanceByAddressForConfirmations(
             @PathVariable String address) {
-        //TODO: return status code 200 on every request
-        return this.transactionService
+        FullBalanceViewModel fullBalanceViewModel = this.transactionService
                 .getBalanceByAddress(address);
+
+        if (!fullBalanceViewModel.isExists()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(fullBalanceViewModel, HttpStatus.OK);
     }
 
     @GetMapping("/transactions/pending")
