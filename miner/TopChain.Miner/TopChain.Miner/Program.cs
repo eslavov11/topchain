@@ -1,6 +1,7 @@
 ﻿namespace TopChain.Miner
 {
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using Org.BouncyCastle.Crypto.Digests;
     using System;
     using System.Collections.Generic;
@@ -38,6 +39,8 @@
         }
         private static Block blockToMine;
 
+        private static CancellationTokenSource cancelTasks;
+
         static void Main(string[] args)
         {
             //string minerAddress = Console.ReadLine();
@@ -53,8 +56,7 @@
 
             while (true)
             {
-                var cancelTasks = new CancellationTokenSource();
-
+                cancelTasks = new CancellationTokenSource(); 
                 var taskList = new List<Task<ResultWrapper>>();
 
                 GlobalCounter.Reset();
@@ -65,10 +67,6 @@
                 {
                     taskList.Add(Task.Run(() =>
                     {
-                        if (cancelTasks.Token.IsCancellationRequested)
-                        {
-                            cancelTasks.Token.ThrowIfCancellationRequested();
-                        }
                         return StartMining(blockToMine, minerAddress, startingNonce += 1000000);
 
                     }, cancelTasks.Token));
@@ -88,27 +86,25 @@
                 var kiloHashesPerSecond = (GlobalCounter.Value / sw.Elapsed.TotalSeconds) / 1000;
                 Console.WriteLine("kHs => {0} ", kiloHashesPerSecond);
                 blockToMine = GetBlock(minerAddress);
-
             }
-
         }
 
         public static ResultWrapper StartMining(Block blockToMine, string minerAddress, ulong nonce)
         {
-
             string blockDataHash = string.Empty;
             ResultWrapper result = null;
 
             result = MineBlock(blockToMine, nonce);
 
-            //SubmitPoW(result);
-
             return result;
         }
 
-
         public static ResultWrapper MineBlock(Block blockToMine, ulong nonce)
         {
+            if (cancelTasks.IsCancellationRequested)
+            {
+                return null;
+            }
             ResultWrapper result = new ResultWrapper();
             string dateCreated = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
             if (blockToMine == null) return null;
@@ -122,17 +118,13 @@
                 nonce++;
                 dateCreated = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
                 nextHash = CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
-
-
                 nextHashSubstring = ConvertToBase16Fast2(nextHash).Substring(0, difficulty);
-
             }
-
+            
             result.Nonce = nonce;
             result.DateCreated = dateCreated;
             result.BlockDataHash = blockToMine.BlockDataHash;
-            //Console.WriteLine(result.DateCreated);
-            //Console.WriteLine(result.Nonce);
+
             return result;
         }
 
@@ -148,46 +140,18 @@
             return result;
         }
 
-        //slower implementation
-        //static byte[] sha256(string randomString)
-        //{
-        //    System.Security.Cryptography.SHA256Managed crypt = new System.Security.Cryptography.SHA256Managed();
-        //    byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(randomString), 0, Encoding.UTF8.GetByteCount(randomString));
-
-        //    return crypto;
-        //}
-
         public static Block GetBlock(string minerAddress)
         {
             Block result = null;
             string nodeIP = "127.0.0.1:5555";
 
-            string getBlocksURL = string.Format("/mining/get-block/{0}", minerAddress);
+            string getBlocksURL = string.Format("/mining/get-mining-job/{0}", minerAddress);
             try
             {
-                //seen from the colleague with 3mhs
-                string res = new WebClient().DownloadString(string.Format("http://{0}{1}", nodeIP, getBlocksURL));
+                string url = string.Format("http://{0}{1}", nodeIP, getBlocksURL);
+                string res = new WebClient().DownloadString(url);
                 Block obj = JsonConvert.DeserializeObject<Block>(res);
 
-
-                //using (var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }))
-                //{
-                //    client.BaseAddress = new Uri(string.Format("http://{0}{1}", nodeIP, getBlocksURL));
-                //    HttpResponseMessage response = client.GetAsync(getBlocksURL).Result;
-                //    response.EnsureSuccessStatusCode();
-                //    string responseResult = response.Content.ReadAsStringAsync().Result;
-                //    result = JsonConvert.DeserializeObject<Block>(responseResult);
-
-                //    //string signedTranJson = JsonConvert.SerializeObject(result, Formatting.Indented);
-
-                //    //Console.WriteLine("testing serializing (JSON):");
-                //    //Console.WriteLine(signedTranJson);
-                //    //checking if its properly deserialized
-                //    //Console.WriteLine("Result: " + result[0].Index);
-                //    result.Difficulty = 5;
-                //    return result;
-                //}
-                obj.Difficulty = 5;
                 return obj;
             }
             catch (Exception ex)
@@ -208,7 +172,10 @@
 
             //string getBlocksURL = string.Format("/mining/get-block/{0}{1}", result.DateCreated,result.Nonce);
 
-            var dataToSend = JsonConvert.SerializeObject(result);
+            var dataToSend = JsonConvert.SerializeObject(result, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
             try
             {
                 using (var client = new WebClient())
@@ -216,7 +183,7 @@
                     client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
                     client.Headers.Add(HttpRequestHeader.Accept, "application/json");
 
-                    var res = client.UploadString("http://127.0.0.1:5555/mining/submit-block/1335246", "POST", dataToSend);
+                    var res = client.UploadString("http://127.0.0.1:5555/mining/submit-mined-block/", "POST", dataToSend);
 
                 }
             }
