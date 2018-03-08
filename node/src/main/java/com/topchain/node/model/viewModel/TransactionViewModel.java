@@ -6,6 +6,7 @@ public class TransactionViewModel {
     private String fromAddress;
     private String toAddress;
     private long value;
+    private long fee;
     private Date dateCreated;
     private String senderPubKey;
     private String[] senderSignature;
@@ -86,5 +87,13 @@ public class TransactionViewModel {
 
     public void setTransferSuccessful(Boolean transferSuccessful) {
         this.transferSuccessful = transferSuccessful;
+    }
+
+    public long getFee() {
+        return fee;
+    }
+
+    public void setFee(long fee) {
+        this.fee = fee;
     }
 }

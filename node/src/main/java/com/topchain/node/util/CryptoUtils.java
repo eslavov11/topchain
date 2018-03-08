@@ -44,6 +44,8 @@ public class CryptoUtils {
         byte[] result = new byte[digest.getDigestSize()];
         digest.doFinal(result, 0);
         return result;
+
+
     }
 
     private static org.bouncycastle.math.ec.ECPoint DecodeECPointPublicKey(String publicKey) {
