@@ -1,9 +1,24 @@
-<p>
-  blocks works!
-</p>
-<h1>{{blocks}}</h1>
-<h1>{{test}}</h1>
-<h1>{{anotherTest}}</h1>
-<div *ngFor="let block of this.blocks">
-  {{block.transactions[0].dateCreated}}
+ <div class="row">
+  <div *ngFor="let block of this.blocks" class="col-md-3">
+    <div class="card mb-4 box-shadow">
+      <div class="card-img-top block-main"
+           data-holder-rendered="true">
+        <br/>
+        <p>Block {{block.index}}</p>
+        Date created
+        <p>{{block.dateCreated | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+      </div>
+      <div class="card-body">
+        <div class="card-text">
+          <p class="address">Mined by {{block.minedBy}}</p>
+          <p>Transactions {{block.transactions.length}}</p>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

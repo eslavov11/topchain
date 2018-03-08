@@ -13,6 +13,8 @@ export class BlocksComponent implements OnInit {
 
   ngOnInit() {
     this.blockService.getBlocks()
-                          .subscribe((data:Array<Block>)=>{ this.blocks = data as Array<Block>; });
+                          .subscribe((data:Array<Block>)=>{
+      this.blocks = data as Array<Block>;
+    });
   }
 }
