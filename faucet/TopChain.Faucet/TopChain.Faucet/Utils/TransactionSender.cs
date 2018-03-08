@@ -13,6 +13,7 @@
     using Org.BouncyCastle.Crypto.Digests;
     using System;
     using System.Net.Http;
+    using System.Linq;
 
     public class TransactionSender
     {
@@ -43,26 +44,34 @@
             return pubKey;
         }
 
-        public static string CreateAndSignTransaction(string recipientAddress, decimal value,
+        public static string GetPublicKeyCompressed(string privateKeyString)
+        {
+            BigInteger privateKey = new BigInteger(privateKeyString, 16);
+            ECPoint pubKey = GetPublicKeyFromPrivateKey(privateKey);
+
+            string pubKeyCompressed = EncodeECPointHexCompressed(pubKey);
+            return pubKeyCompressed;
+        }
+
+        public static string CreateAndSignTransaction(string recipientAddress, long value,
            string iso8601datetime)
         {
+            //faucet public key: 3cd938497b04562b35c001705ed287405da8aff2c486f70413350ef4f108ef9d8
+            //faucet address: 9a959a9a2eb68ab550e0355dfef656a5e6016d71
+            string faucetPrivKey = "2debcee8a64fb677dfd6c43423058b86810e7319c957b16bebb4fbf9883ac6b9";
+            BigInteger hexPrivateKey = new BigInteger(faucetPrivKey, 16);
 
-            string faucetPrivKey = "1235";
-            BigInteger privateKey = new BigInteger(faucetPrivKey, 16);
-
-            ECPoint pubKey = GetPublicKeyFromPrivateKey(privateKey);
-            string senderPubKeyCompressed = EncodeECPointHexCompressed(pubKey);
-
-
-            string senderAddress = CalculateRipeMD160Digest(senderPubKeyCompressed);
+            string publicKey = GetPublicKeyCompressed(faucetPrivKey);
+            string senderAddress = CalculateRipeMD160Digest(publicKey);
 
             Transaction tran = new Transaction
             {
                 FromAddress = senderAddress,
                 ToAddress = recipientAddress,
+                SenderPubKey = publicKey,
                 Value = value,
+                Fee = 20,
                 DateCreated = iso8601datetime,
-                SenderPubKey = senderPubKeyCompressed,
 
             };
             string tranJson = JsonConvert.SerializeObject(tran, new JsonSerializerSettings
@@ -71,17 +80,19 @@
             });
 
             TranHash = CalcSHA256(tranJson);
+            string transHash = BytesToHex(TranHash);
 
-            BigInteger[] tranSignature = SignTransaction(privateKey, TranHash);
+            BigInteger[] tranSignature = SignTransaction(hexPrivateKey, TranHash);
 
-            Transaction tranSigned = new Transaction
+            TransactionSign tranSigned = new TransactionSign
             {
                 FromAddress = senderAddress,
                 ToAddress = recipientAddress,
                 Value = value,
                 DateCreated = iso8601datetime,
-                SenderPubKey = senderPubKeyCompressed,
-                TransactionHash = TranHash,
+                Fee = 20,
+                SenderPubKey = publicKey,
+                TransactionHash = transHash,
                 SenderSignature = new string[]
                 {
                     tranSignature[0].ToString(16),
@@ -89,7 +100,7 @@
                 }
             };
 
-            string signedTransactionJson = JsonConvert.SerializeObject(tranSigned, Formatting.Indented, new JsonSerializerSettings
+            string signedTransactionJson = JsonConvert.SerializeObject(tranSigned, new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
@@ -140,8 +151,7 @@
 
         public static string BytesToHex(byte[] bytes)
         {
-            return BitConverter.ToString(bytes).Replace("-", string.Empty).ToLower();
+            return string.Concat(bytes.Select(b => b.ToString("x2")));
         }
-
     }
 }
