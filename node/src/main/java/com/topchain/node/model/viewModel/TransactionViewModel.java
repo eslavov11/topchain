@@ -1,5 +1,7 @@
 package com.topchain.node.model.viewModel;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 public class TransactionViewModel {
@@ -13,6 +15,9 @@ public class TransactionViewModel {
     private String transactionHash;
     private long minedInBlockIndex;
     private Boolean transferSuccessful;
+
+    @JsonIgnore
+    private boolean exists;
 
     public TransactionViewModel() {
     }
@@ -95,5 +100,13 @@ public class TransactionViewModel {
 
     public void setFee(long fee) {
         this.fee = fee;
+    }
+
+    public boolean isExists() {
+        return exists;
+    }
+
+    public void setExists(boolean exists) {
+        this.exists = exists;
     }
 }

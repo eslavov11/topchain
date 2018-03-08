@@ -58,6 +58,7 @@ public class AppConfig {
     private Block createGenesisBlock() {
         Block genesis = new Block();
         genesis.setIndex(GENESIS_BLOCK_INDEX);
+
         Transaction faucetTransaction = new Transaction();
         faucetTransaction.setFromAddress(NIL_ADDRESS);
         faucetTransaction.setToAddress(FAUCET_ADDRESS);
@@ -65,6 +66,9 @@ public class AppConfig {
         faucetTransaction.setDateCreated(new Date());
         faucetTransaction.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
         faucetTransaction.setTransferSuccessful(true);
+        faucetTransaction.setSenderPublicKey("");
+        faucetTransaction.setSenderSignature(new String[] {"",""});
+        faucetTransaction.setTransactionHash(hashText(serializeJSON(faucetTransaction, false)));
 
         genesis.addTransaction(faucetTransaction);
         genesis.setDateCreated(new Date());

@@ -78,8 +78,12 @@ public class TransactionServiceImpl implements TransactionService {
                     .filter(t -> Objects.equals(t.getTransactionHash(), hash)).findAny();
         }
 
-        TransactionViewModel transactionViewModel =
-                this.modelMapper.map(transaction, TransactionViewModel.class);
+        TransactionViewModel transactionViewModel = new TransactionViewModel();
+        if (transaction.isPresent()) {
+            transactionViewModel =
+                    this.modelMapper.map(transaction.get(), TransactionViewModel.class);
+            transactionViewModel.setExists(true);
+        }
 
         return transactionViewModel;
     }

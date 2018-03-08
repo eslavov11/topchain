@@ -58,7 +58,9 @@ public class TransactionController {
         TransactionViewModel transactionViewModel = this.transactionService
                 .getTransactionByHash(hash);
 
-        //TODO: check if found then return 404
+        if (!transactionViewModel.isExists()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         return new ResponseEntity<>(transactionViewModel, HttpStatus.OK);
     }
