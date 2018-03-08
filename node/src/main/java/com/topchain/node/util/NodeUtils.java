@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -62,7 +63,8 @@ public class NodeUtils {
 
         messageDigest.update(text.getBytes(StandardCharsets.UTF_8));
         byte[] digest = messageDigest.digest();
-        String hex = String.format("%064x", new BigInteger(1, digest));
+
+        String hex = DatatypeConverter.printHexBinary(digest);
 
         return hex;
     }

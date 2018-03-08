@@ -80,7 +80,7 @@
             });
 
             TranHash = CalcSHA256(tranJson);
-            string transHash = BytesToHex(TranHash);
+            string txHash = BytesToHex(TranHash);
 
             BigInteger[] tranSignature = SignTransaction(hexPrivateKey, TranHash);
 
@@ -92,7 +92,7 @@
                 DateCreated = iso8601datetime,
                 Fee = 20,
                 SenderPubKey = publicKey,
-                TransactionHash = transHash,
+                TransactionHash = txHash,
                 SenderSignature = new string[]
                 {
                     tranSignature[0].ToString(16),
@@ -109,8 +109,10 @@
 
         public static string EncodeECPointHexCompressed(ECPoint point)
         {
-            BigInteger x = point.XCoord.ToBigInteger();
-            return x.ToString(16) + Convert.ToInt32(!x.TestBit(0));
+            var compressedPoint = point.GetEncoded(true);
+            BigInteger biInt = new BigInteger(compressedPoint);
+
+            return biInt.ToString(16);
         }
 
         private static BigInteger[] SignTransaction(BigInteger privateKey, byte[] data)

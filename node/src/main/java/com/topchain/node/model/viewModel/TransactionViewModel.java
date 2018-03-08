@@ -50,7 +50,7 @@ public class TransactionViewModel {
         return senderPubKey;
     }
 
-    public void setSenderPubKey(String senderPublicKey) {
+    public void setSenderPubKey(String senderPubKey) {
         this.senderPubKey = senderPubKey;
     }
 

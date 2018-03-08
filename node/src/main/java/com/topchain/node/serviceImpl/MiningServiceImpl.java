@@ -15,6 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.topchain.node.util.NodeUtils.*;
@@ -82,6 +85,7 @@ public class MiningServiceImpl implements MiningService {
     public MinedBlockStatusViewModel submitBlock(MinedBlockModel minedBlockModel) {
         MinedBlockStatusViewModel minedBlockStatusViewModel = new MinedBlockStatusViewModel();
 
+
         Block blockCandidate = this.node.getMiningJobs().get(minedBlockModel.getBlockDataHash());
         if (blockCandidate == null) {
             minedBlockStatusViewModel.setStatus("not-found");
@@ -91,8 +95,8 @@ public class MiningServiceImpl implements MiningService {
         }
 
         if (!hashText(minedBlockModel.getBlockDataHash() +
-                minedBlockModel.getNonce() +
-                minedBlockModel.getDateCreated())
+                minedBlockModel.getDateCreated()+
+                minedBlockModel.getNonce())
                 .startsWith(newString("0", blockCandidate.getDifficulty()))) {
             minedBlockStatusViewModel.setStatus("rejected");
             minedBlockStatusViewModel.setMessage("The block is rejected.");
@@ -100,14 +104,21 @@ public class MiningServiceImpl implements MiningService {
         }
 
         // Is the block already mined
-        if (this.node.getBlocks().size() - 1 != blockCandidate.getIndex()) {
+        if (this.node.getBlocks().size() + 1 != blockCandidate.getIndex()) {
             minedBlockStatusViewModel.setStatus("not-found");
             minedBlockStatusViewModel.setMessage("The block is rejected.");
             return minedBlockStatusViewModel;
         }
 
         blockCandidate.setNonce(minedBlockModel.getNonce());
-        blockCandidate.setDateCreated(minedBlockModel.getDateCreated());
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        Date date = new Date();
+        try {
+             date = formatter.parse(minedBlockModel.getDateCreated());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        blockCandidate.setDateCreated(date);
         blockCandidate.setBlockHash(minedBlockModel.getBlockDataHash());
 
         this.node.addBlock(blockCandidate);

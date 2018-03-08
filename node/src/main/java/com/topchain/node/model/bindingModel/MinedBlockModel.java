@@ -1,5 +1,7 @@
 package com.topchain.node.model.bindingModel;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -7,7 +9,8 @@ import java.util.Date;
  */
 public class MinedBlockModel {
     private long nonce;
-    private Date dateCreated;
+
+    private String dateCreated;
     private String blockDataHash;
 
     public MinedBlockModel() {
@@ -21,11 +24,11 @@ public class MinedBlockModel {
         this.nonce = nonce;
     }
 
-    public Date getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 
