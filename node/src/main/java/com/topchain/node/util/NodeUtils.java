@@ -3,8 +3,15 @@ package com.topchain.node.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.topchain.node.entity.Peer;
+import com.topchain.node.model.bindingModel.NotifyBlockModel;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,12 +19,12 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Created by eslavov on 13-Feb-18.
@@ -102,12 +109,12 @@ public class NodeUtils {
             e.printStackTrace();
         }
 
-        while(en.hasMoreElements()){
-            NetworkInterface ni=(NetworkInterface) en.nextElement();
+        while (en.hasMoreElements()) {
+            NetworkInterface ni = (NetworkInterface) en.nextElement();
             Enumeration ee = ni.getInetAddresses();
-            while(ee.hasMoreElements()) {
+            while (ee.hasMoreElements()) {
                 InetAddress ia = (InetAddress) ee.nextElement();
-                //TODO: find better way to get address
+                // find better way to get address
                 if (ia.getHostAddress().startsWith("192")) {
                     ipAddress = ia.getHostAddress();
                 }
@@ -115,8 +122,8 @@ public class NodeUtils {
         }
 
         return "http://" +
-                    ipAddress + ":" +
-                    SERVER_PORT;
+                ipAddress + ":" +
+                SERVER_PORT;
     }
 
     public static String newString(String append, int length) {
@@ -142,5 +149,42 @@ public class NodeUtils {
 
     public static long coinsFromMicCoins(long micCoins) {
         return coinsFromMilCoins(micCoins / 1000);
+    }
+
+    public static void notifyPeersForNewBlock(NotifyBlockModel notifyBlockModel, List<Peer> peers) {
+        Peer currentNode = new Peer();
+        currentNode.setUrl(getServerURL());
+        notifyBlockModel.setPeer(currentNode);
+
+        // Notify all peers about new transaction
+        peers.forEach(p ->
+                new Thread(new BlockNotifyPeersRunnable(notifyBlockModel, p))
+                        .start());
+    }
+
+    private static class BlockNotifyPeersRunnable implements Runnable {
+        private NotifyBlockModel notifyBlockModel;
+        private Peer peer;
+
+        public BlockNotifyPeersRunnable(NotifyBlockModel notifyBlockModel, Peer peer) {
+            this.notifyBlockModel = notifyBlockModel;
+        }
+
+        public void run() {
+            notifyNewBlockToPeer(this.notifyBlockModel, this.peer);
+        }
+    }
+
+    private static void notifyNewBlockToPeer(NotifyBlockModel notifyBlockModel,
+                                      Peer peer) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>(
+                serializeJSON(notifyBlockModel, false), httpHeaders);
+
+        ResponseEntity<String> response = new RestTemplate()
+                .postForEntity(peer.getUrl() + "/blocks/notify",
+                        request, String.class);
     }
 }

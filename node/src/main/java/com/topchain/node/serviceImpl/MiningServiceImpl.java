@@ -2,11 +2,15 @@ package com.topchain.node.serviceImpl;
 
 import com.topchain.node.entity.Block;
 import com.topchain.node.entity.Node;
+import com.topchain.node.entity.Peer;
 import com.topchain.node.entity.Transaction;
 import com.topchain.node.model.bindingModel.MinedBlockModel;
+import com.topchain.node.model.bindingModel.NotifyBlockModel;
 import com.topchain.node.model.viewModel.MinedBlockStatusViewModel;
 import com.topchain.node.model.viewModel.BlockCandidateViewModel;
 import com.topchain.node.service.MiningService;
+import com.topchain.node.service.NodeService;
+import com.topchain.node.util.NodeUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +23,13 @@ import static com.topchain.node.util.NodeUtils.*;
 public class MiningServiceImpl implements MiningService {
     private ModelMapper modelMapper;
     private Node node;
+    private NodeService nodeService;
 
     @Autowired
-    public MiningServiceImpl(ModelMapper modelMapper, Node node) {
+    public MiningServiceImpl(ModelMapper modelMapper, Node node, NodeService nodeService) {
         this.modelMapper = modelMapper;
         this.node = node;
+        this.nodeService = nodeService;
     }
 
     private Transaction calculateRewardTransaction(String minerAddress) {
@@ -110,12 +116,22 @@ public class MiningServiceImpl implements MiningService {
         this.node.setPendingTransactionsHashes(new HashSet<>());
         this.node.setMiningJobs(new HashMap<>());
 
-        //TODO: notify peers this.peerService
+        notifyPeersForNewBlock(blockCandidate);
 
         minedBlockStatusViewModel.setMessage("Block accepted, reward paid: " +
                 blockCandidate.getTransactions().get(0).getValue() + " microcoins");
         minedBlockStatusViewModel.setStatus("accepted");
 
         return minedBlockStatusViewModel;
+    }
+
+    private void notifyPeersForNewBlock(Block blockCandidate) {
+        NotifyBlockModel notifyBlockModel = new NotifyBlockModel();
+        notifyBlockModel.setIndex(blockCandidate.getIndex());
+        notifyBlockModel.setCumulativeDifficulty(this.nodeService.getNodeInfo().getCumulativeDifficulty());
+        Peer peer = new Peer();
+        peer.setUrl(getServerURL());
+        notifyBlockModel.setPeer(peer);
+        NodeUtils.notifyPeersForNewBlock(notifyBlockModel, this.node.getPeers());
     }
 }

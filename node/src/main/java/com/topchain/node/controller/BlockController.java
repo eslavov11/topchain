@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 import static com.topchain.node.util.NodeUtils.getServerURL;
+import static com.topchain.node.util.NodeUtils.notifyPeersForNewBlock;
 import static com.topchain.node.util.NodeUtils.serializeJSON;
 
 @RestController
@@ -54,14 +55,7 @@ public class BlockController {
                         this.nodeInfoViewModel.getCumulativeDifficulty()) {
             setLongestChain(notifyBlockModel.getPeer().getUrl());
 
-            Peer currentNode = new Peer();
-            currentNode.setUrl(getServerURL());
-            notifyBlockModel.setPeer(currentNode);
-
-            // Notify all peers about new transaction
-            this.node.getPeers().forEach(p ->
-                    new Thread(new BlockNotifyPeersRunnable(notifyBlockModel, p))
-                            .start());
+            notifyPeersForNewBlock(notifyBlockModel, this.node.getPeers());
         }
 
         //TODO:***(use nodeservice.getinfo method) update nodeInfo on events, ex: blockchain update, new block etc.
@@ -94,31 +88,5 @@ public class BlockController {
 
         return peerInfo.getCumulativeDifficulty() >
                 this.nodeInfoViewModel.getCumulativeDifficulty();
-    }
-
-    private class BlockNotifyPeersRunnable implements Runnable {
-        private NotifyBlockModel notifyBlockModel;
-        private Peer peer;
-
-        public BlockNotifyPeersRunnable(NotifyBlockModel notifyBlockModel, Peer peer) {
-            this.notifyBlockModel = notifyBlockModel;
-        }
-
-        public void run() {
-            notifyNewBlockToPeers(this.notifyBlockModel, this.peer);
-        }
-    }
-
-    private void notifyNewBlockToPeers(NotifyBlockModel notifyBlockModel,
-                                           Peer peer) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<String> request = new HttpEntity<>(
-                serializeJSON(notifyBlockModel, false), httpHeaders);
-
-        ResponseEntity<String> response = this.restTemplate
-                .postForEntity(peer.getUrl() + "/blocks/notify",
-                        request, String.class);
     }
 }

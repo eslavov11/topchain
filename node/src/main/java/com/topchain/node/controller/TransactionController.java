@@ -84,10 +84,14 @@ public class TransactionController {
     }
 
     @GetMapping("/address/{address}/transactions")
-    public TransactionsForAddressViewModel getTransactionsForAddress(@PathVariable String address) {
-        //TODO: return 404 if not found
+    public ResponseEntity<TransactionsForAddressViewModel> getTransactionsForAddress(@PathVariable String address) {
+        TransactionsForAddressViewModel transactionsForAddressViewModel =
+                this.transactionService.getTransactionsForAddress(address);
+        if (transactionsForAddressViewModel.getTransactions().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return this.transactionService.getTransactionsForAddress(address);
+        return new ResponseEntity<>(transactionsForAddressViewModel, HttpStatus.OK);
     }
 
     private class TransactionNotifyPeersRunnable implements Runnable {
