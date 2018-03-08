@@ -115,7 +115,7 @@ public class TransactionServiceImpl implements TransactionService {
                         this.node.getBlocks().size()));
 
         // Calculate pending balance
-        balanceVMForConfirmed.setConfirmations(0);
+        balanceVMForPending.setConfirmations(0);
         balanceVMForPending.setBalance(balanceVMForLastMined.getBalance());
         // get pending transactions and all of the balance for
         // given address in those transactions
