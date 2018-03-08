@@ -167,7 +167,7 @@
 
             BigInteger[] tranSignature = SignTransaction(hexPrivateKey, txHash);
 
-            TransactionSign tranSigned = new TransactionSign
+            Transaction tranSigned = new Transaction
             {
                 FromAddress = senderAddress,
                 ToAddress = recipientAddress,
