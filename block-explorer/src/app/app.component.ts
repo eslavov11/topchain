@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Topchain Explorer!';
+  title = 'Topchain Explorer';
   address:string;
   constructor(private router:Router){}
 

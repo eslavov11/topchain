@@ -6,28 +6,28 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="blocks">Blocks <span class="sr-only">(current)</span></a>
+            <a class="nav-link" routerLink="blocks">Blocks <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="confirmed-transactions">Confirmed Transactions</a>
+            <a class="nav-link" routerLink="confirmed-transactions">Confirmed Transactions</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="pending-transactions"> Pending Transactions</a>
+            <a class="nav-link" routerLink="pending-transactions"> Pending Transactions</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="accounts">Accounts and balances</a>
+              <a class="nav-link" routerLink="accounts">Accounts and balances</a>
             </li>
           <li class="nav-item">
-              <a class="nav-link" href="peers">Peers</a>
+              <a class="nav-link" routerLink="peers">Peers</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="network-difficulty">Network difficulty</a>
+              <a class="nav-link" routerLink="network-difficulty">Network difficulty</a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" [(ngModel)]="address" name="address" placeholder="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="getBalance()">Search</button>
-        </form>
+        <!--<form class="form-inline my-2 my-lg-0">-->
+          <!--<input class="form-control mr-sm-2" type="text" [(ngModel)]="address" name="address" placeholder="Search">-->
+          <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="getBalance()">Search</button>-->
+        <!--</form>-->
       </div>
     </nav>
 <router-outlet></router-outlet>

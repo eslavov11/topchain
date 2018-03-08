@@ -12,7 +12,10 @@ export class PendingTransactionsComponent implements OnInit {
   constructor(private pendingTransactionsService:PendingTransactionsService) { }
 
   ngOnInit() {
-    this.pendingTransactionsService.getPendingTransactions().subscribe(x=>this.pendingTransactions = x as Array<Transaction>);
+
+    this.pendingTransactionsService.getPendingTransactions().subscribe(x=>{
+      this.pendingTransactions = x as Array<Transaction>;
+    });
   }
 
 }
