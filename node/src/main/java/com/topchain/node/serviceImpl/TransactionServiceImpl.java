@@ -143,21 +143,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Set<TransactionViewModel> getPendingTransactions() {
         Set<TransactionViewModel> pendingTransactions = new HashSet<>();
-//        this.modelMapper.map(this.node.getPendingTransactions(), pendingTransactions);
         this.node.getPendingTransactions().forEach(x -> {
-            TransactionViewModel t = new TransactionViewModel();
-
-            t.setFromAddress(x.getFromAddress());
-            t.setToAddress(x.getToAddress());
-            t.setValue(x.getValue());
-            t.setFee(x.getFee());
-            t.setDateCreated(x.getDateCreated());
-            t.setSenderPubKey(x.getSenderPublicKey());
-            t.setTransactionHash(x.getTransactionHash());
-            t.setMinedInBlockIndex(x.getMinedInBlockIndex());
-            t.setSenderSignature(x.getSenderSignature());
-            t.setTransferSuccessful(x.getTransferSuccessful());
-            pendingTransactions.add(t);
+            pendingTransactions.add(this.modelMapper.map(x, TransactionViewModel.class));
         });
 
         return pendingTransactions;
