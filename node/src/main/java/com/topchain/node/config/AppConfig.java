@@ -63,7 +63,7 @@ public class AppConfig {
         faucetTransaction.setDateCreated(new Date());
         faucetTransaction.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
         faucetTransaction.setTransferSuccessful(true);
-        faucetTransaction.setSenderPublicKey("");
+        faucetTransaction.setSenderPubKey("");
         faucetTransaction.setSenderSignature(new String[] {"",""});
         faucetTransaction.setTransactionHash(hashText(serializeJSON(faucetTransaction, false)));
 
