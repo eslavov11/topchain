@@ -1,9 +1,10 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import Utils from "../utils/utils";
 
 @Injectable()
 export class PendingTransactionsService {
-  pendingTransactionsURL = 'http://localhost:5555/transactions/pending';
+  pendingTransactionsURL = Utils.NODE_URL + 'transactions/pending';
 
   constructor(private http: HttpClient) {
   }

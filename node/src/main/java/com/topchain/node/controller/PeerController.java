@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -45,7 +47,17 @@ public class PeerController {
 
     @GetMapping("/peers")
     public Set<PeerViewModel> getPeers() {
-        return this.peerService.getPeers();
+        //TODO:
+        Set<PeerViewModel> list = new HashSet<>();
+        PeerViewModel peerViewModel = new PeerViewModel();
+        PeerViewModel peerViewModel2 = new PeerViewModel();
+        peerViewModel.setUrl("http://localhost:5555");
+        peerViewModel2.setUrl("http://asdklfj.com:5555");
+
+        list.add(peerViewModel);
+        list.add(peerViewModel2);
+        return list;
+//        return this.peerService.getPeers();
     }
 
     @PostMapping("/peers")

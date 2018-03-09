@@ -1,4 +1,4 @@
-<h1>Pending transactions</h1>
+<h1 class="h1 text-center">Pending transactions</h1>
 <table class="table">
   <thead>
   <tr>
@@ -11,8 +11,13 @@
   </thead>
   <tbody>
   <tr *ngFor="let transactions of pendingTransactions">
-    <td><a routerLink=""><p class="address">{{transactions.fromAddress}}</p></a> </td>
-    <td><a routerLink=""><p class="address">{{transactions.toAddress}}</p></a> </td>
+    <td><a routerLink="/transactions/{{transactions.fromAddress}}">
+      <p class="address">{{transactions.fromAddress}}</p></a>
+    </td>
+    <td>
+      <a [routerLink]="['transactions', transactions.toAddress]">
+        <p class="address">{{transactions.toAddress}}</p></a>
+    </td>
     <td> {{transactions.value}}</td>
     <td> {{transactions.fee}}</td>
     <td> {{transactions.dateCreated | date: 'dd/MM/yyyy HH:mm:ss'}}</td>

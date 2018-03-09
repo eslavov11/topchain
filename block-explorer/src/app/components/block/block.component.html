@@ -1,0 +1,37 @@
+<h1 class="h1 text-center">Block</h1>
+<div class="card">
+  <div class="card-block text-center">
+    <br/>
+    <h4 class="card-title text-muted">
+      Height {{this.block.index}}
+    </h4>
+    <br/>
+    <span class="text-muted">
+      Date <strong>{{this.block.dateCreated | date: 'dd/MM/yyyy HH:mm:ss'}}</strong>
+    </span>
+    <br/>
+    <span class="text-muted">
+      Mined by
+      <a [routerLink]="['/address', this.block.minedBy]">
+        <strong>{{this.block.minedBy}}</strong>
+      </a>
+    </span>
+    <br/>
+    <span class="text-muted">
+      Transactions <strong>{{this.block.transactions.length}}</strong>
+    </span>
+    <br/>
+    <span class="text-muted">
+      Block Hash <strong>{{this.block.blockHash}}</strong>
+    </span>
+    <br/>
+    <span class="text-muted">
+      Previous Block Hash <strong>{{this.block.previousBlockHash}}</strong>
+    </span>
+    <br/>
+    <span class="text-muted">
+      Nonce <strong>{{this.block.nonce}}</strong>
+    </span>
+    <br/>
+  </div>
+</div>

@@ -87,7 +87,7 @@ public class BlockServiceImpl implements BlockService {
         });
 
         for (int i = 1; i < blocks.size(); i++) {
-            if (!blocks.get(i).getBlockHash().equals(hashBlock(blocks.get(i - 1))) ||
+            if (!blocks.get(i).getPreviousBlockHash().equals(hashBlock(blocks.get(i - 1))) ||
                     !blocks.get(i).getBlockHash()
                             .startsWith(newString("0", blocks.get(i).getDifficulty()))) {
                 return false;

@@ -1,13 +1,18 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import Utils from "../utils/utils";
 
 @Injectable()
 export class NetworkDifficultyService {
-    blocksUrl = 'http://localhost:5555/info';
-    constructor(private http:HttpClient) {}
 
-    getNetworkDifficulty(){
-        return this.http.get(this.blocksUrl);
-    }
+  constructor(private http: HttpClient) {
+  }
 
+  getNetworkDifficulty() {
+    return this.http.get(Utils.NODE_URL + 'info');
+  }
+
+  getPeers() {
+    return this.http.get(Utils.NODE_URL + 'peers');
+  }
 }

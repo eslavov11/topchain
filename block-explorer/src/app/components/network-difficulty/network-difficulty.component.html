@@ -1,3 +1,5 @@
+<h1 class="h1 text-center">Network information</h1>
+
 <div class="card card-outline-secondary mb-3 text-center">
   <div class="card-block">
     <blockquote class="card-blockquote">
@@ -42,3 +44,15 @@
     </blockquote>
   </div>
 </div>
+
+<div class="card card-outline-secondary mb-3 text-center">
+  <div class="card-block">
+    <blockquote class="card-blockquote">
+      <p>Peers</p>
+      <p *ngFor="let p of peers">
+        <b>{{p.url}}</b>
+      </p>
+    </blockquote>
+  </div>
+</div>
+

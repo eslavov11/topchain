@@ -1,4 +1,4 @@
-<h1>Confirmed transactions</h1>
+<h1 class="h1 text-center">Confirmed transactions</h1>
 <table class="table">
   <thead>
   <tr>
@@ -12,12 +12,17 @@
   </thead>
   <tbody>
   <tr *ngFor="let transactions of confirmedTransactions">
-    <td><a routerLink=""><p class="address">{{transactions.fromAddress}}</p></a> </td>
-    <td><a routerLink=""><p class="address">{{transactions.toAddress}}</p></a> </td>
+    <td><a routerLink="/transactions/{{transactions.fromAddress}}">
+      <p class="address">{{transactions.fromAddress}}</p></a>
+    </td>
+    <td><a routerLink="/transactions/{{transactions.toAddress}}">
+      <p class="address">{{transactions.toAddress}}</p></a></td>
     <td> {{transactions.value}}</td>
     <td> {{transactions.fee}}</td>
     <td> {{transactions.dateCreated | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-    <td><a routerLink="">{{transactions.minedInBlockIndex}}</a></td>
+    <td><a routerLink="blocks/{{transactions.minedInBlockIndex}}">
+      {{transactions.minedInBlockIndex}}</a>
+    </td>
   </tr>
   </tbody>
 </table>

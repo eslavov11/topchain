@@ -17,12 +17,14 @@ import { AddressBalanceComponent } from './components/address-balance/address-ba
 import { AddressBalanceService } from './services/adress-balance.services';
 import { ConfirmedTransactionsService } from './services/confirmed-transactions.services';
 import { PendingTransactionsService } from './services/pending-transactions.services';
+import {BlockComponent} from "./components/block/block.component";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     BlocksComponent,
+    BlockComponent,
     ConfirmedTransactionsComponent,
     PendingTransactionsComponent,
     AccountsComponent,
