@@ -1,58 +1,40 @@
 <h1 class="h1 text-center">Network information</h1>
 
-<div class="card card-outline-secondary mb-3 text-center">
-  <div class="card-block">
-    <blockquote class="card-blockquote">
-      <p>Network name</p>
-      <b>{{netDif.nodeName}}</b>
-    </blockquote>
+<div class="card">
+  <div class="card-block text-center">
+    <br/>
+    <span class="text-muted">
+      Network name <strong>{{netDif.nodeName}}</strong>
+    </span>
+    <br/>
+    <br/>
+    <span class="text-muted">
+      Network difficulty <strong>{{netDif.cumulativeDifficulty}}</strong>
+    </span>
+    <br/>
+    <br/>
+    <span class="text-muted">
+      Network blocks <strong>{{netDif.blocks}}</strong>
+    </span>
+    <br/>
+    <br/>
+    <span class="text-muted">
+      Network confirmed transactions <strong>{{netDif.confirmedTransactions}}</strong>
+    </span>
+    <br/>
+    <br/>
+    <span class="text-muted">
+      Network pending transactions <strong>{{netDif.pendingTransactions}}</strong>
+    </span>
+    <br/>
+    <br/>
+    <br/>
+    <span class="text-muted">
+      Peers
+      <div *ngFor="let p of peers">
+        <strong>{{p.url}}</strong>
+      </div>
+    </span>
+    <br/>
   </div>
 </div>
-
-<div class="card card-outline-secondary mb-3 text-center">
-  <div class="card-block">
-    <blockquote class="card-blockquote">
-      <p>Network difficulty</p>
-      <b>{{netDif.cumulativeDifficulty}}</b>
-    </blockquote>
-  </div>
-</div>
-
-<div class="card card-outline-secondary mb-3 text-center">
-  <div class="card-block">
-    <blockquote class="card-blockquote">
-      <p>Network blocks</p>
-      <b>{{netDif.blocks}}</b>
-    </blockquote>
-  </div>
-</div>
-
-<div class="card card-outline-secondary mb-3 text-center">
-  <div class="card-block">
-    <blockquote class="card-blockquote">
-      <p>Network confirmed transactions</p>
-      <b>{{netDif.confirmedTransactions}}</b>
-    </blockquote>
-  </div>
-</div>
-
-<div class="card card-outline-secondary mb-3 text-center">
-  <div class="card-block">
-    <blockquote class="card-blockquote">
-      <p>Network pending transactions</p>
-      <b>{{netDif.pendingTransactions}}</b>
-    </blockquote>
-  </div>
-</div>
-
-<div class="card card-outline-secondary mb-3 text-center">
-  <div class="card-block">
-    <blockquote class="card-blockquote">
-      <p>Peers</p>
-      <p *ngFor="let p of peers">
-        <b>{{p.url}}</b>
-      </p>
-    </blockquote>
-  </div>
-</div>
-
