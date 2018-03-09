@@ -47,17 +47,7 @@ public class PeerController {
 
     @GetMapping("/peers")
     public Set<PeerViewModel> getPeers() {
-        //TODO:
-        Set<PeerViewModel> list = new HashSet<>();
-        PeerViewModel peerViewModel = new PeerViewModel();
-        PeerViewModel peerViewModel2 = new PeerViewModel();
-        peerViewModel.setUrl("http://localhost:5555");
-        peerViewModel2.setUrl("http://asdklfj.com:5555");
-
-        list.add(peerViewModel);
-        list.add(peerViewModel2);
-        return list;
-//        return this.peerService.getPeers();
+        return this.peerService.getPeers();
     }
 
     @PostMapping("/peers")
