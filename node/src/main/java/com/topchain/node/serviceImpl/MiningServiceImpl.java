@@ -71,7 +71,7 @@ public class MiningServiceImpl implements MiningService {
         this.node.addMiningJob(blockCandidate.getBlockDataHash(), blockCandidate);
 
         BlockCandidateViewModel blockCandidateViewModel = new BlockCandidateViewModel();
-        blockCandidateViewModel.setIndex(blockCandidate.getIndex());
+        blockCandidateViewModel.setIndex(blockCandidate.getIndex() + 1);
         blockCandidateViewModel.setDifficulty(blockCandidate.getDifficulty());
         blockCandidateViewModel.setTransactionsIncluded(blockCandidate.getTransactions().size());
         blockCandidateViewModel.setRewardAddress(blockCandidate.getMinedBy());
