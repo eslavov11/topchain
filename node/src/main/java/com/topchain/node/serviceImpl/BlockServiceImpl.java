@@ -11,9 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.topchain.node.util.NodeUtils.newString;
 
@@ -77,6 +75,9 @@ public class BlockServiceImpl implements BlockService {
         });
 
         this.node.setBlocks(blocks);
+        this.node.setPeers(new ArrayList<>());
+        this.node.setMiningJobs(new HashMap<>());
+        this.node.setPendingTransactionsHashes(new HashSet<>());
     }
 
     @Override
