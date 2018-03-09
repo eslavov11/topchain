@@ -1,5 +1,7 @@
 package com.topchain.node.model.bindingModel;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,7 +23,7 @@ public class TransactionModel {
     @Min(value = 1)
     private long fee;
 
-    @NotNull
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Date dateCreated;
 
     @Size(min = 2, max = 2)

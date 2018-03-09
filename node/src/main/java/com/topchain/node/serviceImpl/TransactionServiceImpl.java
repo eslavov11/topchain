@@ -49,11 +49,16 @@ public class TransactionServiceImpl implements TransactionService {
         if (!transactionIsValid(transactionModel, transactionHash)) {
             return newTransactionViewModel;
         }
+        //should set trans hash from given transaction
 
-        transaction.setTransactionHash(transactionHash);
-        newTransactionViewModel.setTransactionHash(transactionHash);
+        TransactionSignatureModel t = this.modelMapper.map(transactionModel, TransactionSignatureModel.class);
+        String hash = hashText(serializeJSON(t,false));
+
+
+        transaction.setTransactionHash(hash);
+        newTransactionViewModel.setTransactionHash(hash);
         this.node.addPendingTransaction(transaction);
-        this.node.addPendingTransactionsHashes(transactionHash);
+        this.node.addPendingTransactionsHashes(hash);
 
         return newTransactionViewModel;
     }
