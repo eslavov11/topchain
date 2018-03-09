@@ -111,7 +111,14 @@ public class MiningServiceImpl implements MiningService {
         }
 
         blockCandidate.setNonce(minedBlockModel.getNonce());
-        blockCandidate.setDateCreated(minedBlockModel.getDateCreated());
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        Date date = new Date();
+        try {
+            date = formatter.parse(minedBlockModel.getDateCreated());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        blockCandidate.setDateCreated(date);
         blockCandidate.setBlockHash(minedBlockModel.getBlockDataHash());
 
         this.node.addBlock(blockCandidate);

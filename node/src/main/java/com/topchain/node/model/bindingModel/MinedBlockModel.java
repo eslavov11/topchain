@@ -10,8 +10,7 @@ import java.util.Date;
 public class MinedBlockModel {
     private long nonce;
 
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'")
-    private Date dateCreated;
+    private String dateCreated;
     private String blockDataHash;
 
     public MinedBlockModel() {
@@ -25,11 +24,11 @@ public class MinedBlockModel {
         this.nonce = nonce;
     }
 
-    public Date getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 
