@@ -3,12 +3,16 @@
   <div class="card-block text-center">
     <br/>
     <h4 class="card-title text-muted">
+      <a [routerLink]="['/blocks', this.block.index - 1]"> < &nbsp;</a>
       Height {{this.block.index}}
+      <a [routerLink]="['/blocks', this.block.index + 1]"> &nbsp;> </a>
     </h4>
+    <br/>
     <br/>
     <span class="text-muted">
       Date <strong>{{this.block.dateCreated | date: 'dd/MM/yyyy HH:mm:ss'}}</strong>
     </span>
+    <br/>
     <br/>
     <span class="text-muted">
       Mined by
@@ -17,17 +21,21 @@
       </a>
     </span>
     <br/>
+    <br/>
     <span class="text-muted">
       Transactions <strong>{{this.block.transactions.length}}</strong>
     </span>
+    <br/>
     <br/>
     <span class="text-muted">
       Block Hash <strong>{{this.block.blockHash}}</strong>
     </span>
     <br/>
+    <br/>
     <span class="text-muted">
       Previous Block Hash <strong>{{this.block.previousBlockHash}}</strong>
     </span>
+    <br/>
     <br/>
     <span class="text-muted">
       Nonce <strong>{{this.block.nonce}}</strong>

@@ -20,7 +20,7 @@
     <td> {{transactions.value}}</td>
     <td> {{transactions.fee}}</td>
     <td> {{transactions.dateCreated | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-    <td><a routerLink="blocks/{{transactions.minedInBlockIndex}}">
+    <td><a [routerLink]="['/blocks', transactions.minedInBlockIndex]">
       {{transactions.minedInBlockIndex}}</a>
     </td>
   </tr>
