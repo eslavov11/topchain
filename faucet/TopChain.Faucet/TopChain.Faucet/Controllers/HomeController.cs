@@ -25,7 +25,7 @@ namespace TopChain.Faucet.Controllers
         public string ReturnOnSuccess([FromBody] string addressToReceiveMoney)
         {
             string iso8601standard = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
-            string signedTran = TransactionSender.CreateAndSignTransaction(addressToReceiveMoney, 1, iso8601standard);
+            string signedTran = TransactionSender.CreateAndSignTransaction(addressToReceiveMoney, 1000000, iso8601standard);
             TransactionSender.SendSignedTransaction(signedTran);
             string tranHash = TransactionSender.BytesToHex(TransactionSender.TranHash);
             return tranHash;
