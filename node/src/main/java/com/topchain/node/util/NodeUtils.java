@@ -170,6 +170,7 @@ public class NodeUtils {
 
         public BlockNotifyPeersRunnable(NotifyBlockModel notifyBlockModel, Peer peer) {
             this.notifyBlockModel = notifyBlockModel;
+            this.peer = peer;
         }
 
         public void run() {

@@ -105,6 +105,7 @@ public class TransactionController {
 
         public TransactionNotifyPeersRunnable(TransactionModel transactionModel, Peer peer) {
             this.transactionModel = transactionModel;
+            this.peer = peer;
         }
 
         public void run() {
