@@ -99,8 +99,8 @@ public class PeerController {
         HttpEntity<String> request = new HttpEntity<>(
                 serializeJSON(nodePeerModel, false), httpHeaders);
 
-        logger.severe("me(nodepeermodel url)" + nodePeerModel.getUrl());
-        logger.severe("send to peerModel.getURl: " + peerModel.getUrl() + "/peers");
+        logger.info("me(nodepeermodel url)" + nodePeerModel.getUrl());
+        logger.info("send to peerModel.getURl: " + peerModel.getUrl() + "/peers");
 
         ResponseEntity<String> response = this.restTemplate
                 .postForEntity(peerModel.getUrl() + "/peers", request, String.class);

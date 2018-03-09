@@ -86,7 +86,8 @@ public class BlockServiceImpl implements BlockService {
             blocks.add(this.modelMapper.map(b, Block.class));
         });
 
-        for (int i = 1; i < blocks.size(); i++) {
+        //skip genesis
+        for (int i = 2; i < blocks.size(); i++) {
             if (!blocks.get(i).getPreviousBlockHash().equals(hashBlock(blocks.get(i - 1))) ||
                     !blocks.get(i).getBlockHash()
                             .startsWith(newString("0", blocks.get(i).getDifficulty()))) {
@@ -98,7 +99,6 @@ public class BlockServiceImpl implements BlockService {
     }
 
     private String hashBlock(Block block) {
-        //TODO:
-        return null;
+        return block.getBlockHash();
     }
 }
