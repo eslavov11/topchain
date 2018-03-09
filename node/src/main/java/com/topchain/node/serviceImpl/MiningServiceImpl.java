@@ -71,7 +71,7 @@ public class MiningServiceImpl implements MiningService {
         this.node.addMiningJob(blockCandidate.getBlockDataHash(), blockCandidate);
 
         BlockCandidateViewModel blockCandidateViewModel = new BlockCandidateViewModel();
-        blockCandidateViewModel.setIndex(blockCandidate.getIndex() + 1);
+        blockCandidateViewModel.setIndex(blockCandidate.getIndex());
         blockCandidateViewModel.setDifficulty(blockCandidate.getDifficulty());
         blockCandidateViewModel.setTransactionsIncluded(blockCandidate.getTransactions().size());
         blockCandidateViewModel.setRewardAddress(blockCandidate.getMinedBy());
@@ -94,10 +94,10 @@ public class MiningServiceImpl implements MiningService {
             return minedBlockStatusViewModel;
         }
 
-        if (!hashText(minedBlockModel.getBlockDataHash() +
+        String blockHash = hashText(minedBlockModel.getBlockDataHash() +
                 minedBlockModel.getDateCreated()+
-                minedBlockModel.getNonce())
-                .startsWith(newString("0", blockCandidate.getDifficulty()))) {
+                minedBlockModel.getNonce());
+        if (!blockHash.startsWith(newString("0", blockCandidate.getDifficulty()))) {
             minedBlockStatusViewModel.setStatus("rejected");
             minedBlockStatusViewModel.setMessage("The block is rejected.");
             return minedBlockStatusViewModel;
@@ -119,7 +119,7 @@ public class MiningServiceImpl implements MiningService {
             e.printStackTrace();
         }
         blockCandidate.setDateCreated(date);
-        blockCandidate.setBlockHash(minedBlockModel.getBlockDataHash());
+        blockCandidate.setBlockHash(blockHash);
 
         this.node.addBlock(blockCandidate);
         // Reset new block meta

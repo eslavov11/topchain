@@ -11,8 +11,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.topchain.node.util.NodeUtils.hashText;
 import static com.topchain.node.util.NodeUtils.newString;
 
 @Service
@@ -100,6 +104,12 @@ public class BlockServiceImpl implements BlockService {
     }
 
     private String hashBlock(Block block) {
-        return block.getBlockHash();
+        String dateStr = "";
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        dateStr = formatter.format(block.getDateCreated());
+
+        return hashText(block.getBlockDataHash() +
+                dateStr+
+                block.getNonce());
     }
 }

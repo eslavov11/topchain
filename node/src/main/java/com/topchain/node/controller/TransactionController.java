@@ -109,7 +109,10 @@ public class TransactionController {
         }
 
         public void run() {
-            sendNewTransactionToPeers(this.transactionModel, this.peer);
+            try {
+                sendNewTransactionToPeers(this.transactionModel, this.peer);
+            } catch (Exception e) {
+            }
         }
     }
 

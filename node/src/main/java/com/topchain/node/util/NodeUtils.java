@@ -174,7 +174,11 @@ public class NodeUtils {
         }
 
         public void run() {
-            notifyNewBlockToPeer(this.notifyBlockModel, this.peer);
+            //TODO:
+//            try {
+                notifyNewBlockToPeer(this.notifyBlockModel, this.peer);
+//            } catch (Exception e) {
+//            }
         }
     }
 

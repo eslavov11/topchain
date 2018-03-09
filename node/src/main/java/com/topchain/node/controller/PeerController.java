@@ -117,9 +117,10 @@ public class PeerController {
         public void run() {
             // check for longer chain
             setLongestChain(peerModel);
-
-            // make connection bidirectional
-            connectToPeer(peerModel);
+            try {
+                // make connection bidirectional
+                connectToPeer(peerModel);
+            } catch (Exception e) {}
         }
     }
 }
