@@ -106,7 +106,7 @@
                 return null;
             }
             ResultWrapper result = new ResultWrapper();
-            string dateCreated = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            string dateCreated = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
             if (blockToMine == null) return null;
             int difficulty = blockToMine.Difficulty.Value;
             var nextHash = CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
@@ -116,7 +116,7 @@
             while (nextHashSubstring != difficultyToAchieve)
             {
                 nonce++;
-                dateCreated = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
+                dateCreated = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
                 nextHash = CalcSHA256(blockToMine.BlockDataHash + dateCreated + nonce);
                 nextHashSubstring = ConvertToBase16Fast2(nextHash).Substring(0, difficulty);
             }
