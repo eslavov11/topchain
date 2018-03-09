@@ -59,7 +59,7 @@ public class AppConfig {
         Transaction faucetTransaction = new Transaction();
         faucetTransaction.setFromAddress(NIL_ADDRESS);
         faucetTransaction.setToAddress(FAUCET_ADDRESS);
-        faucetTransaction.setValue(faucetCoins);
+        faucetTransaction.setValue(micCoinsFromCoins(faucetCoins));
         faucetTransaction.setDateCreated(new Date());
         faucetTransaction.setMinedInBlockIndex(GENESIS_BLOCK_INDEX);
         faucetTransaction.setTransferSuccessful(true);
