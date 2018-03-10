@@ -1,20 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
+import {AddressBalanceService} from '../../services/adress-balance.services';
+import {AccountModel} from '../../models/accounts-model';
+import {AddressTransactions} from "../../models/address-transactions";
+
 
 @Component({
   selector: 'app-address-balance',
   templateUrl: './address-balance.component.html',
   styleUrls: ['./address-balance.component.scss']
 })
-export class AddressBalanceComponent implements OnInit {
-  address:string;
-  constructor(private route:ActivatedRoute) { }
+export class AddressBalanceComponent implements OnInit, OnDestroy {
+  address: string;
+  balance: AccountModel;
+  transactions: AddressTransactions;
+  private sub: any;
 
-  ngOnInit() {
-    this.route.params.subscribe(params=> this.getBalance(params['address']));
+  constructor(private route: ActivatedRoute,
+              private addressBalanceService: AddressBalanceService) {
   }
 
-  getBalance(address:string){
-    //get balance and data from service
+  ngOnInit() {
+    this.sub = this.route.params.subscribe(params => {
+      this.address = params['address'];
+
+      this.addressBalanceService.getAddressBalance(this.address)
+        .subscribe((data: AccountModel) => {
+          this.balance = data as AccountModel;
+        });
+
+      this.addressBalanceService.getAddressTransactions(this.address)
+        .subscribe((data: AddressTransactions) => {
+          this.transactions = data as AddressTransactions;
+        });
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }

@@ -47,6 +47,7 @@ public class MiningServiceImpl implements MiningService {
         rewardTransaction.setValue(totalValue);
         rewardTransaction.setDateCreated(new Date());
         rewardTransaction.setTransferSuccessful(true);
+        rewardTransaction.setMinedInBlockIndex(this.node.getBlocks().get(this.node.getBlocks().size() - 1).getIndex() + 1);
         rewardTransaction.setTransactionHash(
                 hashText(serializeJSON(rewardTransaction, false)));
 
@@ -60,7 +61,7 @@ public class MiningServiceImpl implements MiningService {
         newTransactions.addAll(this.node.getPendingTransactions());
 
         Block blockCandidate = new Block();
-        blockCandidate.setIndex(this.node.getBlocks().size() + 1);
+        blockCandidate.setIndex(this.node.getBlocks().get(this.node.getBlocks().size() - 1).getIndex() + 1);
         blockCandidate.setTransactions(newTransactions);
         blockCandidate.setDifficulty(this.node.getDifficulty());
         blockCandidate.setBlockDataHash(hashText(serializeJSON(blockCandidate, false)));
@@ -104,7 +105,8 @@ public class MiningServiceImpl implements MiningService {
         }
 
         // Is the block already mined
-        if (this.node.getBlocks().size() + 1 != blockCandidate.getIndex()) {
+        if (this.node.getBlocks().get(this.node.getBlocks().size() - 1).getIndex() + 1
+                != blockCandidate.getIndex()) {
             minedBlockStatusViewModel.setStatus("not-found");
             minedBlockStatusViewModel.setMessage("The block is rejected.");
             return minedBlockStatusViewModel;

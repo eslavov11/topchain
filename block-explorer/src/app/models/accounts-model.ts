@@ -1,6 +1,6 @@
 import {BalanceModel} from "./balance-model";
 
-export class Account {
+export class AccountModel {
   address: string;
   confirmedBalance: BalanceModel;
   lastMinedBalance: BalanceModel;

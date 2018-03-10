@@ -15,6 +15,9 @@ export class PendingTransactionsComponent implements OnInit {
 
     this.pendingTransactionsService.getPendingTransactions().subscribe(x=>{
       this.pendingTransactions = x as Array<Transaction>;
+      this.pendingTransactions.sort(function(a,b) {
+        return (a.dateCreated <= b.dateCreated) ? 1 :
+          ((b.dateCreated <= a.dateCreated) ? -1 : 0);} );
     });
   }
 

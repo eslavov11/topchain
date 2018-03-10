@@ -56,6 +56,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
         transaction.setTransactionHash(hash);
+        transaction.setMinedInBlockIndex(this.node.getBlocks().get(this.node.getBlocks().size() - 1).getIndex() + 1);
         newTransactionViewModel.setTransactionHash(hash);
         this.node.addPendingTransaction(transaction);
         this.node.addPendingTransactionsHashes(hash);
@@ -138,9 +139,9 @@ public class TransactionServiceImpl implements TransactionService {
         balanceForAddress.setPendingBalance(balanceVMForPending);
         balanceForAddress.setLastMinedBalance(balanceVMForLastMined);
 
-        balanceForAddress.setExists(balanceVMForConfirmed.getBalance() > 0 ||
-                balanceVMForLastMined.getBalance() > 0 ||
-                balanceVMForPending.getBalance() > 0);
+        balanceForAddress.setExists(balanceVMForConfirmed.getBalance() != 0 ||
+                balanceVMForLastMined.getBalance() != 0 ||
+                balanceVMForPending.getBalance() != 0);
 
         return balanceForAddress;
     }

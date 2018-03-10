@@ -174,16 +174,12 @@ public class NodeUtils {
         }
 
         public void run() {
-            //TODO:
-//            try {
-                notifyNewBlockToPeer(this.notifyBlockModel, this.peer);
-//            } catch (Exception e) {
-//            }
+            notifyNewBlockToPeer(this.notifyBlockModel, this.peer);
         }
     }
 
     private static void notifyNewBlockToPeer(NotifyBlockModel notifyBlockModel,
-                                      Peer peer) {
+                                             Peer peer) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 

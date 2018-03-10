@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.topchain.node.util.NodeUtils.*;
@@ -78,8 +80,13 @@ public class AppConfig {
                 genesis.getDifficulty() +
                 genesis.getPreviousBlockHash() +
                 genesis.getMinedBy()));
+
+        String dateStr = "";
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        dateStr = formatter.format(genesis.getDateCreated());
+
         genesis.setBlockHash(hashText(genesis.getBlockDataHash() +
-                genesis.getDateCreated() +
+                dateStr +
                 genesis.getDifficulty()));
 
         return genesis;

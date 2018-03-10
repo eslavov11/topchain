@@ -35,11 +35,13 @@ public class NodeServiceImpl implements NodeService {
         this.nodeInfoViewModel.setCumulativeDifficulty(this.node.getBlocks().stream()
                 .mapToInt(Block::getDifficulty).sum());
         this.nodeInfoViewModel.setPendingTransactions(this.node
-                .getPendingTransactions().stream().filter(pt -> !pt.getTransferSuccessful())
-                .collect(Collectors.toSet()).size());
-        this.nodeInfoViewModel.setConfirmedTransactions(this.node
-                .getPendingTransactions().stream().filter(Transaction::getTransferSuccessful)
-                .collect(Collectors.toSet()).size());
+                .getPendingTransactions().size());
+
+        int confirmedTransactions = 0;
+        for (Block b : this.node.getBlocks()) {
+            confirmedTransactions += b.getTransactions().size();
+        }
+        this.nodeInfoViewModel.setConfirmedTransactions(confirmedTransactions);
 
         return this.nodeInfoViewModel;
     }

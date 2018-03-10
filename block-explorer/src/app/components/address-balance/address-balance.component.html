@@ -1,3 +1,81 @@
-<p>
-  address-balance works!
-</p>
+<h1 class="h1 text-center">Address</h1>
+<div class="card">
+  <div class="card-block text-center">
+    <br/>
+    <h4 class="card-title text-muted">
+      Address {{this.balance.address}}
+    </h4>
+    <br/>
+    <div class="row">
+      <div class="col-md-4">
+      <span class="text-muted">
+      Confirmed Balance
+    </span>
+        <br/>
+        <span class="text-muted">
+      Balance <strong>{{this.balance.confirmedBalance.balance}}</strong>
+    </span>
+        <br/>
+        <span class="text-muted">
+      Confirmations <strong>{{this.balance.confirmedBalance.confirmations}}</strong>
+    </span>
+      </div>
+      <div class="col-md-4">
+      <span class="text-muted">
+      Last Mined Balance
+    </span>
+        <br/>
+        <span class="text-muted">
+      Balance <strong>{{this.balance.lastMinedBalance.balance}}</strong>
+    </span>
+        <br/>
+        <span class="text-muted">
+      Confirmations <strong>{{this.balance.lastMinedBalance.confirmations}}</strong>
+    </span>
+      </div>
+      <div class="col-md-4">
+      <span class="text-muted">
+      Pending Balance
+    </span>
+        <br/>
+        <span class="text-muted">
+      Balance <strong>{{this.balance.pendingBalance.balance}}</strong>
+    </span>
+        <br/>
+        <span class="text-muted">
+      Confirmations <strong>{{this.balance.pendingBalance.confirmations}}</strong>
+    </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br/>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">From Address</th>
+    <th scope="col">To Address</th>
+    <th scope="col">Value</th>
+    <th scope="col">Fee</th>
+    <th scope="col">Date Created</th>
+    <th scope="col">Mined in block</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let transactions of this.transactions.transactions">
+    <td><a [routerLink]="['/address', transactions.fromAddress]">
+      <p class="address">{{transactions.fromAddress}}</p></a>
+    </td>
+    <td><a [routerLink]="['/address', transactions.toAddress]">
+      <p class="address">{{transactions.toAddress}}</p></a></td>
+    <td> {{transactions.value}}</td>
+    <td> {{transactions.fee}}</td>
+    <td> {{transactions.dateCreated | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+    <td><a [routerLink]="['/blocks', transactions.minedInBlockIndex]">
+      {{transactions.minedInBlockIndex}}</a>
+    </td>
+  </tr>
+  </tbody>
+</table>

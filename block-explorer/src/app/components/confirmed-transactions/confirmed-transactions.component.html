@@ -12,10 +12,10 @@
   </thead>
   <tbody>
   <tr *ngFor="let transactions of confirmedTransactions">
-    <td><a routerLink="/transactions/{{transactions.fromAddress}}">
+    <td><a [routerLink]="['/address', transactions.fromAddress]">
       <p class="address">{{transactions.fromAddress}}</p></a>
     </td>
-    <td><a routerLink="/transactions/{{transactions.toAddress}}">
+    <td><a [routerLink]="['/address', transactions.toAddress]">
       <p class="address">{{transactions.toAddress}}</p></a></td>
     <td> {{transactions.value}}</td>
     <td> {{transactions.fee}}</td>

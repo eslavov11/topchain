@@ -13,7 +13,12 @@ export class ConfirmedTransactionsComponent implements OnInit {
   constructor(private confTransactionsService:ConfirmedTransactionsService) { }
 
   ngOnInit() {
-    this.confTransactionsService.getConfirmedTransactions().subscribe(x=>this.confirmedTransactions = x as Array<Transaction>);
+    this.confTransactionsService.getConfirmedTransactions().subscribe(x=>{
+      this.confirmedTransactions = x as Array<Transaction>
+      this.confirmedTransactions.sort(function(a,b) {
+        return (a.minedInBlockIndex <= b.minedInBlockIndex) ? 1 :
+          ((b.minedInBlockIndex <= a.minedInBlockIndex) ? -1 : 0);} );
+    });
   }
 
 }
