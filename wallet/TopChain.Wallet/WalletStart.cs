@@ -24,8 +24,9 @@
                         break;
                     case 2:
                         Console.Clear();
-                        //string address = Console.ReadLine();
-                        string address = "4c13ab8c6ae1b1878fe9270954d4afa3c69863ec";
+                        Console.Write("Input private key to check balance: ");
+                        string address = Console.ReadLine();
+                        //string address = "4c13ab8c6ae1b1878fe9270954d4afa3c69863ec";
                         Console.WriteLine("Current BTC - {0}", BalanceChecker.GetAddressSavings(address));
                         flag = true;
                         break;
@@ -47,19 +48,19 @@
             }
             Console.ReadLine();
         }
-        //TODO:Send a message when NODE isn't running
         public static void CreateAndSignTransaction()
         
 {
             Console.Write("Enter private key => ");
             //set faucet private key to test 
-            string privateKey = "2debcee8a64fb677dfd6c43423058b86810e7319c957b16bebb4fbf9883ac6b9";
-            //string privateKey = Console.ReadLine();
+            //string privateKey = "2debcee8a64fb677dfd6c43423058b86810e7319c957b16bebb4fbf9883ac6b9";
+            string privateKey = Console.ReadLine();
             Console.Write(privateKey);
             Console.WriteLine();
             Console.Write("Enter how much do you want to transfer => ");
-            long valueToSend = 1;
-            //decimal valueToSend = decimal.Parse(Console.ReadLine());
+            //long valueToSend = 1;
+            long valueToSend = long.Parse(Console.ReadLine());
+            valueToSend *= 1000000;
             Console.WriteLine(valueToSend);
 
             string address = Wallet.AddressFromPrivateKey(privateKey);
@@ -72,8 +73,8 @@
             }
             Console.WriteLine();
             Console.Write("Enter the address to which you want to transfer it => ");
-            string recipientAddress = "f51362b7351ef62253a227a77751ad9b2302f911";
-            //string recipientAddress = Console.ReadLine();
+            //string recipientAddress = "f51362b7351ef62253a227a77751ad9b2302f911";
+            string recipientAddress = Console.ReadLine();
             Console.WriteLine(recipientAddress);
             string iso8601standard = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
             string signedTransactionAsJson = Wallet.CreateAndSignTransaction(recipientAddress, valueToSend, iso8601standard, privateKey);
@@ -81,7 +82,6 @@
 
             Console.Clear();
             Console.WriteLine("Transaction passed successfuly.");
-            //close console after message 
         }
     }
 }

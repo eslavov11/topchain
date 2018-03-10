@@ -9,8 +9,9 @@ namespace TopChain.Wallet.Utils
 {
     public class BalanceChecker
     {
-        public static long GetAddressSavings(string addressToCheck)
+        public static long GetAddressSavings(string privateKeyToCheck)
         {
+            string addressToCheck = Wallet.AddressFromPrivateKey(privateKeyToCheck);
             List<Block> blocks = GetCurrentBlocks();
             long currentSavingsForAddress = 0;
             if (blocks != null)
@@ -25,18 +26,14 @@ namespace TopChain.Wallet.Utils
                             currentSavingsForAddress += transaction.Value;
                             continue;
                         }
-                        if (transaction.SenderPubKey != null)
+                        if (transaction.FromAddress == addressToCheck && transaction.TransferSuccessful == true)
                         {
-                            string addressFromTrans = Wallet.PublicKeyToAddress(transaction.SenderPubKey);
-                            if (addressFromTrans == addressToCheck && transaction.TransferSuccessful == true)
-                            {
-                                currentSavingsForAddress -= transaction.Value;
-                            }
+                            currentSavingsForAddress -= transaction.Value;
                         }
                     }
                 }
             }
-            return currentSavingsForAddress;
+            return currentSavingsForAddress/1000000;
         }
         public static List<Block> GetCurrentBlocks()
         {
