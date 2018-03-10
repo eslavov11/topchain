@@ -45,12 +45,12 @@
         {
             //string minerAddress = Console.ReadLine();
             //private keys for miner address to TEST
-            //string privateKey = "36bea7f877c979c9e8c7b4a5571bad692788ee3a41157d925d4a4c6f9655c420";
-            //string pubKey = "bbcd517721426fccc243c6e482d91f316b2416a1228516fad991f29018bc99981";
+            //string privateKey = "8f3ed57916ab3f6e672b77ca09fb80d1bedccc255ad14ee07a676803fe93e977";
+            //string pubKey = "2be3c6750dc1bfca520afc66bb44760505883c05488e3a62e7721fe06a9bccc9d";
             var availableThreads = Environment.ProcessorCount;
             ulong startingNonce = ulong.MinValue + 1;
 
-            string minerAddress = "d08498041433013fe278f9cd63c53e6b6f0e8033";
+            string minerAddress = "ca406724d901bc69e9f75d34f15563a03e163db9";
 
             blockToMine = GetBlock(minerAddress);
 
